@@ -33,16 +33,18 @@ export function AppShell({
   return (
     <div className="app">
       <header className="header">
-        <span className="header__title">Song Timeline</span>
         <button
           type="button"
-          className="header__menu"
+          className="header__bar"
           aria-label="Menu"
           aria-haspopup="dialog"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(true)}
         >
-          ⋯
+          <span className="header__title">Song Timeline</span>
+          <span className="header__menu" aria-hidden="true">
+            ⋯
+          </span>
         </button>
       </header>
 

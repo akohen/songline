@@ -102,10 +102,9 @@ export function MenuSheet({ info, items, onClose }: Props) {
           Cancel
         </button>
 
-        <p className="sheet__footnote">v{version}</p>
         {/* Spotify's design guidelines expect attribution from apps using their
             content; the sheet is the least intrusive place that is always reachable. */}
-        <p className="sheet__footnote">Powered by Spotify</p>
+        <p className="sheet__footnote">v{version} · Powered by Spotify</p>
       </div>
     </>
   );

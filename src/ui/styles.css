@@ -113,15 +113,31 @@ code {
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding: var(--space-2) var(--space-4);
-  padding-top: calc(var(--space-2) + env(safe-area-inset-top));
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+}
+
+.header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  padding-top: calc(var(--space-2) + env(safe-area-inset-top));
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.header__bar:active {
+  background: var(--surface-raised);
+}
+
+.header__bar:active .header__menu {
+  color: var(--text);
 }
 
 .header__title {
@@ -131,9 +147,6 @@ code {
 }
 
 .header__menu {
-  background: none;
-  border: none;
-  padding: 0;
   width: 48px;
   height: 48px;
   display: grid;
@@ -142,11 +155,6 @@ code {
   font-size: 1.5rem;
   line-height: 1;
   color: var(--text-muted);
-}
-
-.header__menu:active {
-  background: var(--surface-raised);
-  color: var(--text);
 }
 
 /* The growing middle region. */
