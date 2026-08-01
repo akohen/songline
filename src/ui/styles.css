@@ -334,6 +334,38 @@ code {
 .play-control__label {
   color: var(--text-muted);
   font-size: 0.875rem;
+  /* The label swaps between Play, Pause and two loading messages of very different
+     widths; centring keeps the circle above it from appearing to shift. */
+  text-align: center;
+}
+
+.play-control__button:disabled {
+  opacity: 0.6;
+}
+
+/*
+ * Waiting for a track to start.
+ *
+ * `playTrack` resolving only means Spotify accepted the command — on a slow connection
+ * most of the wait is the track buffering after that, which is when the screen used to
+ * claim "▶ Play" and invite a tap that did nothing.
+ *
+ * Under prefers-reduced-motion the global rule below stops this rotating, which is why
+ * the text label is never hidden while loading: it is the only thing left saying so.
+ */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes ring {

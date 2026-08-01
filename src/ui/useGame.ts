@@ -12,6 +12,9 @@ import {
 } from "@/engine";
 import type { PlaybackPort, PlaybackState } from "@/playback/types";
 
+/** How long a track may take to start before the screen admits it is slow. */
+const SLOW_LOAD_MS = 15_000;
+
 /**
  * Wires the pure engine to a playback adapter.
  *
@@ -41,6 +44,11 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     () =>
       playback.onStateChange((state) => {
         setPlaybackState(state);
+        // While a track is loading the numbers still describe the *outgoing* one. A
+        // final event from a song that had nearly finished would otherwise latch
+        // `hasEnded` onto the card just drawn, offering Replay for a song that has
+        // not played a note.
+        if (state.isLoading) return;
         if (state.durationMs <= 0) return;
 
         maxPositionRef.current = Math.max(maxPositionRef.current, state.positionMs);
@@ -49,6 +57,26 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
       }),
     [playback],
   );
+
+  const isLoading = playbackState?.isLoading ?? false;
+
+  /**
+   * Loading has gone on long enough to be worth mentioning.
+   *
+   * A patience threshold, not a playback fact, which is why it lives here and not in
+   * the adapter. Nothing is blocked when it trips — the host is simply told that Skip
+   * exists, rather than being left watching a spinner.
+   */
+  const [stillLoading, setStillLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setStillLoading(false);
+      return;
+    }
+    const timer = setTimeout(() => setStillLoading(true), SLOW_LOAD_MS);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const resetEndTracking = useCallback(() => {
     maxPositionRef.current = 0;
@@ -143,6 +171,8 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     game,
     playbackState,
     hasEnded,
+    isLoading,
+    stillLoading,
     error,
     draw,
     reveal,

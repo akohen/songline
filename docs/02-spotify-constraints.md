@@ -83,6 +83,36 @@ The browser becomes a Spotify Connect device. Audio comes out of the host machin
   It has to sit at the top of `playTrack`, which is reached synchronously from the
   Start button's handler. See `src/playback/webPlaybackSdkAdapter.ts`.
 
+#### `playTrack` resolving is not audio starting
+
+Playback is started with `PUT /me/player/play`. That request resolving means Spotify
+**accepted the command** — not that a note has been heard. On a slow connection most of
+the wait happens afterwards, while the track buffers.
+
+Anything timed off that `await` is therefore wrong: a loading indicator hung on it
+disappears while the screen is still silent, which is exactly the stretch worth
+reporting.
+
+The honest signal comes from the SDK's `player_state_changed`, which carries both
+`loading: boolean` and `track_window.current_track.id`. A track has started when an
+event arrives that is **about the track we asked for** *and* is no longer loading:
+
+```ts
+state.track_window.current_track?.id === pendingTrackId && !state.loading
+```
+
+**Both halves are load-bearing.** Drop the ID check and the *outgoing* track's final
+events clear the flag the instant a new song is requested, so the loading state is
+never visible. Drop `state.loading` and it clears while the track is still buffering.
+
+The SDK also sends nothing when a track is merely *requested*, so the adapter emits
+once itself at the top of `playTrack` — otherwise the indicator does not appear until
+the SDK next speaks, which on a bad connection is the whole problem.
+
+**Reading `current_track.id` does not weaken the spoiler gate.** The adapter is
+comparing an ID it was handed by its own caller against itself; nothing is learned, and
+no ID enters `PlaybackState`. See `src/playback/webPlaybackSdkAdapter.ts`.
+
 ### B. Web API — remote control of an existing device
 
 The user's Spotify desktop/phone app plays; we send REST commands to it.

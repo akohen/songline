@@ -39,6 +39,8 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
     game,
     playbackState,
     hasEnded,
+    isLoading,
+    stillLoading,
     error,
     draw,
     reveal,
@@ -174,6 +176,8 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
           compact
           hasEnded={hasEnded}
           isPlaying={isPlaying}
+          isLoading={isLoading}
+          stillLoading={stillLoading}
           onReplay={replay}
           onToggle={togglePlayPause}
           onSkipForward={skipForward}
@@ -256,6 +260,8 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
       <PlayControl
         hasEnded={hasEnded}
         isPlaying={isPlaying}
+        isLoading={isLoading}
+        stillLoading={stillLoading}
         onReplay={replay}
         onToggle={togglePlayPause}
         onSkipForward={skipForward}
@@ -320,6 +326,10 @@ function FinalScores({ scores }: { scores: number[] }) {
 type PlayControlProps = {
   hasEnded: boolean;
   isPlaying: boolean;
+  /** A track has been asked for and its audio has not started. */
+  isLoading: boolean;
+  /** That has now gone on long enough to be worth saying out loud. */
+  stillLoading: boolean;
   onReplay: () => void;
   onToggle: () => void;
   onSkipForward: () => void;
@@ -327,16 +337,33 @@ type PlayControlProps = {
   compact?: boolean;
 };
 
-/** Playback state and its control in one element. Replay appears only at the end. */
+/**
+ * Playback state and its control in one element. Replay appears only at the end.
+ *
+ * Loading lives here rather than anywhere else on the screen because this *is* the
+ * playback indicator — the ring pulse means "sound is coming out". Showing "▶ Play"
+ * while a track is on its way is the specific lie this fixes: the host presses it,
+ * nothing happens, and the room decides the app is broken.
+ */
 function PlayControl({
   hasEnded,
   isPlaying,
+  isLoading,
+  stillLoading,
   onReplay,
   onToggle,
   onSkipForward,
   compact = false,
 }: PlayControlProps) {
-  const label = hasEnded ? "Replay" : isPlaying ? "Pause" : "Play";
+  const label = isLoading
+    ? stillLoading
+      ? "Still loading — you can skip"
+      : "Loading…"
+    : hasEnded
+      ? "Replay"
+      : isPlaying
+        ? "Pause"
+        : "Play";
   const icon = hasEnded ? "↻" : isPlaying ? "❚❚" : "▶";
 
   return (
@@ -347,24 +374,36 @@ function PlayControl({
         <button
           type="button"
           className={`play-control__button ${
-            isPlaying && !hasEnded ? "play-control__button--playing" : ""
+            // The pulse claims audio is playing, which while loading it is not.
+            isPlaying && !hasEnded && !isLoading ? "play-control__button--playing" : ""
           }`}
           aria-label={label}
+          aria-busy={isLoading}
+          // Nothing to pause or restart until the track exists. Skip and the primary
+          // action stay live, so a slow load never traps anyone.
+          disabled={isLoading}
           onClick={hasEnded ? onReplay : onToggle}
         >
-          <span aria-hidden="true">{icon}</span>
+          {isLoading ? (
+            <span className="spinner" aria-hidden="true" />
+          ) : (
+            <span aria-hidden="true">{icon}</span>
+          )}
         </button>
         <button
           type="button"
           className="play-control__forward"
           aria-label="Skip forward 15 seconds"
-          disabled={hasEnded}
+          disabled={hasEnded || isLoading}
           onClick={onSkipForward}
         >
           <span aria-hidden="true">+15</span>
         </button>
       </div>
-      {!compact && <span className="play-control__label">{label}</span>}
+      {/* Compact mode normally hides the label, but a bare spinner is guessy — and
+          under prefers-reduced-motion the spinner does not move, so the words are the
+          only thing left carrying the state. */}
+      {(!compact || isLoading) && <span className="play-control__label">{label}</span>}
     </div>
   );
 }

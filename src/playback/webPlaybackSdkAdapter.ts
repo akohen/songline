@@ -25,6 +25,21 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
   private deviceId: string | null = null;
   private elementActivated = false;
   private listeners = new Set<(state: PlaybackState) => void>();
+  /**
+   * The track we have asked for but not yet heard. Null once its audio is running.
+   *
+   * `playTrack` resolving only means Spotify *accepted* the command — on a slow
+   * connection most of the wait happens after that, while the track buffers. This is
+   * what lets the UI describe that window honestly.
+   */
+  private pendingTrackId: TrackId | null = null;
+  /** Last state the SDK sent, so a request can re-emit without inventing numbers. */
+  private lastState: PlaybackState = {
+    isPlaying: false,
+    positionMs: 0,
+    durationMs: 0,
+    isLoading: false,
+  };
 
   constructor(private readonly getToken: GetToken) {}
 
@@ -49,10 +64,28 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
       // metadata to the OS whenever playback changes.
       suppressAll();
 
+      // The requested track has arrived and stopped buffering.
+      //
+      // Both halves matter. Without the ID check the *outgoing* track's final events
+      // would clear the flag the instant a new song was requested, so the loading
+      // state would never be visible. Without `state.loading` it would clear while
+      // the track is still buffering, which is the part of the wait worth reporting.
+      //
+      // Comparing this ID against one we were handed ourselves tells the UI nothing
+      // it did not already ask for, and no ID leaves this class.
+      if (
+        this.pendingTrackId !== null &&
+        state.track_window.current_track?.id === this.pendingTrackId &&
+        !state.loading
+      ) {
+        this.pendingTrackId = null;
+      }
+
       this.emit({
         isPlaying: !state.paused,
         positionMs: state.position,
         durationMs: state.duration,
+        isLoading: this.pendingTrackId !== null,
       });
     });
 
@@ -87,14 +120,29 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
   }
 
   async playTrack(trackId: TrackId, startOffsetMs: number): Promise<void> {
-    // MUST be the first statement: it has to be initiated inside the synchronous
-    // event path of the tap that started the round. See activateElement below.
-    await this.activateElement();
+    // Announced before the first await, because the SDK sends no event when a track
+    // is *requested* — only when one arrives. Waiting for it would leave the screen
+    // claiming "Play" for exactly the stretch we are trying to explain.
+    this.pendingTrackId = trackId;
+    this.emit({ ...this.lastState, isLoading: true });
 
-    await this.command("PUT", `/me/player/play?device_id=${this.requireDevice()}`, {
-      uris: [`spotify:track:${trackId}`],
-      position_ms: startOffsetMs,
-    });
+    try {
+      // MUST be the first statement after that: it has to be initiated inside the
+      // synchronous event path of the tap that started the round. `emit` above is
+      // synchronous and does not break the chain. See activateElement below.
+      await this.activateElement();
+
+      await this.command("PUT", `/me/player/play?device_id=${this.requireDevice()}`, {
+        uris: [`spotify:track:${trackId}`],
+        position_ms: startOffsetMs,
+      });
+    } catch (error) {
+      // The round screen surfaces this; a spinner underneath the error would only
+      // suggest something is still on its way.
+      this.pendingTrackId = null;
+      this.emit({ ...this.lastState, isLoading: false });
+      throw error;
+    }
     suppressAll();
   }
 
@@ -154,6 +202,7 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
     this.player = null;
     this.deviceId = null;
     this.elementActivated = false;
+    this.pendingTrackId = null;
     this.listeners.clear();
   }
 
@@ -208,6 +257,7 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
   }
 
   private emit(state: PlaybackState): void {
+    this.lastState = state;
     for (const listener of this.listeners) listener(state);
   }
 }

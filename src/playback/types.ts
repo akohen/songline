@@ -4,6 +4,15 @@ export type PlaybackState = {
   isPlaying: boolean;
   positionMs: number;
   durationMs: number;
+  /**
+   * A track has been requested and its audio has not started yet.
+   *
+   * Not the same as `!isPlaying`: a paused track is loaded, and a *loading* track is
+   * usually silent while the previous one is still winding down. Distinguishing them
+   * is the whole point — on a slow connection "▶ Play" is a lie, because the track is
+   * already on its way and pressing play does nothing.
+   */
+  isLoading: boolean;
 };
 
 export type PlaybackErrorKind =

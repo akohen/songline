@@ -366,6 +366,30 @@ The forward button (`aria-label="Skip forward 15 seconds"`) jumps playback ahead
 and is disabled once `hasEnded` — Replay already covers "the song is over," so
 skipping forward past the end has nothing to do.
 
+#### Loading — a fourth state
+
+Between tapping Start or Next song and hearing anything there is a gap, and on a slow
+connection it is long. The control previously showed `▶ Play` throughout it, which is
+a **lie**: the track is already on its way, and pressing play does nothing. The room
+concludes the app is broken.
+
+While a track has been requested and its audio has not started, the circle shows a
+spinner, reads **"Loading…"**, and is disabled along with `+15` — there is nothing yet
+to pause or seek. The ring pulse is suppressed, because it means "sound is coming out".
+
+**After 15 seconds the label becomes "Still loading — you can skip".** Nothing is
+blocked and no error is invented; the host is told the way out rather than left
+watching a spinner. Deliberately not an error banner: that could fire on a connection
+about to succeed, leaving an error on screen under a track that then starts playing.
+
+Skip and the primary action stay enabled throughout, so a slow load never traps anyone.
+The label is shown even in the timeline ruleset's compact control, which otherwise
+hides it: under `prefers-reduced-motion` the spinner does not turn, so the words are
+the only thing left carrying the state.
+
+What counts as "loaded" is a playback question, answered in
+[02-spotify-constraints.md](02-spotify-constraints.md#playtrack-resolving-is-not-audio-starting).
+
 ### Other screens
 
 | Screen | Changes |

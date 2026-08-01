@@ -11,22 +11,52 @@ import type { PlaybackPort, PlaybackState, Unsubscribe } from "@/playback/types"
 export class FakePlaybackAdapter implements PlaybackPort {
   private listeners = new Set<(state: PlaybackState) => void>();
   private timer: ReturnType<typeof setInterval> | null = null;
-  private state: PlaybackState = { isPlaying: false, positionMs: 0, durationMs: 0 };
+  private loadTimer: ReturnType<typeof setTimeout> | null = null;
+  private state: PlaybackState = {
+    isPlaying: false,
+    positionMs: 0,
+    durationMs: 0,
+    isLoading: false,
+  };
 
-  constructor(private readonly trackDurationMs = 180_000) {}
+  /**
+   * `loadDelayMs` fakes a slow connection, so the loading state can be exercised
+   * without throttling a real one. Zero — the default — plays instantly, as before.
+   */
+  constructor(
+    private readonly trackDurationMs = 180_000,
+    private readonly loadDelayMs = 0,
+  ) {}
 
   initialize(): Promise<void> {
     return Promise.resolve();
   }
 
   playTrack(_trackId: TrackId, startOffsetMs: number): Promise<void> {
-    this.state = {
-      isPlaying: true,
-      positionMs: startOffsetMs,
-      durationMs: this.trackDurationMs,
+    const start = () => {
+      this.state = {
+        isPlaying: true,
+        positionMs: startOffsetMs,
+        durationMs: this.trackDurationMs,
+        isLoading: false,
+      };
+      this.startTicking();
+      this.emit();
     };
-    this.startTicking();
+
+    if (this.loadDelayMs <= 0) {
+      start();
+      return Promise.resolve();
+    }
+
+    this.stopTicking();
+    this.state = { ...this.state, isPlaying: false, isLoading: true };
     this.emit();
+
+    if (this.loadTimer !== null) clearTimeout(this.loadTimer);
+    this.loadTimer = setTimeout(start, this.loadDelayMs);
+    // Resolves on request, exactly like the real adapter: accepting a play command is
+    // not the same as audio starting.
     return Promise.resolve();
   }
 
@@ -63,6 +93,8 @@ export class FakePlaybackAdapter implements PlaybackPort {
 
   disconnect(): void {
     this.stopTicking();
+    if (this.loadTimer !== null) clearTimeout(this.loadTimer);
+    this.loadTimer = null;
     this.listeners.clear();
   }
 
