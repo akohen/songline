@@ -1,4 +1,5 @@
 import classicsInternational from "@/decks/classics-international.json";
+import hitsterRock from "@/decks/hitster-rock.json";
 import testDeck from "@/decks/test-deck.json";
 import type { Deck } from "@/decks/types";
 
@@ -10,7 +11,11 @@ import type { Deck } from "@/decks/types";
  * Its songs deliberately do not appear in the real deck, so testing does not spoil
  * cards you would rather hear for the first time during a game.
  */
-export const DECKS: Deck[] = [testDeck as Deck, classicsInternational as Deck];
+export const DECKS: Deck[] = [
+  testDeck as Deck,
+  classicsInternational as Deck,
+  hitsterRock as Deck,
+];
 
 export function getDeck(id: string): Deck | undefined {
   return DECKS.find((deck) => deck.id === id);

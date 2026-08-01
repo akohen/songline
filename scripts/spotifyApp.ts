@@ -64,14 +64,26 @@ export type SpotifyTrack = {
   album: { name: string; album_type: string; release_date: string };
 };
 
-/** `GET` against the Web API, retrying once on a 429. */
+const MAX_RATE_LIMIT_RETRIES = 5;
+
+/**
+ * `GET` against the Web API, retrying on 429 up to `MAX_RATE_LIMIT_RETRIES` times.
+ *
+ * A single retry was not enough at deck scale (300 cards means 300 sequential
+ * requests): a sustained rate limit outlasts one wait and the second 429 would abort
+ * the whole validation run.
+ */
 export async function spotifyGet(
   url: URL,
   token: string,
 ): Promise<{ status: number; body: unknown }> {
   let response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
 
-  if (response.status === 429) {
+  for (
+    let attempt = 0;
+    response.status === 429 && attempt < MAX_RATE_LIMIT_RETRIES;
+    attempt++
+  ) {
     const wait = Number(response.headers.get("retry-after") ?? "2");
     console.log(`  rate limited, waiting ${wait}s…`);
     await new Promise((r) => setTimeout(r, (wait + 1) * 1000));
