@@ -12,6 +12,12 @@
       "artist": "The Rolling Stones"
     },
     {
+      "spotifyTrackId": "2EMmHEhCZSMMEM85HTFJvj",
+      "year": 1965,
+      "title": "My Generation",
+      "artist": "The Who"
+    },
+    {
       "spotifyTrackId": "5t9KYe0Fhd5cW6UYT4qP8f",
       "year": 1966,
       "title": "Good Vibrations",
@@ -19,10 +25,22 @@
       "notes": "Single released Oct 1966; available copy sits on the Smiley Smile remaster."
     },
     {
+      "spotifyTrackId": "4H1iMlEWKZmpKTHCZzDhju",
+      "year": 1966,
+      "title": "You Can't Hurry Love",
+      "artist": "The Supremes"
+    },
+    {
       "spotifyTrackId": "7s25THrKz86DM225dOYwnr",
       "year": 1967,
       "title": "Respect",
       "artist": "Aretha Franklin"
+    },
+    {
+      "spotifyTrackId": "5uvosCdMlFdTXhoazkTI5R",
+      "year": 1967,
+      "title": "Light My Fire",
+      "artist": "The Doors"
     },
     {
       "spotifyTrackId": "0aym2LBJBk9DAYuHHutrIl",
@@ -32,16 +50,47 @@
       "notes": "Original 1968 recording, remastered. Avoid the 'Love' mashup — different audio."
     },
     {
+      "spotifyTrackId": "1tqT6DhmsrtQgyCKUwotiw",
+      "year": 1968,
+      "title": "I Heard It Through the Grapevine",
+      "artist": "Marvin Gaye"
+    },
+    {
       "spotifyTrackId": "0hCB0YR03f6AmQaHbwWDe8",
       "year": 1969,
       "title": "Whole Lotta Love",
       "artist": "Led Zeppelin"
     },
     {
+      "spotifyTrackId": "4BP3uh0hFLFRb5cjsgLqDh",
+      "year": 1969,
+      "title": "Fortunate Son",
+      "artist": "Creedence Clearwater Revival"
+    },
+    {
+      "spotifyTrackId": "38zsOOcu31XbbYj9BIPUF1",
+      "year": 1970,
+      "title": "Your Song",
+      "artist": "Elton John"
+    },
+    {
+      "spotifyTrackId": "4N0TP4Rmj6QQezWV88ARNJ",
+      "year": 1972,
+      "title": "Superstition",
+      "artist": "Stevie Wonder"
+    },
+    {
       "spotifyTrackId": "0vFOzaXqZHahrZp6enQwQb",
       "year": 1973,
       "title": "Money",
       "artist": "Pink Floyd"
+    },
+    {
+      "spotifyTrackId": "3PQLYVskjUeRmRIfECsL0X",
+      "year": 1974,
+      "title": "No Woman, No Cry",
+      "artist": "Bob Marley & The Wailers",
+      "notes": "Original studio recording from Natty Dread. Avoid the famous 1975 Lyceum live version — different audio."
     },
     {
       "spotifyTrackId": "2JiDi0qAXsPwhPqA2qaKGt",
@@ -66,6 +115,33 @@
       "year": 1977,
       "title": "\"Heroes\"",
       "artist": "David Bowie"
+    },
+    {
+      "spotifyTrackId": "0ofHAoxe9vBkTCp2UQIavz",
+      "year": 1977,
+      "title": "Dreams",
+      "artist": "Fleetwood Mac",
+      "notes": "Available copy sits on the Rumours Super Deluxe remaster."
+    },
+    {
+      "spotifyTrackId": "2zYzyRzz6pRmhPzyfMEC8s",
+      "year": 1979,
+      "title": "Highway to Hell",
+      "artist": "AC/DC"
+    },
+    {
+      "spotifyTrackId": "6wzbWsPbfIR0nBjSqdbV7m",
+      "year": 1980,
+      "title": "Call Me",
+      "artist": "Blondie",
+      "notes": "Available copy sits on the Autoamerican 2001 remaster."
+    },
+    {
+      "spotifyTrackId": "5RKQ5NdjSh2QzD4MaunT91",
+      "year": 1981,
+      "title": "Don't Stop Believin'",
+      "artist": "Journey",
+      "notes": "Available copy sits on the Escape 2022 remaster."
     },
     {
       "spotifyTrackId": "7J1uxwnxfQLu4APicE5Rnj",
@@ -99,16 +175,34 @@
       "artist": "a-ha"
     },
     {
+      "spotifyTrackId": "37ZJ0p5Jm13JPevGcx4SkF",
+      "year": 1986,
+      "title": "Livin' On A Prayer",
+      "artist": "Bon Jovi"
+    },
+    {
       "spotifyTrackId": "7snQQk1zcKl8gZ92AnueZW",
       "year": 1987,
       "title": "Sweet Child O' Mine",
       "artist": "Guns N' Roses"
     },
     {
+      "spotifyTrackId": "6ADSaE87h8Y3lccZlBJdXH",
+      "year": 1987,
+      "title": "With Or Without You",
+      "artist": "U2"
+    },
+    {
       "spotifyTrackId": "4CeeEOM32jQcH3eN9Q2dGj",
       "year": 1991,
       "title": "Smells Like Teen Spirit",
       "artist": "Nirvana"
+    },
+    {
+      "spotifyTrackId": "31AOj9sFz2gM0O3hMARRBx",
+      "year": 1991,
+      "title": "Losing My Religion",
+      "artist": "R.E.M."
     },
     {
       "spotifyTrackId": "4eHbdreAnSOrDDsFfc4Fpm",
@@ -118,10 +212,36 @@
       "notes": "Dolly Parton wrote and released it in 1974; this is the 1992 recording."
     },
     {
+      "spotifyTrackId": "62J6RO53R6vNhOB6QXajFV",
+      "year": 1992,
+      "title": "Creep",
+      "artist": "Radiohead",
+      "notes": "Single released Sept 1992; the album Pablo Honey followed in 1993."
+    },
+    {
+      "spotifyTrackId": "0hrBpAOgrt8RXigk83LLNE",
+      "year": 1993,
+      "title": "The Sign",
+      "artist": "Ace of Base",
+      "notes": "European single released Nov 1993; US single/album followed in 1994."
+    },
+    {
+      "spotifyTrackId": "6L89mwZXSOwYl76YXfX13s",
+      "year": 1994,
+      "title": "Basket Case",
+      "artist": "Green Day"
+    },
+    {
       "spotifyTrackId": "1qPbGZqppFwLwcBC1JQ6Vr",
       "year": 1995,
       "title": "Wonderwall",
       "artist": "Oasis"
+    },
+    {
+      "spotifyTrackId": "1di1BEgJYzPvXUuinsYJGP",
+      "year": 1997,
+      "title": "Everybody (Backstreet's Back)",
+      "artist": "Backstreet Boys"
     },
     {
       "spotifyTrackId": "3MjUtNVVq3C8Fn0MP3zhXa",
@@ -131,10 +251,22 @@
       "notes": "Single released Oct 1998; the album followed in Jan 1999."
     },
     {
+      "spotifyTrackId": "2m1hi0nfMR9vdGC8UcrnwU",
+      "year": 1999,
+      "title": "All The Small Things",
+      "artist": "blink-182"
+    },
+    {
       "spotifyTrackId": "48UPSzbZjgc449aqz8bxox",
       "year": 1999,
       "title": "Californication",
       "artist": "Red Hot Chili Peppers"
+    },
+    {
+      "spotifyTrackId": "7H6ev70Weq6DdpZyyTmUXk",
+      "year": 1999,
+      "title": "Say My Name",
+      "artist": "Destiny's Child"
     },
     {
       "spotifyTrackId": "3AJwUDP919kvQ9QcozQPxg",
@@ -150,16 +282,72 @@
       "notes": "Single released Nov 2000; Discovery followed in 2001."
     },
     {
+      "spotifyTrackId": "0I3q5fE6wg7LIfHGngUTnV",
+      "year": 2000,
+      "title": "Ms. Jackson",
+      "artist": "OutKast"
+    },
+    {
+      "spotifyTrackId": "1HNE2PX70ztbEl6MLxrpNL",
+      "year": 2001,
+      "title": "In Too Deep",
+      "artist": "Sum 41"
+    },
+    {
+      "spotifyTrackId": "0KQx6HOpJueiSkztcS0r7D",
+      "year": 2001,
+      "title": "Fallin'",
+      "artist": "Alicia Keys"
+    },
+    {
       "spotifyTrackId": "5Z01UMMf7V1o0MzF86s6WJ",
       "year": 2002,
       "title": "Lose Yourself",
       "artist": "Eminem"
     },
     {
+      "spotifyTrackId": "7iL6o9tox1zgHpKUfh9vuC",
+      "year": 2003,
+      "title": "In Da Club",
+      "artist": "50 Cent"
+    },
+    {
+      "spotifyTrackId": "1d6aWHZ6VTwZh9qQhsBmap",
+      "year": 2003,
+      "title": "Franco Un-American",
+      "artist": "NOFX"
+    },
+    {
+      "spotifyTrackId": "3pdHJCTk85ls2SGGXIJ7XH",
+      "year": 2003,
+      "title": "Fall Back Down",
+      "artist": "Rancid"
+    },
+    {
+      "spotifyTrackId": "0d28khcov6AiegSCpG5TuT",
+      "year": 2005,
+      "title": "Feel Good Inc.",
+      "artist": "Gorillaz"
+    },
+    {
       "spotifyTrackId": "1L5tZi0izXsi5Kk5OJf4W0",
       "year": 2006,
       "title": "Rehab",
       "artist": "Amy Winehouse"
+    },
+    {
+      "spotifyTrackId": "6Ea4V80RXqJFBDuu6XH5IY",
+      "year": 2006,
+      "title": "Here It Goes Again",
+      "artist": "OK Go",
+      "notes": "Single released Sept 2006; the album Oh No had come out in 2005."
+    },
+    {
+      "spotifyTrackId": "49FYlytm3dAAraYgpoJZux",
+      "year": 2007,
+      "title": "Umbrella",
+      "artist": "Rihanna",
+      "notes": "Single/album released 2007; available copy sits on the Good Girl Gone Bad: Reloaded (2008) reissue."
     },
     {
       "spotifyTrackId": "5R9a4t5t5O0IsznsrKPVro",
@@ -181,6 +369,20 @@
       "artist": "Gotye"
     },
     {
+      "spotifyTrackId": "20I6sIOMTCkB6w7ryavxtO",
+      "year": 2011,
+      "title": "Call Me Maybe",
+      "artist": "Carly Rae Jepsen",
+      "notes": "Canadian single released Sept 2011; worldwide release and Kiss album followed in 2012."
+    },
+    {
+      "spotifyTrackId": "2ihCaVdNZmnHZWt0fvAM7B",
+      "year": 2011,
+      "title": "Little Talks",
+      "artist": "Of Monsters and Men",
+      "notes": "Released as a single in Iceland Sept 2011; international single and My Head Is an Animal album followed in 2012."
+    },
+    {
       "spotifyTrackId": "60nZcImufyMA1MKQY3dcCH",
       "year": 2013,
       "title": "Happy",
@@ -195,10 +397,28 @@
       "notes": "Single released Nov 2014; Uptown Special followed in 2015."
     },
     {
+      "spotifyTrackId": "22VdIZQfgXJea34mQxlt81",
+      "year": 2015,
+      "title": "Can't Feel My Face",
+      "artist": "The Weeknd"
+    },
+    {
+      "spotifyTrackId": "1zi7xx7UVEFkmKfv06H8x0",
+      "year": 2016,
+      "title": "One Dance",
+      "artist": "Drake, Wizkid, Kyla"
+    },
+    {
       "spotifyTrackId": "7qiZfU4dY1lWllzX7mPBI3",
       "year": 2017,
       "title": "Shape of You",
       "artist": "Ed Sheeran"
+    },
+    {
+      "spotifyTrackId": "0b9oOr2ZgvyQu88wzixux9",
+      "year": 2018,
+      "title": "This Is America",
+      "artist": "Childish Gambino"
     },
     {
       "spotifyTrackId": "2Fxmhks0bxGSBdJ92vM42m",
