@@ -33,23 +33,27 @@ mid-game token expiry.
 
 ## Iteration 2 — The app keeps score
 
-Bring the timeline into the app, replacing the paper cards.
+Bring the timeline into the app, replacing the paper cards — **optionally**. The
+paper version stays the default.
 
-- Player list and turn order
-- A shared timeline with drag-or-tap placement between existing cards
-- Automatic correctness check and scoring
-- Introduce the `Ruleset` abstraction, deferred from iteration 1, now that scoring
-  and placement give it something real to describe
+> Rules, state shape and open questions: [09-timeline-ruleset.md](09-timeline-ruleset.md)
+
+- Team setup behind a "Customise game" button on the idle round screen
+- One timeline per team, tap-to-place into a slot, confirm to resolve
+- Correctness check, discard on a miss, first team to 10 cards wins
+- Introduce the `Ruleset` abstraction, deferred from iteration 1, now that there are
+  two real rulesets to generalise over
 - Reveal animation: placement resolves visibly before the year is shown
 
-**Open question:** whether one shared timeline or one per player is the better
-game. Worth playing iteration 1 enough times to have an opinion before building it.
+**Resolved:** one timeline per *team*, not per player and not shared — a team of one
+covers the solitaire case, so per-player needs no separate mode.
 
 ---
 
 ## Iteration 3 — Depth
 
-- Per-player timelines, tokens, and stealing (Hitster-like ruleset)
+- Tokens and stealing (Hitster-like ruleset). Per-player timelines are already
+  covered by iteration 2's teams-of-one
 - Difficulty labels
 - Bonus guesses for title/artist
 - Configurable clip length and replay limits

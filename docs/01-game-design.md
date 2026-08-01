@@ -12,7 +12,10 @@ shared or personal timeline; the game ends when someone reaches a target.
 |---|---|
 | **Deck** | A curated, ordered-agnostic pool of songs with verified release years |
 | **Card** | One song drawn from a deck. Has a hidden face (year, title, artist) and a blank face |
-| **Timeline** | A chronologically ordered sequence of revealed cards |
+| **Timeline** | A sequence of revealed cards ordered by year — non-decreasing, since ties are allowed to sit in either order |
+| **Team** | One or more players sharing a timeline. A team of one is legal |
+| **Slot** | A gap in a timeline, including the two ends. *n* cards give *n+1* slots |
+| **Seed card** | The card a team starts with, so its first placement has a real choice |
 | **Draw** | Taking the next card from the deck and starting playback |
 | **Placement** | A player's claim that the current card belongs at a given slot in a timeline |
 | **Reveal** | Showing the card's year, title and artist, resolving the placement |
@@ -49,9 +52,14 @@ how a card nobody can place gets abandoned.
 
 ### What later iterations insert
 
-A **PLACED** phase sits between IN PLAY and REVEALED once the app records placements,
-and a distinct **skip** action separates "discarded, nobody scores" from "resolved".
-Neither earns its place while the timeline is on paper and nothing is scored.
+A distinct **skip** action separates "discarded, nobody scores" from "resolved" once
+something is scored. It does not earn its place while the timeline is on paper.
+
+A **PLACED** phase between IN PLAY and REVEALED was predicted here and has since been
+**rejected**: placement travels on the reveal event instead, because a slot selection
+is reversible, holds no card data, and would give the phase nothing to do but wait for
+a second tap. See
+[09-timeline-ruleset.md](09-timeline-ruleset.md#reveal-carries-the-slot-there-is-no-placed-phase).
 
 ## Iteration 1 — timeline lives outside the app
 
@@ -80,16 +88,20 @@ until the playback foundation is proven.
 The engine must not hard-code these. They are the axes along which later
 iterations will differ:
 
-| Axis | Options |
-|---|---|
-| Timeline ownership | One shared timeline / one timeline per player |
-| Placement validity | Strictly between the two neighbouring years / tolerance of ±N years |
-| Ties | Same year as a neighbour counts as correct / must specify before or after |
-| Turn order | Round-robin / whoever buzzes first / everyone places simultaneously |
-| Failure | Card discarded / card offered to the next player ("steal") |
-| Tokens | None / earned for correct placements, spent to skip or challenge |
-| Victory | First to N cards / most cards after N rounds / deck exhausted |
-| Bonus guesses | None / guess title or artist for an extra token |
+| Axis | Options | Timeline ruleset |
+|---|---|---|
+| Timeline ownership | One shared timeline / one timeline per player | One per **team**; a single team is legal |
+| Placement validity | Strictly between the two neighbouring years / tolerance of ±N years | Between the neighbours, **inclusive** at both ends |
+| Ties | Same year as a neighbour counts as correct / must specify before or after | Valid — either order, so a tie has two correct slots |
+| Turn order | Round-robin / whoever buzzes first / everyone places simultaneously | Round-robin, tracked by the app |
+| Failure | Card discarded / card offered to the next player ("steal") | Discarded |
+| Tokens | None / earned for correct placements, spent to skip or challenge | None |
+| Victory | First to N cards / most cards after N rounds / deck exhausted | First team to 10 cards |
+| Bonus guesses | None / guess title or artist for an extra token | None |
+
+The third column is the **second** ruleset, decided but not built — see
+[09-timeline-ruleset.md](09-timeline-ruleset.md). The first, still the default, is
+iteration 1 below: no teams, no timeline, no score.
 
 **Design constraint:** the game engine is a pure function of
 `(state, ruleset, event) → state`. Rulesets are data, not code branches scattered
