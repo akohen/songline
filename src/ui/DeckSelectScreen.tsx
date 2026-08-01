@@ -12,22 +12,20 @@ function yearRange(deck: Deck): string {
 
 export function DeckSelectScreen({ decks, onSelect }: Props) {
   return (
-    <section>
-      <h1>Choose a deck</h1>
-      <ul>
+    <main className="screen">
+      <h1 className="screen__title">Choose a deck</h1>
+      <ul className="deck-list">
         {decks.map((deck) => (
-          <li key={deck.id} style={{ marginBottom: "1rem" }}>
-            <button type="button" onClick={() => onSelect(deck)}>
-              {deck.name}
+          <li key={deck.id}>
+            <button type="button" className="deck-card" onClick={() => onSelect(deck)}>
+              <div className="deck-card__name">{deck.name}</div>
+              <div className="deck-card__meta">
+                {deck.cards.length} songs · {yearRange(deck)}
+              </div>
             </button>
-            <div>
-              <small>
-                {deck.description} · {deck.cards.length} songs · {yearRange(deck)}
-              </small>
-            </div>
           </li>
         ))}
       </ul>
-    </section>
+    </main>
   );
 }

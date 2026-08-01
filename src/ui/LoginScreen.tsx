@@ -4,13 +4,19 @@ type Props = {
 
 export function LoginScreen({ onLogin }: Props) {
   return (
-    <section>
-      <h1>Song Timeline</h1>
-      <p>Guess the year. Build the timeline.</p>
-      <p>Spotify Premium is required — the Web Playback SDK will not start without it.</p>
-      <button type="button" onClick={onLogin}>
-        Sign in with Spotify
-      </button>
-    </section>
+    <main className="screen screen--centred">
+      <div className="spacer" />
+      <h1 className="screen__title">Song Timeline</h1>
+      <p className="screen__body">Guess the year. Build the timeline.</p>
+      <div className="spacer" />
+      <div className="footer">
+        <p className="screen__body">
+          Spotify Premium is required — the Web Playback SDK will not start without it.
+        </p>
+        <button type="button" className="btn btn--primary" onClick={onLogin}>
+          Sign in with Spotify
+        </button>
+      </div>
+    </main>
   );
 }

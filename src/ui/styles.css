@@ -1,0 +1,513 @@
+/*
+ * Song Timeline — global stylesheet.
+ *
+ * Dark only, no framework, no CSS modules: seven small screens do not justify a new
+ * dependency. See docs/08-mobile-ui.md for the design rationale.
+ */
+
+:root {
+  --bg: #0d0f12;
+  --surface: #16191e;
+  --surface-raised: #232830;
+  --border: rgba(255, 255, 255, 0.09);
+
+  --text: #f2f4f7;
+  --text-muted: #98a2b3;
+
+  --accent: #ffb703;
+  --accent-text: #1a1206;
+  --danger: #f97066;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+
+  --radius: 12px;
+  --radius-lg: 20px;
+
+  --font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  /* Tell the browser to render form controls and scrollbars dark. */
+  color-scheme: dark;
+}
+
+/* ---------- reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+  /* Stops the page rubber-banding mid-round. */
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  /* dvh, not vh: mobile Safari's vh is wrong when the toolbar hides, which would
+     push the primary button off-screen. */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  /* Removes the 300ms double-tap-zoom delay. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent);
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--surface-raised);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  /* Long URLs must never force the page to scroll sideways. */
+  overflow-wrap: anywhere;
+}
+
+/* ---------- layout ---------- */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  padding-top: calc(var(--space-2) + env(safe-area-inset-top));
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.header__menu {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.header__menu:active {
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+/* The growing middle region. */
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5) var(--space-4);
+  padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+.screen--centred {
+  justify-content: center;
+  text-align: center;
+}
+
+.screen__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.screen__body {
+  color: var(--text-muted);
+}
+
+/* Pushes the footer to the bottom of a screen. */
+.spacer {
+  flex: 1;
+  min-height: var(--space-4);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+  opacity: 0.85;
+}
+
+.btn--primary {
+  min-height: 56px;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: transparent;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.btn--tertiary {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  min-height: 44px;
+  font-weight: 500;
+}
+
+.btn--inline {
+  display: inline-block;
+  width: auto;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+}
+
+/* ---------- round screen ---------- */
+
+.round {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.round__meta {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.round__number {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/*
+ * Playback control, centred.
+ *
+ * Deliberately far from the footer: sitting next to Reveal, it invited mis-taps on
+ * the one button you least want to press by accident.
+ *
+ * It is also the playing indicator — the ring pulses while audio plays. Merging the
+ * two means one obvious element instead of a decorative one plus a control, and the
+ * pulse still encodes nothing about the track, only whether sound is coming out.
+ */
+.play-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.play-control__button {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  transition: transform 0.12s ease;
+}
+
+.play-control__button:active {
+  transform: scale(0.94);
+}
+
+.play-control__button--playing {
+  animation: ring 2s ease-in-out infinite;
+}
+
+.play-control__label {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+@keyframes ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 183, 3, 0.28);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 183, 3, 0);
+  }
+}
+
+.reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.reveal__year {
+  font-size: clamp(4.5rem, 22vw, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  /* Digits must not jitter as the number changes. */
+  font-variant-numeric: tabular-nums;
+}
+
+.reveal__track {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.reveal__artist {
+  color: var(--text-muted);
+}
+
+.reveal__details {
+  animation: fade-in 0.4s ease 0.9s both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- deck list ---------- */
+
+.deck-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.deck-card {
+  width: 100%;
+  min-height: 64px;
+  text-align: left;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: transform 0.12s ease;
+}
+
+.deck-card:active {
+  transform: scale(0.99);
+  background: var(--surface-raised);
+}
+
+.deck-card__name {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.deck-card__meta {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-top: var(--space-1);
+}
+
+/* ---------- checklist ---------- */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-left: var(--space-5);
+  color: var(--text-muted);
+}
+
+.checklist strong {
+  color: var(--text);
+}
+
+/* ---------- menu sheet ---------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  padding: 0;
+  width: 100%;
+  animation: scrim-in 0.15s ease both;
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  border-top: 1px solid var(--border);
+  padding: var(--space-2) var(--space-4) var(--space-4);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: sheet-in 0.2s ease both;
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.sheet__handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  margin: var(--space-2) auto var(--space-3);
+}
+
+.sheet__info {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  padding: 0 var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-2);
+}
+
+.sheet__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  min-height: 52px;
+  padding: var(--space-3) var(--space-2);
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1.0625rem;
+}
+
+.sheet__item:active {
+  background: var(--surface-raised);
+}
+
+.sheet__footnote {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  padding-top: var(--space-3);
+}
+
+/* ---------- messages ---------- */
+
+.alert {
+  background: rgba(249, 112, 102, 0.12);
+  border: 1px solid rgba(249, 112, 102, 0.4);
+  color: var(--danger);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  font-size: 0.9375rem;
+}
+
+.screen__title--danger {
+  color: var(--danger);
+}
+
+/* ---------- motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

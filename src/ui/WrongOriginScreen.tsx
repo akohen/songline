@@ -14,22 +14,24 @@ type Props = {
 export function WrongOriginScreen({ expectedOrigin, actualOrigin }: Props) {
   const target = `${expectedOrigin}/`;
   return (
-    <section>
-      <h1>Wrong address</h1>
-      <p>
+    <main className="screen">
+      <div className="spacer" />
+      <h1 className="screen__title screen__title--danger">Wrong address</h1>
+      <p className="screen__body">
         This page is open at <code>{actualOrigin}</code>, but Spotify sign-in is
         configured for <code>{expectedOrigin}</code>. Spotify requires an exact match, so
         signing in from here would fail after the consent screen.
       </p>
-      <p>
-        <a href={target}>Open {target} instead</a>
+      <p className="round__meta">
+        Same server, different origin. If you meant to use this address, register it in
+        the Spotify dashboard and set VITE_SPOTIFY_REDIRECT_URI to match.
       </p>
-      <p>
-        <small>
-          Same server, different origin. If you meant to use this address, register it in
-          the Spotify dashboard and set VITE_SPOTIFY_REDIRECT_URI to match.
-        </small>
-      </p>
-    </section>
+      <div className="spacer" />
+      <div className="footer">
+        <a className="btn btn--primary" href={target}>
+          Open {target} instead
+        </a>
+      </div>
+    </main>
   );
 }

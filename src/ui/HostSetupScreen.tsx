@@ -9,13 +9,13 @@ type Props = {
  */
 export function HostSetupScreen({ onReady }: Props) {
   return (
-    <section>
-      <h1>Before you start</h1>
-      <p>
+    <main className="screen">
+      <h1 className="screen__title">Before you start</h1>
+      <p className="screen__body">
         The game only works if nothing on screen gives the song away. Three of these are
         outside this app's control, so they are down to you:
       </p>
-      <ol>
+      <ol className="checklist">
         <li>
           <strong>Quit Spotify on every other device</strong> — phone, desktop app,
           tablet. A running Spotify app publishes the track title and cover art to your
@@ -30,13 +30,16 @@ export function HostSetupScreen({ onReady }: Props) {
           <strong>Don't cast or screen-mirror</strong> this browser tab.
         </li>
       </ol>
-      <p>
+      <p className="screen__body">
         This browser tab is safe: it shows nothing identifying until you press Reveal, and
         it reports itself to the operating system as "Song Timeline".
       </p>
-      <button type="button" onClick={onReady}>
-        Ready — connect the player
-      </button>
-    </section>
+      <div className="spacer" />
+      <div className="footer">
+        <button type="button" className="btn btn--primary" onClick={onReady}>
+          Ready — connect the player
+        </button>
+      </div>
+    </main>
   );
 }

@@ -21,11 +21,39 @@ import type { PlaybackPort, PlaybackState } from "@/playback/types";
 export function useGame(deck: Deck, playback: PlaybackPort) {
   const [game, setGame] = useState<GameState>(() => loadGame(deck) ?? createGame(deck));
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
+  const [hasEnded, setHasEnded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const gameRef = useRef(game);
   gameRef.current = game;
+  const maxPositionRef = useRef(0);
 
-  useEffect(() => playback.onStateChange(setPlaybackState), [playback]);
+  /**
+   * Detect end-of-track, so the round screen can offer Replay instead of Pause.
+   *
+   * Latched off the furthest position reached rather than the current position,
+   * because it is not established what the SDK reports when a single-URI track
+   * finishes: it may rest at `duration`, or reset `position` to 0. Reading the
+   * high-water mark is correct either way — the value was recorded before any reset.
+   *
+   * Accepted edge case: pausing by hand inside the last 1.5s shows Replay.
+   */
+  useEffect(
+    () =>
+      playback.onStateChange((state) => {
+        setPlaybackState(state);
+        if (state.durationMs <= 0) return;
+
+        maxPositionRef.current = Math.max(maxPositionRef.current, state.positionMs);
+        const reachedEnd = maxPositionRef.current >= state.durationMs - 1500;
+        if (!state.isPlaying && reachedEnd) setHasEnded(true);
+      }),
+    [playback],
+  );
+
+  const resetEndTracking = useCallback(() => {
+    maxPositionRef.current = 0;
+    setHasEnded(false);
+  }, []);
 
   useEffect(() => {
     saveGame(game);
@@ -33,6 +61,7 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
 
   const draw = useCallback(async () => {
     setError(null);
+    resetEndTracking();
     const next = reduce(gameRef.current, { type: "DRAW" });
     setGame(next);
 
@@ -50,7 +79,7 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
           : "Playback failed. Press Next song to move on.",
       );
     }
-  }, [deck, playback]);
+  }, [deck, playback, resetEndTracking]);
 
   const reveal = useCallback(() => {
     setGame((current) => reduce(current, { type: "REVEAL" }));
@@ -60,8 +89,9 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     clearGame();
     setGame(createGame(deck));
     setError(null);
+    resetEndTracking();
     void playback.pause();
-  }, [deck, playback]);
+  }, [deck, playback, resetEndTracking]);
 
   const togglePlayPause = useCallback(() => {
     if (playbackState?.isPlaying) void playback.pause();
@@ -69,12 +99,15 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
   }, [playback, playbackState]);
 
   const replay = useCallback(() => {
+    resetEndTracking();
     void playback.seek(selectStartOffsetMs(gameRef.current, deck));
-  }, [deck, playback]);
+    void playback.resume();
+  }, [deck, playback, resetEndTracking]);
 
   return {
     game,
     playbackState,
+    hasEnded,
     error,
     draw,
     reveal,

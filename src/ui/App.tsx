@@ -15,7 +15,11 @@ export function App() {
 
   switch (state.status) {
     case "loading":
-      return <p>Loading…</p>;
+      return (
+        <main className="screen screen--centred">
+          <p className="screen__body">Loading…</p>
+        </main>
+      );
 
     case "anonymous": {
       // Catch an origin mismatch before sending the user through consent, not after.
@@ -43,17 +47,14 @@ export function App() {
         );
       }
 
+      // Sign-out now lives in the shell's menu, so it is passed down rather than
+      // rendered here.
       return (
-        <>
-          <p>
-            Signed in as {state.profile.display_name ?? state.profile.id} · Premium ·
-            market {state.profile.country} ·{" "}
-            <button type="button" onClick={logout}>
-              Sign out
-            </button>
-          </p>
-          <GameSession getAccessToken={getAccessToken} />
-        </>
+        <GameSession
+          getAccessToken={getAccessToken}
+          profileName={state.profile.display_name ?? state.profile.id}
+          onSignOut={logout}
+        />
       );
     }
   }

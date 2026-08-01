@@ -17,6 +17,7 @@ Development is **iterative**. Each document describes the target design; the
 | [05-roadmap.md](05-roadmap.md) | Iteration plan |
 | [06-iteration-1-plan.md](06-iteration-1-plan.md) | Step-by-step plan for the iteration in progress |
 | [07-deployment.md](07-deployment.md) | Deploying to Firebase Hosting, for phone play |
+| [08-mobile-ui.md](08-mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
 
 ## Status
 
@@ -26,6 +27,11 @@ Done: scaffold, engine (pure, spoiler-gated), PKCE auth with silent refresh,
 Web Playback SDK adapter, Media Session suppression, a 32-card deck and its
 validator, host setup checklist, and the round screen. Both de-risking spikes
 resolved — suppression works, playback latency is 136 ms.
+
+Deployed to Firebase Hosting for phone play ([07-deployment.md](07-deployment.md)).
+
+The mobile interface in [08-mobile-ui.md](08-mobile-ui.md) is built: dark theme,
+bottom-sheet menu, one primary action per phase, wake lock.
 
 Next: play a real evening against the acceptance criteria in
 [06-iteration-1-plan.md](06-iteration-1-plan.md#acceptance-criteria). The output of
