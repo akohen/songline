@@ -1,6 +1,6 @@
 {
   "id": "test-deck",
-  "name": "Test Deck (4 songs)",
+  "name": "Test Deck (5 songs)",
   "description": "Short deck for trying the app out without hearing the real deck's songs",
   "language": "en",
   "market": "FR",
@@ -28,6 +28,13 @@
       "year": 2003,
       "title": "Seven Nation Army",
       "artist": "The White Stripes"
+    },
+    {
+      "spotifyTrackId": "3ZpapZEZgcT8tdMuQnEMPk",
+      "year": 1990,
+      "title": "Minimum Wage",
+      "artist": "They Might Be Giants",
+      "notes": "~49s track, kept short deliberately for exercising end-of-track/replay behavior without waiting out a full song"
     }
   ]
 }

@@ -29,34 +29,60 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
   const gameRef = useRef(game);
   gameRef.current = game;
   const maxPositionRef = useRef(0);
+  const endTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearEndTimer = useCallback(() => {
+    if (endTimerRef.current !== null) {
+      clearTimeout(endTimerRef.current);
+      endTimerRef.current = null;
+    }
+  }, []);
 
   /**
    * Detect end-of-track, so the round screen can offer Replay instead of Pause.
    *
    * Latched off the furthest position reached rather than the current position,
    * because it is not established what the SDK reports when a single-URI track
-   * finishes: it may rest at `duration`, or reset `position` to 0. Reading the
-   * high-water mark is correct either way — the value was recorded before any reset.
+   * finishes: it may rest at `duration`, or reset `position` to 0.
+   *
+   * That high-water mark alone is not sufficient, though: confirmed by logging raw
+   * SDK events, a natural end arrives with no intervening state update near
+   * `duration` at all — position jumps straight from wherever playback was to a
+   * reset-looking `{ paused: true, position: 0 }`, so the mark never climbs high
+   * enough to satisfy the tolerance below. A fallback timer covers that gap: every
+   * "playing" update reschedules a timeout for when the track is expected to run
+   * out, so the UI does not depend on the SDK sending one final event in time.
    *
    * Accepted edge case: pausing by hand inside the last 1.5s shows Replay.
    */
-  useEffect(
-    () =>
-      playback.onStateChange((state) => {
-        setPlaybackState(state);
-        // While a track is loading the numbers still describe the *outgoing* one. A
-        // final event from a song that had nearly finished would otherwise latch
-        // `hasEnded` onto the card just drawn, offering Replay for a song that has
-        // not played a note.
-        if (state.isLoading) return;
-        if (state.durationMs <= 0) return;
+  useEffect(() => {
+    const unsubscribe = playback.onStateChange((state) => {
+      setPlaybackState(state);
+      // While a track is loading the numbers still describe the *outgoing* one. A
+      // final event from a song that had nearly finished would otherwise latch
+      // `hasEnded` onto the card just drawn, offering Replay for a song that has
+      // not played a note.
+      if (state.isLoading) return;
+      if (state.durationMs <= 0) return;
 
-        maxPositionRef.current = Math.max(maxPositionRef.current, state.positionMs);
-        const reachedEnd = maxPositionRef.current >= state.durationMs - 1500;
-        if (!state.isPlaying && reachedEnd) setHasEnded(true);
-      }),
-    [playback],
-  );
+      maxPositionRef.current = Math.max(maxPositionRef.current, state.positionMs);
+      const reachedEnd = maxPositionRef.current >= state.durationMs - 1500;
+
+      if (!state.isPlaying) {
+        clearEndTimer();
+        if (reachedEnd) setHasEnded(true);
+        return;
+      }
+
+      clearEndTimer();
+      const remainingMs = Math.max(0, state.durationMs - state.positionMs - 1500);
+      endTimerRef.current = setTimeout(() => setHasEnded(true), remainingMs);
+    });
+    return () => {
+      unsubscribe();
+      clearEndTimer();
+    };
+  }, [playback, clearEndTimer]);
 
   const isLoading = playbackState?.isLoading ?? false;
 
@@ -81,7 +107,8 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
   const resetEndTracking = useCallback(() => {
     maxPositionRef.current = 0;
     setHasEnded(false);
-  }, []);
+    clearEndTimer();
+  }, [clearEndTimer]);
 
   useEffect(() => {
     saveGame(game);
