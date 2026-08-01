@@ -31,10 +31,15 @@ function isGameStateShape(value: unknown): value is GameState {
  * Restore a saved game, or null meaning "start fresh".
  *
  * Returns null on unparseable JSON, a version or shape mismatch, or a different
- * deck. Beyond that it repairs **deck rot**: a deck edited between sessions may no
- * longer contain tracks the saved pile references. Unknown IDs are dropped, and if
- * the in-play card itself is gone the game falls back to `idle` — restoring onto a
- * silently-changed deck is exactly when this bites.
+ * deck.
+ *
+ * Two repairs are applied to anything that does restore:
+ *
+ * 1. **Always resume at `idle`.** Audio does not survive a reload, so a restored
+ *    mid-card game would show a card nobody can hear — and a game saved after a
+ *    reveal would reopen with the answer already on screen.
+ * 2. **Deck rot.** A deck edited between sessions may no longer contain tracks the
+ *    saved pile references; unknown IDs are dropped.
  */
 export function deserialize(raw: string, deck: Deck): GameState | null {
   let parsed: unknown;
@@ -55,9 +60,23 @@ export function deserialize(raw: string, deck: Deck): GameState | null {
   const known = new Set(deck.cards.map((c) => c.spotifyTrackId));
   const drawPile = state.drawPile.filter((id) => known.has(id));
 
-  if (state.currentCard !== null && !known.has(state.currentCard)) {
-    return { ...state, drawPile, currentCard: null, phase: "idle" };
-  }
+  // Nothing was in flight, or the deck no longer contains it.
+  const inFlight =
+    state.currentCard !== null && known.has(state.currentCard) ? state.currentCard : null;
 
-  return { ...state, drawPile };
+  return {
+    ...state,
+    // A restored game always resumes at `idle` (unless the deck was exhausted).
+    //
+    // Playback cannot survive a reload — the SDK holds nothing, and audio cannot
+    // restart without a user gesture. Restoring mid-card would therefore show a card
+    // that cannot be heard, and if the save was made after a reveal it would put the
+    // *answer* on screen the moment the game reopened.
+    phase: state.phase === "finished" ? "finished" : "idle",
+    currentCard: null,
+    // The in-flight card goes back to the front of the pile and the round counter is
+    // rolled back, so resuming consumes nothing: the next Start replays that song.
+    drawPile: inFlight === null ? drawPile : [inFlight, ...drawPile],
+    round: inFlight === null ? state.round : Math.max(0, state.round - 1),
+  };
 }

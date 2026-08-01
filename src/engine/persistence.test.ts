@@ -13,14 +13,56 @@ const midGame = (): GameState => {
 };
 
 describe("serialize / deserialize", () => {
-  it("round-trips a game in progress", () => {
-    const state = midGame();
+  it("round-trips a fresh game unchanged", () => {
+    const state = createGame(testDeck, seededRng(9));
     expect(deserialize(serialize(state), testDeck)).toEqual(state);
   });
 
-  it("round-trips a fresh game", () => {
-    const state = createGame(testDeck, seededRng(9));
-    expect(deserialize(serialize(state), testDeck)).toEqual(state);
+  it("preserves the deck and the remaining songs", () => {
+    const state = midGame();
+    const restored = deserialize(serialize(state), testDeck);
+    expect(restored?.deckId).toBe(testDeck.id);
+    expect(restored?.drawPile).toHaveLength(testDeck.cards.length);
+  });
+});
+
+/*
+ * Audio does not survive a reload: the SDK holds nothing and playback cannot restart
+ * without a user gesture. Restoring mid-card would show a card nobody can hear, and
+ * restoring after a reveal would put the answer on screen the moment the game
+ * reopened — which is exactly what happened before this behaviour existed.
+ */
+describe("deserialize — always resumes at idle", () => {
+  it("returns to idle from a revealed save, hiding the answer", () => {
+    const restored = deserialize(serialize(midGame()), testDeck);
+    expect(restored?.phase).toBe("idle");
+    expect(restored?.currentCard).toBeNull();
+  });
+
+  it("returns to idle from an in-play save", () => {
+    const inPlay = reduce(createGame(testDeck, seededRng(5)), { type: "DRAW" });
+    const restored = deserialize(serialize(inPlay), testDeck);
+    expect(restored?.phase).toBe("idle");
+    expect(restored?.currentCard).toBeNull();
+  });
+
+  it("consumes nothing: the in-flight card returns to the front of the pile", () => {
+    const inPlay = reduce(createGame(testDeck, seededRng(5)), { type: "DRAW" });
+    const restored = deserialize(serialize(inPlay), testDeck);
+
+    expect(restored?.drawPile[0]).toBe(inPlay.currentCard);
+    expect(restored?.drawPile).toHaveLength(testDeck.cards.length);
+    // The round counter is rolled back with it, so the next Start is round 1 again.
+    expect(restored?.round).toBe(0);
+  });
+
+  it("stays finished when the deck was exhausted", () => {
+    let state = createGame(testDeck, seededRng(2));
+    for (let i = 0; i <= testDeck.cards.length; i++) {
+      state = reduce(state, { type: "DRAW" });
+    }
+    expect(state.phase).toBe("finished");
+    expect(deserialize(serialize(state), testDeck)?.phase).toBe("finished");
   });
 });
 
@@ -65,12 +107,12 @@ describe("deserialize — deck rot", () => {
     };
 
     const restored = deserialize(serialize(state), testDeck);
-    expect(restored?.drawPile).toEqual(["track-a", "track-b"]);
-    expect(restored?.currentCard).toBe("track-c");
-    expect(restored?.phase).toBe("inPlay");
+    // track-removed is gone; track-c comes back to the front to be replayed.
+    expect(restored?.drawPile).toEqual(["track-c", "track-a", "track-b"]);
+    expect(restored?.round).toBe(1);
   });
 
-  it("falls back to idle when the in-play card itself is gone", () => {
+  it("does not resurrect an in-play card that left the deck", () => {
     const state: GameState = {
       phase: "revealed",
       deckId: testDeck.id,
@@ -83,6 +125,7 @@ describe("deserialize — deck rot", () => {
     expect(restored?.phase).toBe("idle");
     expect(restored?.currentCard).toBeNull();
     expect(restored?.drawPile).toEqual(["track-a"]);
+    // That round genuinely happened, so the counter is not rolled back here.
     expect(restored?.round).toBe(4);
   });
 });

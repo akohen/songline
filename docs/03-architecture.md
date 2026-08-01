@@ -151,9 +151,20 @@ show a specific error if not.
 ## Session persistence
 
 The full `GameState` is serialised to `localStorage` after every event. A browser
-refresh or an accidental tab close mid-party restores the round, the draw pile and
-which cards have been played. Playback does not resume automatically — that needs a
-user gesture anyway.
+refresh or an accidental tab close mid-party restores the draw pile and which cards
+have been played.
+
+**A restored game always resumes at `idle`**, with any in-flight card returned to the
+front of the pile and the round counter rolled back, so resuming consumes nothing.
+
+This is not a detail. Audio cannot survive a reload — the SDK holds nothing, and
+playback cannot restart without a user gesture — so restoring mid-card produced a
+card nobody could hear, and a game saved after a reveal **reopened with the year
+already on screen**. Restoring a phase is only safe when the thing that phase
+describes can also be restored, and playback cannot be.
+
+Deliberately different from an explicit deck change, which clears the save outright:
+leaving a deck abandons the game, whereas a reload means to continue it.
 
 ## Testing
 

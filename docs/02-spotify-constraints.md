@@ -67,6 +67,21 @@ The browser becomes a Spotify Connect device. Audio comes out of the host machin
   a user interaction is required to begin audio.
 - Autoplay policies mean the first playback must be triggered by a user gesture. The
   "Draw" button is that gesture, so this is a natural fit.
+- **`player.activateElement()` is required, and its absence fails silently.** Without
+  it the first track of a session transfers to our device and then sits *paused* —
+  no sound, no error, nothing in the console. Every subsequent track plays, because
+  by then the user has tapped something, which makes the bug look like a
+  once-per-session fluke rather than a missing call.
+
+  Spotify's reference: *"Some browsers prevent autoplay of media by ensuring that all
+  playback is triggered by synchronous event-paths originating from user interaction
+  such as a click… Otherwise it will be in pause state once it's transferred."*
+
+  **"Synchronous event-path" is the constraint that dictates where the call goes.**
+  It cannot be in `initialize()`: the player object does not exist until several
+  awaits after the click that begins connection, so the gesture is long gone by then.
+  It has to sit at the top of `playTrack`, which is reached synchronously from the
+  Start button's handler. See `src/playback/webPlaybackSdkAdapter.ts`.
 
 ### B. Web API — remote control of an existing device
 

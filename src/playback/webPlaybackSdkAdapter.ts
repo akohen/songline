@@ -23,6 +23,7 @@ type GetToken = () => string | null;
 export class WebPlaybackSdkAdapter implements PlaybackPort {
   private player: Spotify.Player | null = null;
   private deviceId: string | null = null;
+  private elementActivated = false;
   private listeners = new Set<(state: PlaybackState) => void>();
 
   constructor(private readonly getToken: GetToken) {}
@@ -86,11 +87,44 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
   }
 
   async playTrack(trackId: TrackId, startOffsetMs: number): Promise<void> {
+    // MUST be the first statement: it has to be initiated inside the synchronous
+    // event path of the tap that started the round. See activateElement below.
+    await this.activateElement();
+
     await this.command("PUT", `/me/player/play?device_id=${this.requireDevice()}`, {
       uris: [`spotify:track:${trackId}`],
       position_ms: startOffsetMs,
     });
     suppressAll();
+  }
+
+  /**
+   * Unblock the SDK's audio element, once per player.
+   *
+   * Without this the *first* track of a session transfers to our device and then
+   * sits paused — silent, with no error anywhere. Every later track plays, because
+   * by then the user has tapped something. Spotify's docs: "Some browsers prevent
+   * autoplay of media by ensuring that all playback is triggered by synchronous
+   * event-paths originating from user interaction such as a click… Otherwise it will
+   * be in pause state once it's transferred."
+   *
+   * "Synchronous event-path" is the important part, and is why this cannot live in
+   * initialize(): the player does not exist until several awaits after the click
+   * that starts connection, so the gesture is long gone. playTrack, by contrast, is
+   * reached synchronously from the Start button's handler.
+   *
+   * The flag is set before awaiting so a browser that rejects activation is not
+   * asked again on every round.
+   */
+  private async activateElement(): Promise<void> {
+    if (this.elementActivated || !this.player) return;
+    this.elementActivated = true;
+    try {
+      await this.player.activateElement();
+    } catch {
+      // Best effort. If it fails, playback may still work — and failing the round
+      // over it would be worse than a silent first track.
+    }
   }
 
   async pause(): Promise<void> {
@@ -119,6 +153,7 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
     this.player?.disconnect();
     this.player = null;
     this.deviceId = null;
+    this.elementActivated = false;
     this.listeners.clear();
   }
 
