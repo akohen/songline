@@ -120,13 +120,14 @@ Pure TypeScript, developed test-first. This is where correctness lives.
 
 Curation is human work with no code dependency — it can run in parallel from day one.
 
-- `Deck`/`Card` types, JSON loader, one bundled deck
+- `Deck`/`Card` types, JSON loader, bundled decks, a deck-select screen
 - **First deck: international hits, 1960–2020.** Broadly recognisable anglophone
   pop/rock across six decades. The wide year spread makes it the easiest deck to
   play, which is what a first playtest wants — validate the game, then tune
   difficulty.
-- **Start at ~30 cards, not 60.** Enough for a first playtest, and it surfaces
-  curation problems before you have sunk effort into 60.
+- Shipped past the original ~30-card target: `classics-international` grew to 67
+  cards and a second deck, `hitster-rock` (308 cards), was added alongside it, plus
+  a 4-card `test-deck` for trying the app without spoiling real cards.
 - Aim for even decade coverage (~5 cards per decade) so the timeline has anchors
   across the whole range rather than clustering.
 - `scripts/validate-decks.ts` using Client Credentials — schema, playability in
@@ -140,10 +141,11 @@ Built against `FakePlaybackAdapter` throughout.
   Not decoration, and no longer merely advisory: the S0.1 spike proved that a running
   Spotify desktop app puts the answer in macOS Control Centre, and that no code of
   ours can prevent it. Quitting Spotify is the mitigation.
-- **Deck select** — trivial with one deck, but keeps the screen from being retrofitted
-- **Round screen** — round number, cards remaining, play/pause, replay, Reveal, and
-  Start/Next song. Nothing else: no album art, no waveform, no tab-title updates.
-- **Reveal** — year large first, title and artist ~1s later
+- **Deck select** — shipped with three decks rather than the one originally planned
+- **Round screen** — round number, cards remaining, play/pause, skip forward 15s,
+  replay, Reveal, and Start/Next song. Nothing else: no album art, no waveform, no
+  tab-title updates.
+- **Reveal** — title and artist first, year ~1s later, large
 - Resume-in-progress-game prompt on load
 
 ## Step 7 — Playtest
@@ -164,12 +166,15 @@ deciding from an armchair.
 5. The song keeps playing after Reveal, until Next song is pressed.
 6. A page refresh mid-game restores the round number and the draw pile.
 7. A session lasting over an hour never interrupts playback for a token refresh.
-8. `npm run validate:decks` passes on the bundled deck.
+8. `npm run validate:decks` passes on the bundled decks.
 
 ## Explicitly out of scope
 
-Players, scoring, in-app timeline, placement UI, multiple decks, device selection,
-tokens, steals, clip-length limits, any backend.
+Players, scoring, in-app timeline, placement UI, device selection, tokens, steals,
+clip-length limits, any backend.
+
+Multiple decks and a deck-select screen were originally on this list too, but
+shipped as part of iteration 1 anyway — see Step 5 above.
 
 **Cross-session repeat memory is out of scope** — each session starts from the full
 deck. Decided deliberately: it avoids extra persistence and a "reset deck" control

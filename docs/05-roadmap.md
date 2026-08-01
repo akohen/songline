@@ -17,7 +17,8 @@ reveals the year on demand. Players do the rest.
 - PKCE login, silent refresh, Premium check with a clear error
 - Web Playback SDK adapter + `FakePlaybackAdapter`
 - Media Session metadata suppression
-- One bundled deck (~60 cards) plus the validation script
+- Three bundled decks (a 4-card test deck, a 67-card classics deck, a 308-card
+  Hitster Rock deck) plus the validation script
 - Engine with the round state machine: two events, `DRAW` and `REVEAL`
 - Screens: Login → Host setup checklist → Deck select → Round (draw / play / pause /
   replay / reveal)
@@ -26,7 +27,7 @@ reveals the year on demand. Players do the rest.
 **Done when:** a full evening is played end to end with no spoiler leak and no
 mid-game token expiry.
 
-**Deliberately excluded:** players, scoring, in-app timeline, multiple decks.
+**Deliberately excluded:** players, scoring, in-app timeline.
 
 ---
 
@@ -49,7 +50,7 @@ game. Worth playing iteration 1 enough times to have an opinion before building 
 ## Iteration 3 — Depth
 
 - Per-player timelines, tokens, and stealing (Hitster-like ruleset)
-- Multiple decks, deck selection, difficulty labels
+- Difficulty labels
 - Bonus guesses for title/artist
 - Configurable clip length and replay limits
 - Web API device adapter as a playback fallback, with a spoiler warning
