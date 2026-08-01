@@ -41,6 +41,12 @@ space, a round number, and one obvious thing to press.
 **The reveal is the emotional peak.** The year is the largest element in the entire
 app by a wide margin. Everything else stays quiet so that moment lands.
 
+> Qualified by the timeline ruleset. There the screen is not empty — the timeline *is*
+> the game state and has to stay visible — so the year resolves on the placed card at
+> about 2.5rem rather than taking the screen. It is still the largest thing on that
+> screen; it is no longer the largest in the app. See
+> [placement screen](#placement-screen--timeline-ruleset).
+
 **One primary action at a time.** At any moment there is exactly one full-width
 button at the bottom of the screen. Which action it is depends on the phase. Two
 competing primary buttons is the main thing that would make this feel cluttered.
@@ -239,6 +245,70 @@ specified in [01-game-design.md](01-game-design.md) and is preserved. Under
 "Skip this song" and "Next song" dispatch the same `DRAW` event — the engine has only
 two events. The label differs because the intent differs: abandoning a card nobody
 can place, versus moving on after a reveal.
+
+### Placement screen — timeline ruleset
+
+The optional in-app timeline ([09-timeline-ruleset.md](09-timeline-ruleset.md)) gives
+the round screen a second, content-dense layout. The paper-ruleset screen above is
+**unchanged**; which one renders is decided by `selectTeams` returning null.
+
+```
+┌──────────────────────────────┐
+│  Song Timeline           ⋯   │
+├──────────────────────────────┤
+│ ┌────┐ ┌────┐ ┌────┐         │  score strip — hidden with one team,
+│ │T1 3│ │T2 5│ │T3 2│         │  current team outlined in amber
+│ └────┘ └────┘ └────┘         │
+│           Team 2             │  omitted with one team
+│    Where does this song go?  │  muted
+│         ╭──╮ ╭──╮            │  56px, no text label — the timeline
+│         │❚❚│ │+15│           │  needs the vertical space
+│         ╰──╯ ╰──╯            │
+│  1965 ● Satisfaction         │  scrolls; header and footer do not
+│       ┊ ┌──────────────────┐ │
+│       ┊ │  1965 – 1991     │ │  slot: ≥48px, dashed, amber when picked
+│       ┊ └──────────────────┘ │
+│  1991 ● Teen Spirit          │
+├──────────────────────────────┤
+│  ┌────────────────────────┐  │
+│  │     Place it here      │  │  PRIMARY, disabled until a slot is picked
+│  └────────────────────────┘  │
+│         Skip this song       │  free action — the turn does not move
+└──────────────────────────────┘
+```
+
+**Vertical, not horizontal.** A horizontal strip either scrolls the page sideways —
+forbidden here — or shrinks the slots below a thumb once a timeline passes about four
+cards.
+
+**Only the placing team's timeline is shown.** Three timelines on a phone would leave
+none of them a usable slot. The score strip is what keeps the others present.
+
+**The slots are the primary action.** While a card is in play there is no enabled
+primary button until a slot is chosen — the "one primary action" rule holds, it is just
+disabled until the choice exists. Selecting is reversible and lives in component state;
+only the confirm reaches the engine.
+
+**The reveal resolves in place**, on the card where it was placed: amber when correct,
+`--danger` when not, with the year at ~2.5rem. A missed placement that could have gone
+in two slots (a tie) marks **both** — the feedback must not imply a single right answer.
+
+**Primary action by phase**, timeline ruleset:
+
+| Phase | Primary button | Also present |
+|---|---|---|
+| `idle` | **Start** | "Customise game" (tertiary) |
+| `inPlay` | **Place it here** (disabled until a slot is picked) | slots, Pause/Play, Skip |
+| `revealed` | **Next song**, or **See final scores** once a team has 10 | Pause/Play |
+| `finished` | **Play this deck again** | final standings, "Choose another deck" |
+
+### Customise game
+
+Reached from a tertiary button beside Start, and only there: the ruleset is fixed for
+the life of a game. Two controls, no more — mode (a pair of cards, as on deck select)
+and a team stepper, 1–6, live only in timeline mode. Teams are numbered, never named:
+a name means a text input and a keyboard over the screen, for something everyone in the
+room already knows.
 
 ### Replay visibility — the rule requested
 

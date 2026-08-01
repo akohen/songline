@@ -62,7 +62,7 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
   const draw = useCallback(async () => {
     setError(null);
     resetEndTracking();
-    const next = reduce(gameRef.current, { type: "DRAW" });
+    const next = reduce(gameRef.current, { type: "DRAW" }, deck);
     setGame(next);
 
     const trackId = selectTrackIdForPlayback(next);
@@ -81,17 +81,42 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     }
   }, [deck, playback, resetEndTracking]);
 
-  const reveal = useCallback(() => {
-    setGame((current) => reduce(current, { type: "REVEAL" }));
-  }, []);
+  /**
+   * Reveal, optionally as a placement.
+   *
+   * `slot` is required under the timeline ruleset and meaningless without it; the
+   * engine judges which applies and ignores the mismatch. The slot the player is
+   * *considering* never comes through here — selection is reversible and lives in the
+   * component until it is confirmed.
+   */
+  const reveal = useCallback(
+    (slot?: number) => {
+      setGame((current) => reduce(current, { type: "REVEAL", slot }, deck));
+    },
+    [deck],
+  );
 
   const restart = useCallback(() => {
     clearGame();
-    setGame(createGame(deck));
+    setGame(createGame(deck, { teamCount: gameRef.current.timelines.length }));
     setError(null);
     resetEndTracking();
     void playback.pause();
   }, [deck, playback, resetEndTracking]);
+
+  /**
+   * Choose the ruleset. Only reachable before the first draw, where replacing the
+   * game wholesale costs nothing but a reshuffle.
+   *
+   * The choice needs no storage of its own — it is recoverable from
+   * `timelines.length`, and the save effect below persists it like any other change.
+   */
+  const configure = useCallback(
+    (teamCount: number) => {
+      setGame(createGame(deck, { teamCount }));
+    },
+    [deck],
+  );
 
   const togglePlayPause = useCallback(() => {
     if (playbackState?.isPlaying) void playback.pause();
@@ -122,6 +147,7 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     draw,
     reveal,
     restart,
+    configure,
     togglePlayPause,
     replay,
     skipForward,

@@ -12,14 +12,28 @@ function shuffle<T>(items: readonly T[], rng: () => number): T[] {
   return result;
 }
 
+type Options = {
+  /**
+   * Teams to play with, each getting a timeline. 0 — the default — is the paper
+   * ruleset: no teams, no placement, no score.
+   */
+  teamCount?: number;
+  rng?: () => number;
+};
+
 /**
  * Shuffling happens here, once — never in the reducer.
  *
  * That is what lets `reduce` be a pure, total function: the pile is already in its
  * final order, so DRAW merely takes the head. Tests inject a seeded `rng` for
  * determinism.
+ *
+ * Seed cards are *not* dealt here. They come off the shuffled pile on the first DRAW,
+ * so this stays a shuffle and nothing has to be undone if the game is reconfigured
+ * before it starts.
  */
-export function createGame(deck: Deck, rng: () => number = Math.random): GameState {
+export function createGame(deck: Deck, options: Options = {}): GameState {
+  const { teamCount = 0, rng = Math.random } = options;
   const trackIds: TrackId[] = deck.cards.map((card) => card.spotifyTrackId);
   return {
     phase: "idle",
@@ -27,5 +41,8 @@ export function createGame(deck: Deck, rng: () => number = Math.random): GameSta
     drawPile: shuffle(trackIds, rng),
     currentCard: null,
     round: 0,
+    timelines: Array.from({ length: Math.max(0, Math.trunc(teamCount)) }, () => []),
+    currentTeam: 0,
+    lastPlacement: null,
   };
 }

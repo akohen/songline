@@ -69,17 +69,28 @@ type GameState = {
   drawPile: TrackId[]       // shuffled, never mutated in place
   currentCard: TrackId | null
   round: number
+  // Timeline ruleset only; empty is the paper ruleset. See 09-timeline-ruleset.md.
+  timelines: TrackId[][]
+  currentTeam: number
+  lastPlacement: { team: number; slot: number; correct: boolean } | null
 }
 
 type GameEvent =
   | { type: 'DRAW' }        // "Start" in idle, "Next song" thereafter
-  | { type: 'REVEAL' }
+  | { type: 'REVEAL'; slot?: number }   // slot present ⇒ a placement
 
-reduce(state: GameState, event: GameEvent): GameState
+reduce(state: GameState, event: GameEvent, deck: Deck): GameState
 ```
 
 Transitions: `DRAW` moves any phase to `inPlay`, or to `finished` when the pile is
-empty. `REVEAL` moves `inPlay → revealed`. That is the whole machine.
+empty or a team has won. `REVEAL` moves `inPlay → revealed`, scoring the placement on
+the way if there is one. That is the whole machine.
+
+**`deck` is the third argument, not a `Ruleset`.** Judging a placement needs the card's
+release year. Passing the year in on the event would mean the UI reading it while the
+card is still in play — the exact leak the spoiler gate exists to stop — so the reducer
+takes the card data instead, as the selectors already do. It is data, not I/O; the
+engine still imports nothing but types.
 
 There is no `revealed` boolean: it is `phase === 'revealed'`. Two fields encoding
 one fact is a bug waiting to happen, and this particular fact is the one the whole
@@ -89,17 +100,22 @@ No `SKIP`: with nothing scored, abandoning a card and finishing one are the same
 act, and `DRAW` already does it. This is also the recovery path for a track that
 fails to play.
 
-### No `Ruleset` parameter yet
+### Still no `Ruleset` parameter
 
-The eventual signature is `reduce(state, event, ruleset)`, where a `Ruleset` is data
+The predicted signature was `reduce(state, event, ruleset)`, where a `Ruleset` is data
 plus pure predicates — `isPlacementCorrect`, `nextPlayer`, `isGameOver`, `scoreRound`.
-Iteration 1 has none of those, so the ruleset would be an empty object: an
-abstraction that constrains nothing and demonstrates nothing, while every call site
-pays for it. It arrives in iteration 2, when there are two real rulesets to
-generalise over and the shape can be derived from evidence rather than guessed.
+Iteration 1 had none of those, so it would have been an empty object: an abstraction
+constraining nothing while every call site paid for it.
 
-The layering is what protects us here, not the parameter. The engine stays pure and
-UI-free, so adding a third argument later is mechanical.
+**Two rulesets now exist and it still has not earned its place.** The difference
+between them is entirely `timelines.length === 0`, which the state already says, and
+the "predicates" turned out to be three small functions in `placement.ts` that both
+rulesets share or ignore. A `Ruleset` object would be a container for one boolean.
+
+What the third argument became instead is `deck` — needed for a concrete reason
+(judging a placement needs a year) rather than a predicted one. The layering is what
+protected us here, not the parameter: the engine stayed pure and UI-free, so widening
+the signature when a real need arrived was mechanical.
 
 ### Spoiler gating is the engine's job
 

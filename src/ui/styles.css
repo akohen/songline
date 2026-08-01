@@ -383,6 +383,355 @@ code {
   }
 }
 
+/* ---------- timeline ruleset ---------- */
+
+/*
+ * The placement screen. See docs/09-timeline-ruleset.md.
+ *
+ * Unlike the paper-ruleset round screen, this one is content-dense: the timeline is
+ * the game state and needs the vertical space, so it scrolls inside the layout while
+ * the header, playback control and footer stay put.
+ */
+.timeline-round {
+  gap: var(--space-3);
+}
+
+.timeline-round__head {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Compact playback: the 76px circle and its label would crowd out the timeline. */
+.play-control--compact {
+  margin-top: 0;
+}
+
+.play-control--compact .play-control__button {
+  width: 56px;
+  height: 56px;
+  font-size: 1.125rem;
+}
+
+.play-control--compact .play-control__row {
+  gap: var(--space-4);
+}
+
+.score-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.score-strip__team {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.score-strip__team--current {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.score-strip__name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.score-strip__score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.score-strip__target {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/*
+ * Vertical, not horizontal. A horizontal strip either scrolls the page sideways or
+ * shrinks the slots below a thumb once the timeline passes about four cards.
+ */
+.timeline {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline__card,
+.timeline__hint,
+.timeline__slot,
+.timeline__placed {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: left;
+}
+
+.timeline__card {
+  align-items: center;
+  padding: var(--space-1) 0;
+}
+
+.timeline__year {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  align-self: center;
+}
+
+/* The spine: a hairline down the gutter with a dot on each card. */
+.timeline__body {
+  position: relative;
+  padding-left: var(--space-5);
+  min-height: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timeline__card .timeline__body::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.timeline__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.timeline__artist {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* The spine continues through every gap, so the column reads as one line. */
+.timeline__rail {
+  position: relative;
+}
+
+.timeline__rail::after {
+  content: "";
+  position: absolute;
+  left: calc(3.25rem + var(--space-2) + 8px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+/* A gap in the timeline, and the primary action while a card is in play. */
+.timeline__slot {
+  background: none;
+  border: none;
+  padding: 0;
+  align-items: stretch;
+}
+
+.timeline__target {
+  min-height: 48px;
+  margin-left: var(--space-5);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.timeline__slot[aria-pressed="true"] .timeline__target {
+  border-style: solid;
+  border-color: var(--accent);
+  background: rgba(255, 183, 3, 0.12);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.timeline__slot:active .timeline__target {
+  background: var(--surface-raised);
+}
+
+/* Where a missed card would have fitted. Two of these appear when it tied. */
+.timeline__hint {
+  align-items: stretch;
+}
+
+.timeline__hint-label {
+  min-height: 36px;
+  margin-left: var(--space-5);
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 0.8125rem;
+}
+
+/* The card just placed, resolved where it was put. */
+.timeline__placed {
+  grid-template-columns: 1fr;
+  padding: var(--space-1) 0;
+}
+
+.timeline__placed .timeline__body {
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  background: rgba(255, 183, 3, 0.12);
+  animation: fade-in 0.25s ease both;
+}
+
+.timeline__placed--wrong .timeline__body {
+  border-color: var(--danger);
+  background: rgba(249, 112, 102, 0.12);
+}
+
+.timeline__result {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.timeline__verdict {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.timeline__placed--wrong .timeline__verdict {
+  color: var(--danger);
+}
+
+/*
+ * The reveal still gets a moment, scaled to fit the timeline. Nowhere near the
+ * paper ruleset's full-screen year, but the largest thing on this screen.
+ */
+.timeline__revealed-year {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline__placed--wrong .timeline__revealed-year {
+  color: var(--danger);
+}
+
+/* ---------- customise game ---------- */
+
+.deck-card[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--surface-raised);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-1);
+}
+
+.stepper__label {
+  font-weight: 600;
+}
+
+.stepper__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.stepper__button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.stepper__button:disabled {
+  opacity: 0.4;
+}
+
+.stepper__value {
+  min-width: 1.5rem;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- final standings ---------- */
+
+.standings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.standings__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-align: left;
+}
+
+.standings__row--top {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.standings__score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
 /* ---------- deck list ---------- */
 
 .deck-list {

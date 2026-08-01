@@ -77,12 +77,23 @@ does. There is no discard pile to model.
 **When several slots were correct and the player missed all of them,** the reveal
 names one of them. Any one will do — there is no "most correct" slot.
 
-**Skip is a free action.** The same team plays again on the next card. Under the
-default ruleset Skip and Next are one `DRAW`; here they diverge — Next advances the
-turn, Skip does not.
+**Skip is a free action.** The same team plays again on the next card.
 
-**Victory: first team to 10 cards.** Checked immediately after a correct placement,
-so the game can end mid-deck.
+> **Amended during implementation.** This originally read "Next advances the turn,
+> Skip does not" — which is unimplementable, because Skip and Next are the *same*
+> `DRAW` event and the reducer cannot tell them apart. **The turn advances on the
+> placement instead**, inside `REVEAL`-with-slot. A skip is a `DRAW` with no
+> intervening placement, so the same team keeps its turn without that having to be
+> encoded anywhere. No flag on `DRAW`, and no resurrecting the deleted `SKIP`.
+
+**Victory: first team to 10 cards.**
+
+> **Amended during implementation.** Originally "checked immediately after a correct
+> placement". Ending the game there would mean the winning card was never revealed —
+> the placement would resolve straight into a scores screen. `REVEAL` therefore never
+> ends the game: the winning placement reveals like any other, and the **next `DRAW`**
+> sees a winner and moves to `finished` without consuming a card. The footer's primary
+> reads "See final scores" at that moment rather than "Next song".
 
 **A deck exhausted before anyone reaches 10 still ends the game,** on the standings as
 they stand — the shortfall is not a failure state and nobody plays on. Under the
@@ -151,6 +162,25 @@ and one hypothetical implementation does not justify an abstraction here. Record
 that if iteration 4 ever forces the phase back, it is a reversal with a reason and not
 a rediscovery.
 
+### `reduce` takes the deck
+
+```ts
+reduce(state: GameState, event: GameEvent, deck: Deck): GameState
+```
+
+Judging a placement needs the card's release year, and the reducer had no way to see
+one. Two alternatives were rejected:
+
+- **Put the year, or the verdict, on the event.** This would mean the *hook* looking up
+  the current card's year while the card is still `inPlay` — the exact second route to
+  the answer that the spoiler gate exists to prevent. Decisive, and the reason this
+  isn't a matter of taste.
+- **Keep the deck out and let a selector judge it.** Impossible: whether the card joins
+  the timeline is a state transition, so the verdict has to exist before the state does.
+
+The deck is card data, not I/O, and `selectRevealedCard` and friends already take it.
+The engine still imports nothing but types, and `reduce` is still pure and total.
+
 ### State
 
 Teams are numbered rather than named, so a team has no attributes beyond its cards
@@ -173,9 +203,13 @@ type GameState = {
   /** Index into `timelines`. Meaningless, and ignored, when it is empty. */
   currentTeam: number
   /** Output of the last reveal, for rendering the outcome. Null outside `revealed`. */
-  lastPlacement: { slot: number; correct: boolean } | null
+  lastPlacement: { team: number; slot: number; correct: boolean } | null
 }
 ```
+
+`team` is on `lastPlacement` because the turn has already advanced by the time the
+outcome is rendered — the placement belongs to whoever just played, not to whoever is
+next, and the screen must keep showing the former's timeline through the reveal.
 
 `timelines: []` encodes "timeline off" rather than a separate boolean, so there is no
 pair of fields that can disagree, and team count is `timelines.length` rather than a
@@ -200,11 +234,17 @@ render year, title and artist for each entry, so passing the array down as props
 looking up `deck.cards` in the component becomes the *natural* thing to write rather
 than a mistake. That is the change.
 
-Resolve them **inside the engine** instead: a `selectTimelines()` returning
+Resolve them **inside the engine** instead: `selectTeams()` returns
 `{ year, title, artist }[]` per team. The cost is one selector, and it keeps
 [invariant 1](../AGENTS.md) absolute — which is what makes any violation of it a
 review-stopper instead of a judgement call, and a stray `currentCard` in a component
 looks no different from a harmless placed ID.
+
+**This was worth having.** The first draft of the placement screen passed
+`selectRevealedCard`'s result — a whole `Card`, `spotifyTrackId` included — straight
+into a component as a prop, which is exactly the leak described above and looked
+entirely reasonable while writing it. It is now narrowed to the three display fields
+at the call site.
 
 **`reduce` stays total.** An out-of-range slot, a placement while `idle`, a reveal
 with a slot under the default ruleset: all return the same state reference. A stale
@@ -224,34 +264,46 @@ it does not weaken
   `idle` with it set would render an outcome for a card nobody is playing.
 - `currentTeam` survives, so the team who was mid-turn keeps it — the in-flight card
   is replayed for them.
+- **A placed card missing from the deck rejects the whole save.** Dropping it, as the
+  draw pile does, would silently change that team's score, and a game whose standings
+  moved under the players is worse than a lost save. Deliberately stricter than the
+  pile, where dropping an unplayed card costs nobody anything.
 
 ---
+
+## The screen
+
+**Built.** The layout is specified in
+[08-mobile-ui.md](08-mobile-ui.md#placement-screen--timeline-ruleset); what matters
+here is the rules it encodes.
+
+- **Only the placing team's timeline is on screen**, with a score strip above it for
+  everyone else. Three timelines on a phone leaves none of them a thumb-sized slot.
+  The strip is hidden for a single team, where it says nothing the timeline doesn't.
+- **Selecting a slot is reversible and lives in the component.** Only the confirm
+  reaches the engine. This is what makes the `placed` phase unnecessary.
+- **The staged reveal is resolved.** The card resolves in place and the year is set
+  large and amber — the biggest thing on the placement screen, though nowhere near the
+  paper ruleset's full-screen number. Title and artist no longer land a beat before it:
+  inside a card that size there is no room for the stagger to read, and the placement
+  verdict is what the room is waiting on. A playtest may still overturn this.
+- **A missed tie shows both slots it could have gone in.** The feedback must never
+  imply there was one right answer when there were two.
 
 ## Open questions
 
-- **How much of the staged reveal survives.** The presentation follows the
-  [prototype](#prototype): the card resolves in place, on the timeline, where it was
-  placed. That is **decided**. What is not is whether the current staged beat — title
-  and artist alone, then the year a second later — survives inside the smaller card, or
-  whether correct-or-not has to land first because the placement is now the question
-  the room is waiting on. Worth deciding from a playtest rather than from the mockup.
-- **Whether the timeline is visible during the default ruleset.** It cannot be — there
-  is none — but the round screen now has two quite different layouts, and
-  [08-mobile-ui.md](08-mobile-ui.md) has not been reconciled with the second one.
+- **Whether the verdict should land before the year.** See above — decided by
+  construction, not by evidence. The playtest is what settles it.
 
 ---
 
-## Prototype
+## Prototype — superseded
 
-An interactive mockup of the placement screen exists and its **interaction is adopted**:
-a vertical timeline with years down the left, the gaps between them as full-width
-tappable slots, selection reversible, a confirm resolving it, the reveal landing in
-place on the card, and playback shrinking from 76px to 56px to free the vertical space.
+An interactive mockup drove the design and its interaction was adopted wholesale: the
+vertical timeline, tappable gaps, reversible selection, confirm-to-resolve, reveal in
+place, and the 76px → 56px playback control.
 
-It was built before these rules, and two things in it are now **wrong**:
-
-- It shows one timeline with no teams and no turn.
-- Its wrong-placement feedback points at a single destination, which the tie rule
-  contradicts — two slots can be correct.
-
-Bring it in line before implementing, or work from this document rather than from it.
+**The shipped screen is now the reference.** The mockup was built before the rules were
+settled and never updated: it shows one timeline with no teams or turn, and its
+wrong-placement feedback points at a single destination, which the tie rule
+contradicts. It is not worth maintaining alongside the real thing.

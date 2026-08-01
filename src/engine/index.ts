@@ -9,11 +9,16 @@ export { createGame } from "@/engine/createGame";
 export { deserialize, serialize } from "@/engine/persistence";
 export { reduce } from "@/engine/reduce";
 export {
+  type PlacedCard,
+  type PlacementOutcome,
   type RoundDisplay,
+  selectPlacement,
   selectRevealedCard,
   selectRoundDisplay,
   selectStartOffsetMs,
+  selectTeams,
   selectTrackIdForPlayback,
+  type TeamsDisplay,
 } from "@/engine/selectors";
 export { clearGame, loadGame, saveGame } from "@/engine/storage";
 export {
@@ -21,4 +26,6 @@ export {
   type GameEvent,
   type GameState,
   type Phase,
+  TARGET_SCORE,
+  type Timeline,
 } from "@/engine/types";

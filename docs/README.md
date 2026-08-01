@@ -18,7 +18,7 @@ Development is **iterative**. Each document describes the target design; the
 | [06-iteration-1-plan.md](06-iteration-1-plan.md) | Step-by-step plan for the iteration in progress |
 | [07-deployment.md](07-deployment.md) | Deploying to Firebase Hosting, for phone play |
 | [08-mobile-ui.md](08-mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
-| [09-timeline-ruleset.md](09-timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring. Decided, not built |
+| [09-timeline-ruleset.md](09-timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring |
 
 ## Status
 
@@ -39,10 +39,11 @@ Next: play a real evening against the acceptance criteria in
 [06-iteration-1-plan.md](06-iteration-1-plan.md#acceptance-criteria). The output of
 that playtest is iteration 2's scope.
 
-Iteration 2's rules are now decided and written up in
-[09-timeline-ruleset.md](09-timeline-ruleset.md) — an **optional** in-app timeline, one
-per team. Nothing is built. The rules are settled; what remains open is presentation,
-best answered by a playtest.
+**Iteration 2 is built and unplayed.** The **optional** in-app timeline — one per team,
+round-robin turns, first to 10 cards —
+is specified in [09-timeline-ruleset.md](09-timeline-ruleset.md) and implemented behind
+a "Customise game" button. The paper ruleset remains the default and is unchanged. Not
+yet exercised in a real game with real audio.
 
 ## Non-negotiable context
 

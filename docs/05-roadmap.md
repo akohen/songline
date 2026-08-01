@@ -38,12 +38,16 @@ paper version stays the default.
 
 > Rules, state shape and open questions: [09-timeline-ruleset.md](09-timeline-ruleset.md)
 
+**Built, and not yet played.** Awaiting the same thing iteration 1 is: a real evening.
+
 - Team setup behind a "Customise game" button on the idle round screen
 - One timeline per team, tap-to-place into a slot, confirm to resolve
 - Correctness check, discard on a miss, first team to 10 cards wins
-- Introduce the `Ruleset` abstraction, deferred from iteration 1, now that there are
-  two real rulesets to generalise over
-- Reveal animation: placement resolves visibly before the year is shown
+- ~~Introduce the `Ruleset` abstraction~~ — **dropped.** Two real rulesets exist and
+  the difference between them is entirely `timelines.length === 0`, which the state
+  already encodes. The abstraction would have been a container for one boolean. See
+  [03-architecture.md](03-architecture.md#still-no-ruleset-parameter).
+- Reveal resolves in place on the placed card, not as a full-screen year
 
 **Resolved:** one timeline per *team*, not per player and not shared — a team of one
 covers the solitaire case, so per-player needs no separate mode.
