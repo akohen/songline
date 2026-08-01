@@ -19,61 +19,14 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Deck } from "../src/decks/types.ts";
+import {
+  describeTrack,
+  getAppToken,
+  type SpotifyTrack,
+  spotifyGet,
+} from "./spotifyApp.ts";
 
 const DECKS_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "../src/decks");
-
-type SpotifyTrack = {
-  id: string;
-  name: string;
-  is_playable?: boolean;
-  artists: { name: string }[];
-  album: { name: string; release_date: string };
-};
-
-function loadEnv(): { clientId: string; clientSecret: string } {
-  // .env.local is git-ignored and holds the secret; parsed directly to avoid a
-  // dependency for six lines of work.
-  const envPath = resolve(DECKS_DIR, "../../.env.local");
-  const env = new Map<string, string>();
-  try {
-    for (const line of readFileSync(envPath, "utf8").split("\n")) {
-      const match = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*)$/);
-      if (match?.[1] && match[2] !== undefined) env.set(match[1], match[2].trim());
-    }
-  } catch {
-    // Fall through to process.env.
-  }
-
-  const clientId =
-    process.env.VITE_SPOTIFY_CLIENT_ID ?? env.get("VITE_SPOTIFY_CLIENT_ID");
-  const clientSecret =
-    process.env.SPOTIFY_CLIENT_SECRET ?? env.get("SPOTIFY_CLIENT_SECRET");
-
-  if (!clientId || !clientSecret) {
-    console.error(
-      "Missing credentials. Set VITE_SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET in .env.local",
-    );
-    process.exit(1);
-  }
-  return { clientId, clientSecret };
-}
-
-async function getAppToken(clientId: string, clientSecret: string): Promise<string> {
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "client_credentials",
-      client_id: clientId,
-      client_secret: clientSecret,
-    }),
-  });
-  if (!response.ok) {
-    throw new Error(`Token request failed (${response.status})`);
-  }
-  const data = (await response.json()) as { access_token: string };
-  return data.access_token;
-}
 
 /**
  * Look tracks up one at a time.
@@ -94,26 +47,19 @@ async function fetchTracks(
     const url = new URL(`https://api.spotify.com/v1/tracks/${id}`);
     url.searchParams.set("market", market);
 
-    let response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-
-    if (response.status === 429) {
-      const wait = Number(response.headers.get("retry-after") ?? "2");
-      console.log(`  rate limited, waiting ${wait}s…`);
-      await new Promise((r) => setTimeout(r, (wait + 1) * 1000));
-      response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-    }
+    const { status, body } = await spotifyGet(url, token);
 
     // 404 is a real result — a bad ID or a track pulled from the catalogue — so it
     // is recorded as "not found" rather than aborting the whole run.
-    if (response.status === 404 || response.status === 400) {
+    if (status === 404 || status === 400) {
       results.set(id, null);
       continue;
     }
-    if (!response.ok) {
-      throw new Error(`Track lookup failed for ${id} (${response.status})`);
+    if (status !== 200) {
+      throw new Error(`Track lookup failed for ${id} (${status})`);
     }
 
-    results.set(id, (await response.json()) as SpotifyTrack);
+    results.set(id, body as SpotifyTrack);
   }
 
   return results;
@@ -151,15 +97,8 @@ function checkStructure(deck: Deck, filename: string): string[] {
   return errors;
 }
 
-function describe(track: SpotifyTrack | null): string {
-  if (!track) return "NOT FOUND";
-  const artists = track.artists.map((a) => a.name).join(", ");
-  return `${track.name} — ${artists} [${track.album.name}]`;
-}
-
 async function main(): Promise<void> {
-  const { clientId, clientSecret } = loadEnv();
-  const token = await getAppToken(clientId, clientSecret);
+  const token = await getAppToken();
 
   const files = readdirSync(DECKS_DIR).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
@@ -194,10 +133,10 @@ async function main(): Promise<void> {
         unplayable += 1;
         failed = true;
         console.log(
-          `  UNPLAYABLE  ${card.year}  ${card.title} — ${card.artist}  (${card.spotifyTrackId}: ${describe(track)})`,
+          `  UNPLAYABLE  ${card.year}  ${card.title} — ${card.artist}  (${card.spotifyTrackId}: ${track ? describeTrack(track) : "NOT FOUND"})`,
         );
       } else {
-        console.log(`  ok  ${card.year}  ${describe(track)}`);
+        console.log(`  ok  ${card.year}  ${track ? describeTrack(track) : "NOT FOUND"}`);
       }
     }
 

@@ -165,8 +165,9 @@ difficulty rating, deck generation by mood) that depends on them.
 
 - **Rate limiting** is a rolling 30-second window; the API returns `429` with a
   `Retry-After` header. Our request volume is trivial (one track lookup per round),
-  but deck validation over hundreds of tracks must batch (`GET /v1/tracks` takes up
-  to 50 IDs) and honour `Retry-After`.
+  and deck validation honours `Retry-After`. Note that the **bulk** track endpoint
+  (`GET /v1/tracks?ids=`) returns `403` for this app, so validation cannot batch and
+  looks tracks up one at a time via `GET /v1/tracks/{id}`.
 - **Track availability changes.** Tracks are removed from the catalogue or become
   market-restricted. Decks rot, hence the validation script.
 - **One active playback stream per account.** Two people cannot host simultaneously

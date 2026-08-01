@@ -14,7 +14,8 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "validate:decks": "node --experimental-strip-types scripts/validate-decks.ts",
-    "deploy": "pnpm build && firebase deploy --only hosting"
+    "deploy": "pnpm build && firebase deploy --only hosting",
+    "search:tracks": "node --experimental-strip-types scripts/search-tracks.ts"
   },
   "dependencies": {
     "react": "^19.2.8",
