@@ -104,6 +104,16 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     void playback.resume();
   }, [deck, playback, resetEndTracking]);
 
+  const skipForward = useCallback(() => {
+    if (!playbackState) return;
+    const { positionMs, durationMs } = playbackState;
+    const target =
+      durationMs > 0
+        ? Math.min(positionMs + 15000, durationMs - 500)
+        : positionMs + 15000;
+    void playback.seek(target);
+  }, [playback, playbackState]);
+
   return {
     game,
     playbackState,
@@ -114,5 +124,6 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     restart,
     togglePlayPause,
     replay,
+    skipForward,
   };
 }

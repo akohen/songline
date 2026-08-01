@@ -32,6 +32,7 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
     restart,
     togglePlayPause,
     replay,
+    skipForward,
   } = useGame(deck, playback);
 
   // Nobody wants the phone locking mid-round while everyone argues about a year.
@@ -95,6 +96,7 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
           isPlaying={isPlaying}
           onReplay={replay}
           onToggle={togglePlayPause}
+          onSkipForward={skipForward}
         />
       )}
 
@@ -142,25 +144,45 @@ type PlayControlProps = {
   isPlaying: boolean;
   onReplay: () => void;
   onToggle: () => void;
+  onSkipForward: () => void;
 };
 
 /** Playback state and its control in one element. Replay appears only at the end. */
-function PlayControl({ hasEnded, isPlaying, onReplay, onToggle }: PlayControlProps) {
+function PlayControl({
+  hasEnded,
+  isPlaying,
+  onReplay,
+  onToggle,
+  onSkipForward,
+}: PlayControlProps) {
   const label = hasEnded ? "Replay" : isPlaying ? "Pause" : "Play";
   const icon = hasEnded ? "↻" : isPlaying ? "❚❚" : "▶";
 
   return (
     <div className="play-control">
-      <button
-        type="button"
-        className={`play-control__button ${
-          isPlaying && !hasEnded ? "play-control__button--playing" : ""
-        }`}
-        aria-label={label}
-        onClick={hasEnded ? onReplay : onToggle}
-      >
-        <span aria-hidden="true">{icon}</span>
-      </button>
+      <div className="play-control__row">
+        {/* Mirrors the forward button's footprint so the play button stays centered. */}
+        <span className="play-control__spacer" aria-hidden="true" />
+        <button
+          type="button"
+          className={`play-control__button ${
+            isPlaying && !hasEnded ? "play-control__button--playing" : ""
+          }`}
+          aria-label={label}
+          onClick={hasEnded ? onReplay : onToggle}
+        >
+          <span aria-hidden="true">{icon}</span>
+        </button>
+        <button
+          type="button"
+          className="play-control__forward"
+          aria-label="Skip forward 15 seconds"
+          disabled={hasEnded}
+          onClick={onSkipForward}
+        >
+          <span aria-hidden="true">+15</span>
+        </button>
+      </div>
       <span className="play-control__label">{label}</span>
     </div>
   );

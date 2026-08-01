@@ -79,7 +79,7 @@ date comparison, and not something a script can decide.
 5. **Avoid**: compilations-only tracks, "Sped Up"/"Slowed" versions, re-recordings
    (e.g. Taylor's Versions) unless the re-recording year is what you intend, and
    anything whose release date is genuinely disputed.
-6. **One track per artist per deck**, as a default, to keep variety.
+6. **One track per artist per deck**, as a default, to keep variety. This rule can be ignored for thematic decks.
 
 ### Deck size and spread
 
