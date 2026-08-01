@@ -1,0 +1,210 @@
+{
+  "id": "classics-international",
+  "name": "International Classics",
+  "description": "Widely known anglophone pop and rock, 1965–2019",
+  "language": "en",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "2PzU4IB8Dr6mxV3lHuaG34",
+      "year": 1965,
+      "title": "(I Can't Get No) Satisfaction",
+      "artist": "The Rolling Stones"
+    },
+    {
+      "spotifyTrackId": "5t9KYe0Fhd5cW6UYT4qP8f",
+      "year": 1966,
+      "title": "Good Vibrations",
+      "artist": "The Beach Boys",
+      "notes": "Single released Oct 1966; available copy sits on the Smiley Smile remaster."
+    },
+    {
+      "spotifyTrackId": "7s25THrKz86DM225dOYwnr",
+      "year": 1967,
+      "title": "Respect",
+      "artist": "Aretha Franklin"
+    },
+    {
+      "spotifyTrackId": "0aym2LBJBk9DAYuHHutrIl",
+      "year": 1968,
+      "title": "Hey Jude",
+      "artist": "The Beatles",
+      "notes": "Original 1968 recording, remastered. Avoid the 'Love' mashup — different audio."
+    },
+    {
+      "spotifyTrackId": "0hCB0YR03f6AmQaHbwWDe8",
+      "year": 1969,
+      "title": "Whole Lotta Love",
+      "artist": "Led Zeppelin"
+    },
+    {
+      "spotifyTrackId": "0vFOzaXqZHahrZp6enQwQb",
+      "year": 1973,
+      "title": "Money",
+      "artist": "Pink Floyd"
+    },
+    {
+      "spotifyTrackId": "2JiDi0qAXsPwhPqA2qaKGt",
+      "year": 1975,
+      "title": "Bohemian Rhapsody",
+      "artist": "Queen"
+    },
+    {
+      "spotifyTrackId": "0GjEhVFGZW8afUYGChu3Rr",
+      "year": 1976,
+      "title": "Dancing Queen",
+      "artist": "ABBA"
+    },
+    {
+      "spotifyTrackId": "4UDmDIqJIbrW0hMBQMFOsM",
+      "year": 1977,
+      "title": "Stayin' Alive",
+      "artist": "Bee Gees"
+    },
+    {
+      "spotifyTrackId": "7Jh1bpe76CNTCgdgAdBw4Z",
+      "year": 1977,
+      "title": "\"Heroes\"",
+      "artist": "David Bowie"
+    },
+    {
+      "spotifyTrackId": "7J1uxwnxfQLu4APicE5Rnj",
+      "year": 1982,
+      "title": "Billie Jean",
+      "artist": "Michael Jackson",
+      "notes": "Thriller released Nov 1982; issued as a single Jan 1983. Album year used."
+    },
+    {
+      "spotifyTrackId": "1JSTJqkT5qHq8MDJnJbRE1",
+      "year": 1983,
+      "title": "Every Breath You Take",
+      "artist": "The Police"
+    },
+    {
+      "spotifyTrackId": "6sby78fghipoXHQLeeZFFH",
+      "year": 1984,
+      "title": "When Doves Cry",
+      "artist": "Prince"
+    },
+    {
+      "spotifyTrackId": "1ZPlNanZsJSPK5h9YZZFbZ",
+      "year": 1984,
+      "title": "Like a Virgin",
+      "artist": "Madonna"
+    },
+    {
+      "spotifyTrackId": "2WfaOiMkCvy7F5fcp2zZ8L",
+      "year": 1985,
+      "title": "Take on Me",
+      "artist": "a-ha"
+    },
+    {
+      "spotifyTrackId": "7snQQk1zcKl8gZ92AnueZW",
+      "year": 1987,
+      "title": "Sweet Child O' Mine",
+      "artist": "Guns N' Roses"
+    },
+    {
+      "spotifyTrackId": "4CeeEOM32jQcH3eN9Q2dGj",
+      "year": 1991,
+      "title": "Smells Like Teen Spirit",
+      "artist": "Nirvana"
+    },
+    {
+      "spotifyTrackId": "4eHbdreAnSOrDDsFfc4Fpm",
+      "year": 1992,
+      "title": "I Will Always Love You",
+      "artist": "Whitney Houston",
+      "notes": "Dolly Parton wrote and released it in 1974; this is the 1992 recording."
+    },
+    {
+      "spotifyTrackId": "1qPbGZqppFwLwcBC1JQ6Vr",
+      "year": 1995,
+      "title": "Wonderwall",
+      "artist": "Oasis"
+    },
+    {
+      "spotifyTrackId": "3MjUtNVVq3C8Fn0MP3zhXa",
+      "year": 1998,
+      "title": "...Baby One More Time",
+      "artist": "Britney Spears",
+      "notes": "Single released Oct 1998; the album followed in Jan 1999."
+    },
+    {
+      "spotifyTrackId": "48UPSzbZjgc449aqz8bxox",
+      "year": 1999,
+      "title": "Californication",
+      "artist": "Red Hot Chili Peppers"
+    },
+    {
+      "spotifyTrackId": "3AJwUDP919kvQ9QcozQPxg",
+      "year": 2000,
+      "title": "Yellow",
+      "artist": "Coldplay"
+    },
+    {
+      "spotifyTrackId": "0DiWol3AO6WpXZgp0goxAV",
+      "year": 2000,
+      "title": "One More Time",
+      "artist": "Daft Punk",
+      "notes": "Single released Nov 2000; Discovery followed in 2001."
+    },
+    {
+      "spotifyTrackId": "5Z01UMMf7V1o0MzF86s6WJ",
+      "year": 2002,
+      "title": "Lose Yourself",
+      "artist": "Eminem"
+    },
+    {
+      "spotifyTrackId": "1L5tZi0izXsi5Kk5OJf4W0",
+      "year": 2006,
+      "title": "Rehab",
+      "artist": "Amy Winehouse"
+    },
+    {
+      "spotifyTrackId": "5R9a4t5t5O0IsznsrKPVro",
+      "year": 2008,
+      "title": "Single Ladies (Put a Ring on It)",
+      "artist": "Beyoncé"
+    },
+    {
+      "spotifyTrackId": "4OSBTYWVwsQhGLF9NHvIbR",
+      "year": 2010,
+      "title": "Rolling in the Deep",
+      "artist": "Adele",
+      "notes": "Single released Nov 2010; the album 21 followed in 2011."
+    },
+    {
+      "spotifyTrackId": "1qDrWA6lyx8cLECdZE7TV7",
+      "year": 2011,
+      "title": "Somebody That I Used To Know",
+      "artist": "Gotye"
+    },
+    {
+      "spotifyTrackId": "60nZcImufyMA1MKQY3dcCH",
+      "year": 2013,
+      "title": "Happy",
+      "artist": "Pharrell Williams",
+      "notes": "From the Despicable Me 2 soundtrack, 2013; G I R L followed in 2014."
+    },
+    {
+      "spotifyTrackId": "32OlwWuMpZ6b0aN2RZOeMS",
+      "year": 2014,
+      "title": "Uptown Funk",
+      "artist": "Mark Ronson feat. Bruno Mars",
+      "notes": "Single released Nov 2014; Uptown Special followed in 2015."
+    },
+    {
+      "spotifyTrackId": "7qiZfU4dY1lWllzX7mPBI3",
+      "year": 2017,
+      "title": "Shape of You",
+      "artist": "Ed Sheeran"
+    },
+    {
+      "spotifyTrackId": "2Fxmhks0bxGSBdJ92vM42m",
+      "year": 2019,
+      "title": "bad guy",
+      "artist": "Billie Eilish"
+    }
+  ]
+}

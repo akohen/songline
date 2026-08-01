@@ -19,9 +19,16 @@ Development is **iterative**. Each document describes the target design; the
 
 ## Status
 
-Specs reviewed. Iteration 1 planned. No application code exists yet — the next
-action is the two de-risking spikes in
-[06-iteration-1-plan.md](06-iteration-1-plan.md#step-0--de-risk-before-building).
+**Iteration 1 is code-complete and awaiting its first playtest.**
+
+Done: scaffold, engine (pure, spoiler-gated), PKCE auth with silent refresh,
+Web Playback SDK adapter, Media Session suppression, a 32-card deck and its
+validator, host setup checklist, and the round screen. Both de-risking spikes
+resolved — suppression works, playback latency is 136 ms.
+
+Next: play a real evening against the acceptance criteria in
+[06-iteration-1-plan.md](06-iteration-1-plan.md#acceptance-criteria). The output of
+that playtest is iteration 2's scope.
 
 ## Non-negotiable context
 

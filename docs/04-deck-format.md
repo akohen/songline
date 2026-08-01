@@ -5,14 +5,26 @@ of truth for release years**. Spotify supplies audio and nothing else.
 
 ## Why decks are curated, not generated
 
-`album.release_date` from the Spotify API answers "when was this *release* put out",
-not "when did this song come out". For a 2011 remaster of a 1969 album it returns
-`2011`. Compilations, greatest-hits, live albums, deluxe reissues and territory
-re-releases all produce the same failure. The error is silent: the API returns a
-plausible year that is simply wrong, and the game would score players against it.
+A card is just **the year we decide** plus **the ID of the audio to play**. Nothing
+else is needed, and Spotify's `album.release_date` is not consulted at any point —
+not at runtime, not at validation.
+
+That is deliberate rather than incidental. `release_date` answers "when was this
+*release* put out", not "when did this song come out": Hey Jude comes back as 1973
+or 2006 depending on which compilation the copy sits on, and remasters, deluxe
+editions and reissues all behave the same way. Rather than reconcile against a field
+that means something different from what we need, we ignore it.
 
 Curation also buys control over difficulty and lets us guarantee the deck is
 actually playable.
+
+### What the curator does have to check
+
+The track ID must point to a recording that **matches the year**. A live cut, a
+remix, a re-recording or a "Love"-style mashup will sound wrong for the era players
+are being asked to place, even when the year on the card is correct. This is a
+judgement made by reading the track and album names when choosing the ID — not a
+date comparison, and not something a script can decide.
 
 ## Schema
 
@@ -46,12 +58,12 @@ actually playable.
 | `year` | Four-digit integer. Year of **first commercial release** of *this recording*. |
 | `title` / `artist` | Display only, shown at reveal. Never used for matching. |
 | `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. **Omit in iteration 1** — every song starts at 0:00 by decision; the field is honoured but unused. |
-| `notes` | Free text for the curator. Record *why* the year differs from Spotify's. |
+| `notes` | Free text for the curator. Useful for recording a judgement call — an ambiguous year, or why a particular recording was chosen. |
 
 ## Curation rules
 
-1. **Verify the year against a non-Spotify source.** Wikipedia, Discogs or MusicBrainz.
-   Record the discrepancy in `notes` whenever Spotify disagrees.
+1. **Set the year from a source you trust** — Wikipedia, Discogs or MusicBrainz.
+   Whatever you write is what the game uses; there is nothing to reconcile it against.
 2. **Year of the recording, not the song.** A 1994 cover of a 1965 song is 1994.
    A live 2003 recording of a 1978 song is 2003 — or exclude it; live versions are
    ambiguous and frustrate players.
@@ -70,10 +82,14 @@ A script checks each deck and exits non-zero on error:
 - Schema conformance and unique track IDs.
 - `year` is between 1900 and the current year.
 - Every `spotifyTrackId` resolves via `GET /v1/tracks?market=…` and comes back
-  playable — catching removed tracks and market restrictions before game night
-  rather than during it.
-- Warn (not fail) when `year` differs from the Spotify `album.release_date` year
-  and `notes` is empty — that combination usually means the year was never checked.
+  playable — catching typos, removed tracks and market restrictions before game
+  night rather than during it.
+
+It does **not** compare `year` against `album.release_date`. Those two fields answer
+different questions, so a mismatch carries no information; on a representative deck
+it fires on roughly a quarter of the cards and trains you to ignore the output. The
+script prints the resolved track and album name instead, so a curator can eyeball
+that the ID points at the recording they meant.
 
 Validation requires a Spotify token, so it runs as an explicit `npm run
 validate:decks` rather than on every build.

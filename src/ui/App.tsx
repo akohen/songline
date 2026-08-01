@@ -1,9 +1,9 @@
 import { checkOrigin, getRedirectUri } from "@/auth/config";
 import { useAuth } from "@/auth/useAuth";
 import { AuthErrorScreen } from "@/ui/AuthErrorScreen";
+import { GameSession } from "@/ui/GameSession";
 import { LoginScreen } from "@/ui/LoginScreen";
 import { NotPremiumScreen } from "@/ui/NotPremiumScreen";
-import { PlaybackSpike } from "@/ui/PlaybackSpike";
 import { WrongOriginScreen } from "@/ui/WrongOriginScreen";
 
 /**
@@ -52,7 +52,7 @@ export function App() {
               Sign out
             </button>
           </p>
-          <PlaybackSpike getAccessToken={getAccessToken} />
+          <GameSession getAccessToken={getAccessToken} />
         </>
       );
     }

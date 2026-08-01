@@ -1,0 +1,33 @@
+{
+  "id": "test-deck",
+  "name": "Test Deck (4 songs)",
+  "description": "Short deck for trying the app out without hearing the real deck's songs",
+  "language": "en",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "7pKfPomDEeI4TPT6EOYjn9",
+      "year": 1971,
+      "title": "Imagine",
+      "artist": "John Lennon"
+    },
+    {
+      "spotifyTrackId": "37ZJ0p5Jm13JPevGcx4SkF",
+      "year": 1986,
+      "title": "Livin' On A Prayer",
+      "artist": "Bon Jovi"
+    },
+    {
+      "spotifyTrackId": "1Je1IMUlBXcx1Fz0WE7oPT",
+      "year": 1996,
+      "title": "Wannabe",
+      "artist": "Spice Girls"
+    },
+    {
+      "spotifyTrackId": "3dPQuX8Gs42Y7b454ybpMR",
+      "year": 2003,
+      "title": "Seven Nation Army",
+      "artist": "The White Stripes"
+    }
+  ]
+}

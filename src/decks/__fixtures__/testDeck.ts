@@ -7,8 +7,10 @@ import type { Deck } from "@/decks/types";
  * and a plausible-looking ID would invite someone to assume it was validated.
  */
 export const testDeck: Deck = {
-  id: "test-deck",
-  name: "Test Deck",
+  // Distinct from the bundled "test-deck" in src/decks, which is a real playable
+  // deck. This one is never loaded by the app.
+  id: "fixture-deck",
+  name: "Engine Fixture Deck",
   description: "Fixture for engine tests",
   language: "en",
   market: "FR",
