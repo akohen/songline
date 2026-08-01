@@ -62,9 +62,9 @@ Players maintain the timeline physically, with paper cards. The app is only a
 2. Host taps **Start**. Playback begins. The screen shows nothing identifying —
    only a round number and playback controls.
 3. Players argue, then physically place a blank card in their timeline.
-4. Host taps **Reveal**. The **year** appears first and large; title and artist fade
-   in about a second later. The year settles the argument, and holding the title
-   back briefly keeps that moment clean — one tap, staged presentation, not two taps.
+4. Host taps **Reveal**. **Title and artist** appear first, alone; the **year**
+   follows about a second later, large. Leading with the song lets the room register
+   what it is before the number lands — one tap, staged presentation, not two taps.
 5. Players write the year on their card. Host taps **Next song**, and the song keeps
    playing until they do.
 

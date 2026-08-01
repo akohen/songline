@@ -189,10 +189,10 @@ pinned to the bottom.
 │          Round 3             │  1.5rem, weight 700
 │       12 songs left          │  muted
 │                              │
-│            ╭───╮             │
-│            │ ❚❚│             │  76px circle, ring pulses while playing
-│            ╰───╯             │
-│            Pause             │  text label beneath
+│         ╭───╮ ╭──╮           │
+│         │ ❚❚│ │+15│         │  76px circle, ring pulses while playing;
+│         ╰───╯ ╰──╯           │  forward button skips 15s, disabled at song end
+│            Pause             │  text label beneath the circle only
 │                              │
 ├──────────────────────────────┤
 │  ┌────────────────────────┐  │
@@ -208,14 +208,14 @@ pinned to the bottom.
 ├──────────────────────────────┤
 │                              │
 │                              │
-│          1975                │  clamp(4.5rem, 22vw, 9rem), amber
-│                              │
-│    Bohemian Rhapsody         │  fades in ~1s later
+│    Bohemian Rhapsody         │
 │         Queen                │  muted
 │                              │
-│            ╭───╮             │
-│            │ ❚❚│             │  same centred control
-│            ╰───╯             │
+│          1975                │  clamp(4.5rem, 22vw, 9rem), amber, fades in ~1s later
+│                              │
+│         ╭───╮ ╭──╮           │
+│         │ ❚❚│ │+15│         │  same centred control, forward button alongside
+│         ╰───╯ ╰──╯           │
 ├──────────────────────────────┤
 │  ┌────────────────────────┐  │
 │  │      Next song         │  │  PRIMARY
@@ -223,8 +223,8 @@ pinned to the bottom.
 └──────────────────────────────┘
 ```
 
-The staged reveal — year first, title and artist about a second later — is specified
-in [01-game-design.md](01-game-design.md) and is preserved. Under
+The staged reveal — title and artist first, the year about a second later — is
+specified in [01-game-design.md](01-game-design.md) and is preserved. Under
 `prefers-reduced-motion` both appear at once.
 
 **Primary action by phase** — exactly one at a time:
@@ -279,8 +279,9 @@ weak year signal we get nothing for giving away.
 
 ### Playback control — centred, and doubles as the indicator
 
-A single circular button in the middle of the screen. Its ring pulses while audio
-plays and rests when paused, so it is both the state indicator and the control.
+A circular button in the middle of the screen, with a smaller **+15s forward**
+button beside it. The circle's ring pulses while audio plays and rests when paused,
+so it is both the state indicator and the control.
 
 **It is deliberately far from the footer.** In the first implementation Pause sat
 directly above Reveal, which invited mis-taps on the one button you least want to
@@ -290,6 +291,10 @@ Its icon and label follow playback state: `▶ Play`, `❚❚ Pause`, or `↻ Re
 `hasEnded`. The label is text beneath the circle, not icon-only — an unlabelled glyph
 is guessy, and there is ample room. Ring animation is disabled under
 `prefers-reduced-motion`; the button keeps working.
+
+The forward button (`aria-label="Skip forward 15 seconds"`) jumps playback ahead 15s
+and is disabled once `hasEnded` — Replay already covers "the song is over," so
+skipping forward past the end has nothing to do.
 
 ### Other screens
 

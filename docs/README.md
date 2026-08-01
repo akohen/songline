@@ -24,9 +24,10 @@ Development is **iterative**. Each document describes the target design; the
 **Iteration 1 is code-complete and awaiting its first playtest.**
 
 Done: scaffold, engine (pure, spoiler-gated), PKCE auth with silent refresh,
-Web Playback SDK adapter, Media Session suppression, a 32-card deck and its
-validator, host setup checklist, and the round screen. Both de-risking spikes
-resolved — suppression works, playback latency is 136 ms.
+Web Playback SDK adapter, Media Session suppression, three bundled decks (a 4-card
+test deck, a 67-card classics deck, a 308-card Hitster Rock deck) with a deck-select
+screen and the validator, host setup checklist, and the round screen. Both
+de-risking spikes resolved — suppression works, playback latency is 136 ms.
 
 Deployed to Firebase Hosting for phone play ([07-deployment.md](07-deployment.md)).
 
