@@ -13,7 +13,20 @@ scoring themselves with paper cards.
 Two unknowns can invalidate the design. Both are timeboxed throwaway spikes in a
 single scratch page, not production code. **Do these first.**
 
-### S0.1 — Media Session suppression (2h, blocking)
+### S0.1 — Media Session suppression — ✅ RESOLVED, suppression works
+
+Verified 2026-08-01 on macOS/Chrome. With the Spotify desktop app closed, Control
+Centre shows "Song Timeline / Guess the year". With it open, the desktop app
+publishes the real track and overrides us. Full result in
+[02-spotify-constraints.md](02-spotify-constraints.md#spike-result--media-session-suppression-works-2026-08-01).
+
+**The round screen is unblocked**, and the host setup checklist is promoted from
+advisory to required: quitting Spotify elsewhere is the only mitigation for the one
+surface we cannot control.
+
+Original spike brief follows.
+
+
 
 The premise "nothing on screen identifies the song" is worthless if macOS Now Playing,
 the Windows media overlay or the browser's own media controls display the title
@@ -32,7 +45,22 @@ setup: the host runs fullscreen with notifications suppressed (macOS Do Not Dist
 and the checklist in S5.1 becomes load-bearing rather than advisory. Decide this
 before writing the round UI, because it changes what that screen promises.
 
-### S0.2 — SDK playback smoke test (1h, blocking)
+### S0.2 — SDK playback smoke test — ✅ RESOLVED
+
+Verified 2026-08-01: **tap → play accepted in 136 ms**, and `position_ms` correctly
+honours a start offset.
+
+136 ms is fast enough that the Draw button needs no loading state — one less thing
+for the round screen to handle.
+
+**Decision: iteration 1 starts every song at 0:00.** Offsets are proven to work but
+add curation effort per card for no benefit yet. This requires no code: cards simply
+omit `startOffsetMs`, and `selectStartOffsetMs` already returns 0 for those — so the
+capability stays live and untouched until a later iteration populates the field.
+
+Original spike brief follows.
+
+
 
 - PKCE login → SDK init → device appears → `PUT /v1/me/player/play` with
   `device_id`, `uris`, and `position_ms`.
@@ -109,7 +137,9 @@ Curation is human work with no code dependency — it can run in parallel from d
 Built against `FakePlaybackAdapter` throughout.
 
 - **Host setup checklist** — close Spotify elsewhere, screenless speaker, don't cast.
-  Not decoration: it closes the leak surfaces we cannot close in code.
+  Not decoration, and no longer merely advisory: the S0.1 spike proved that a running
+  Spotify desktop app puts the answer in macOS Control Centre, and that no code of
+  ours can prevent it. Quitting Spotify is the mitigation.
 - **Deck select** — trivial with one deck, but keeps the screen from being retrofitted
 - **Round screen** — round number, cards remaining, play/pause, replay, Reveal, and
   Start/Next song. Nothing else: no album art, no waveform, no tab-title updates.

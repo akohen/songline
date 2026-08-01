@@ -3,6 +3,7 @@ import { useAuth } from "@/auth/useAuth";
 import { AuthErrorScreen } from "@/ui/AuthErrorScreen";
 import { LoginScreen } from "@/ui/LoginScreen";
 import { NotPremiumScreen } from "@/ui/NotPremiumScreen";
+import { PlaybackSpike } from "@/ui/PlaybackSpike";
 import { WrongOriginScreen } from "@/ui/WrongOriginScreen";
 
 /**
@@ -10,7 +11,7 @@ import { WrongOriginScreen } from "@/ui/WrongOriginScreen";
  * with playback — see docs/06-iteration-1-plan.md.
  */
 export function App() {
-  const { state, login, logout } = useAuth();
+  const { state, login, logout, getAccessToken } = useAuth();
 
   switch (state.status) {
     case "loading":
@@ -43,17 +44,16 @@ export function App() {
       }
 
       return (
-        <section>
-          <h1>Song Timeline</h1>
+        <>
           <p>
             Signed in as {state.profile.display_name ?? state.profile.id} · Premium ·
-            market {state.profile.country}
+            market {state.profile.country} ·{" "}
+            <button type="button" onClick={logout}>
+              Sign out
+            </button>
           </p>
-          <p>Next up: playback and the round screen.</p>
-          <button type="button" onClick={logout}>
-            Sign out
-          </button>
-        </section>
+          <PlaybackSpike getAccessToken={getAccessToken} />
+        </>
       );
     }
   }

@@ -45,7 +45,7 @@ actually playable.
 | `spotifyTrackId` | Base-62 track ID, not a URI or URL. Unique within the deck, and doubles as the card's identity for "already played" tracking — a separate card ID would be bookkeeping with no payoff. |
 | `year` | Four-digit integer. Year of **first commercial release** of *this recording*. |
 | `title` / `artist` | Display only, shown at reveal. Never used for matching. |
-| `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. |
+| `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. **Omit in iteration 1** — every song starts at 0:00 by decision; the field is honoured but unused. |
 | `notes` | Free text for the curator. Record *why* the year differs from Spotify's. |
 
 ## Curation rules

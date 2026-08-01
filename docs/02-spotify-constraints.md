@@ -90,15 +90,44 @@ fighting a stack that is designed to display exactly that. Known leak surfaces:
 |---|---|---|
 | Our own UI | Controlled | Never render card metadata before REVEALED. Enforce in the engine, not by UI discipline. |
 | Browser tab title | Yes, if we set it | Keep the title static |
-| OS media notification / lock screen / macOS Now Playing | Yes | Override the Media Session API metadata with neutral placeholders |
+| OS media notification / lock screen / macOS Now Playing | No — **mitigated** | Media Session metadata overridden with placeholders; verified working, see below |
 | Bluetooth speaker or car head unit display | Yes | Unfixable. Warn the host to use a plain analogue/BT speaker without a screen |
 | Spotify app on other devices (same account) | Yes | Unfixable. Host should close other Spotify clients; warn in setup |
 | Spotify Connect target device screen (mechanism B) | Yes | Why mechanism B is a fallback only |
 | Spotify "Recently played" / listening history | After the fact | Harmless mid-game |
 
-The Media Session override is the one non-obvious piece of engineering here: the
-Web Playback SDK populates `navigator.mediaSession.metadata` itself, so we must
-re-set it after every track change and verify it sticks.
+### Spike result — Media Session suppression WORKS (2026-08-01)
+
+Verified on macOS 24.6 / Chrome, by inspecting Control Centre during playback:
+
+- **Spotify desktop app closed** → Now Playing reads "Song Timeline / Guess the
+  year" with the browser icon. **Suppression holds. No leak.**
+- **Spotify desktop app open** → Now Playing shows the real title, artist and album
+  art.
+
+The leak is therefore the *other Spotify client on the same account*, not our web
+player. The desktop app mirrors account-wide playback state and publishes it to the
+OS, overriding what our page set. This is the already-known "another Spotify client"
+surface, not a new one, and no client-side code can close it — the other app is
+outside our process.
+
+**Consequence: the host setup checklist is load-bearing, not advisory.** Quitting
+Spotify everywhere else is the mitigation, and it is the single most important
+setup step. The round screen must not ship without it.
+
+The suppression implementation earns its place: re-asserting on every
+`player_state_changed` and after each `playTrack` is what produces the clean result
+above. Trapping `mediaSession.metadata` writes via `Object.defineProperty` is not
+needed.
+
+Two findings that stand regardless:
+
+- **Do Not Disturb does not hide the Now Playing panel** — it suppresses
+  notifications, not that widget. Never a viable fallback.
+- **Mobile is materially worse than desktop.** Control Centre needs a deliberate
+  click, whereas Android renders a media notification on the lock screen and iOS
+  shows Now Playing there automatically — passively visible, no interaction needed.
+  Another reason iteration 1 hosts on a desktop machine.
 
 **Host setup checklist** (surface this in the app before the first round): close
 Spotify on other devices, use a screenless speaker, do not cast to a TV.
