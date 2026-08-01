@@ -360,6 +360,7 @@ code {
   color: var(--accent);
   /* Digits must not jitter as the number changes. */
   font-variant-numeric: tabular-nums;
+  animation: fade-in 0.4s ease 0.9s both;
 }
 
 .reveal__track {
@@ -369,10 +370,6 @@ code {
 
 .reveal__artist {
   color: var(--text-muted);
-}
-
-.reveal__details {
-  animation: fade-in 0.4s ease 0.9s both;
 }
 
 @keyframes fade-in {

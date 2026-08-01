@@ -70,13 +70,13 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
       {started ? (
         revealed ? (
           <div className="reveal">
-            <div className="reveal__year">{revealed.year}</div>
-            {/* Year lands first and alone; the rest follows about a second later, so
-                the moment the argument is settled stays uncluttered. */}
+            {/* Title and artist land first and alone; the year follows about a second
+                later, so the room can register the song before the number lands. */}
             <div className="reveal__details">
               <div className="reveal__track">{revealed.title}</div>
               <div className="reveal__artist">{revealed.artist}</div>
             </div>
+            <div className="reveal__year">{revealed.year}</div>
           </div>
         ) : (
           <div className="round__number">Round {display.round}</div>
