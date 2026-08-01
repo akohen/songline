@@ -16,6 +16,7 @@ Development is **iterative**. Each document describes the target design; the
 | [04-deck-format.md](04-deck-format.md) | Schema and curation rules for song decks |
 | [05-roadmap.md](05-roadmap.md) | Iteration plan |
 | [06-iteration-1-plan.md](06-iteration-1-plan.md) | Step-by-step plan for the iteration in progress |
+| [07-deployment.md](07-deployment.md) | Deploying to Firebase Hosting, for phone play |
 
 ## Status
 

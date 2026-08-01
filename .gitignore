@@ -4,5 +4,21 @@ dist
 
 .env
 .env.local
+.env.*.local
+
+.firebase
+
+# Firebase agent-skill packs written by `firebase init` — 88 files of docs for
+# products this project does not use. Regenerable tooling, not project source.
+.agents/
+skills-lock.json
+
+# Personal editor/agent permissions. A shared .claude/settings.json would still
+# be tracked.
+.claude/settings.local.json
+
+# Symlinks into .agents/. Committing them would leave dangling links in any clone
+# that does not have the ignored target.
+.claude/skills/
 
 .DS_Store
