@@ -433,6 +433,19 @@ code {
   flex-shrink: 0;
 }
 
+.timeline-round__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.timeline-round__actions .btn--primary {
+  flex: 2;
+}
+
+.timeline-round__actions .btn--tertiary {
+  flex: 1;
+}
+
 /* Compact playback: the 76px circle and its label would crowd out the timeline. */
 .play-control--compact {
   margin-top: 0;

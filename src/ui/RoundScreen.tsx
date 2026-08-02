@@ -129,13 +129,9 @@ export function RoundScreen({
           {teams.timelines.length > 1 && (
             <div className="round__number">Team {placingTeam + 1}</div>
           )}
-          <p className="round__meta">
-            {outcome
-              ? outcome.correct
-                ? "Placed."
-                : "Discarded."
-              : "Where does this song go?"}
-          </p>
+          {outcome && (
+            <p className="round__meta">{outcome.correct ? "Placed." : "Discarded."}</p>
+          )}
         </div>
 
         <PlayControl
@@ -172,7 +168,7 @@ export function RoundScreen({
 
         <div className="footer">
           {!outcome && (
-            <>
+            <div className="timeline-round__actions">
               <button
                 type="button"
                 className="btn btn--primary"
@@ -188,7 +184,7 @@ export function RoundScreen({
               <button type="button" className="btn btn--tertiary" onClick={nextSong}>
                 Skip this song
               </button>
-            </>
+            </div>
           )}
           {outcome && (
             <button type="button" className="btn btn--primary" onClick={nextSong}>

@@ -8,7 +8,7 @@ type Props = {
 };
 
 const MIN_TEAMS = 1;
-const MAX_TEAMS = 6;
+const MAX_TEAMS = 4;
 
 function yearRange(deck: Deck): string {
   const years = deck.cards.map((card) => card.year).sort((a, b) => a - b);
