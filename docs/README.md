@@ -19,6 +19,7 @@ Development is **iterative**. Each document describes the target design; the
 | [07-deployment.md](07-deployment.md) | Deploying to Firebase Hosting, for phone play |
 | [08-mobile-ui.md](08-mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
 | [09-timeline-ruleset.md](09-timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring |
+| [10-pwa-installability.md](10-pwa-installability.md) | Home-screen install (manifest, icons) — not offline support |
 
 ## Status
 

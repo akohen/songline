@@ -26,7 +26,8 @@ quota extension.
 
    `firebase.json` is already committed. It serves `dist/`, rewrites everything to
    `index.html`, and sets long cache headers on hashed assets while keeping
-   `index.html` uncached.
+   `index.html` uncached. The web app manifest gets the same `no-cache` treatment —
+   see [10-pwa-installability.md](10-pwa-installability.md).
 
 2. **Register the redirect URI with Spotify**
 
