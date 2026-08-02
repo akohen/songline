@@ -209,10 +209,15 @@ export function GameStartScreen({ onStart }: Props) {
         {saved && (
           <button
             type="button"
-            className="btn"
+            className="btn btn--resume"
             onClick={() => onStart(saved.deck, saved.game)}
           >
-            Resume {saved.deck.name} · round {saved.game.round}
+            <span className="btn--resume__title">Resume game</span>
+            <span className="btn--resume__meta">
+              {saved.game.timelines.length > 0 ? "Timeline in the app" : "Songs only"}
+              {" · "}
+              {saved.deck.name}
+            </span>
           </button>
         )}
       </div>

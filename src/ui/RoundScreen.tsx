@@ -168,7 +168,7 @@ export function RoundScreen({
 
         <div className="footer">
           {!outcome && (
-            <div className="timeline-round__actions">
+            <div className="round__actions">
               <button
                 type="button"
                 className="btn btn--primary"
@@ -182,7 +182,7 @@ export function RoundScreen({
               {/* A free action: the same team plays again, because the turn moves on
                   a placement rather than on a draw. */}
               <button type="button" className="btn btn--tertiary" onClick={nextSong}>
-                Skip this song
+                Skip
               </button>
             </div>
           )}
@@ -236,18 +236,18 @@ export function RoundScreen({
       <div className="footer">
         {/* Exactly one primary action at any moment. */}
         {!revealed && (
-          <>
+          <div className="round__actions">
             {/* Wrapped, not passed directly: `reveal` takes an optional slot, and the
                 click event would arrive as one. */}
             <button type="button" className="btn btn--primary" onClick={() => reveal()}>
-              Reveal the year
+              Reveal
             </button>
             {/* Same DRAW event as Next song; different label because abandoning a
                 card nobody can place is a different intent from finishing one. */}
             <button type="button" className="btn btn--tertiary" onClick={nextSong}>
-              Skip this song
+              Skip
             </button>
-          </>
+          </div>
         )}
 
         {revealed && (

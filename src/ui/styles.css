@@ -200,6 +200,7 @@ code {
   flex-direction: column;
   gap: var(--space-3);
   flex-shrink: 0;
+  align-self: stretch;
 }
 
 /* ---------- buttons ---------- */
@@ -245,6 +246,24 @@ code {
   width: auto;
   min-height: 44px;
   padding: var(--space-2) var(--space-3);
+}
+
+.btn--resume {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.btn--resume__title {
+  font-weight: 600;
+}
+
+.btn--resume__meta {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
 /* ---------- round screen ---------- */
@@ -439,16 +458,16 @@ code {
   flex-shrink: 0;
 }
 
-.timeline-round__actions {
+.round__actions {
   display: flex;
   gap: var(--space-3);
 }
 
-.timeline-round__actions .btn--primary {
+.round__actions .btn--primary {
   flex: 2;
 }
 
-.timeline-round__actions .btn--tertiary {
+.round__actions .btn--tertiary {
   flex: 1;
 }
 
