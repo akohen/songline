@@ -1,6 +1,6 @@
 {
-  "name": "Song Timeline",
-  "short_name": "Song Timeline",
+  "name": "Songline",
+  "short_name": "Songline",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#0d0f12",
