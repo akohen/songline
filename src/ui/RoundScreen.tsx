@@ -1,13 +1,13 @@
 import { useState } from "react";
 import type { Deck } from "@/decks/types";
 import {
+  type GameState,
   selectPlacement,
   selectRevealedCard,
   selectRoundDisplay,
   selectTeams,
 } from "@/engine";
 import type { PlaybackPort } from "@/playback/types";
-import { CustomiseGameScreen } from "@/ui/CustomiseGameScreen";
 import { ScoreStrip } from "@/ui/ScoreStrip";
 import { TeamTimeline } from "@/ui/TeamTimeline";
 import { useGame } from "@/ui/useGame";
@@ -15,6 +15,10 @@ import { useWakeLock } from "@/ui/useWakeLock";
 
 type Props = {
   deck: Deck;
+  /** New or resumed; decided on the start screen. Read once, on mount. */
+  initialGame: GameState;
+  /** A first-round playback failure, raised by the click that opened this screen. */
+  initialError: string | null;
   playback: PlaybackPort;
   onChangeDeck: () => void;
 };
@@ -34,7 +38,13 @@ type Props = {
  * every phase but `revealed`, so this component has no route to the year even if it
  * asked for one — and `selectTeams` hands over resolved cards, never track IDs.
  */
-export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
+export function RoundScreen({
+  deck,
+  initialGame,
+  initialError,
+  playback,
+  onChangeDeck,
+}: Props) {
   const {
     game,
     playbackState,
@@ -45,13 +55,11 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
     draw,
     reveal,
     restart,
-    configure,
     togglePlayPause,
     replay,
     skipForward,
-  } = useGame(deck, playback);
+  } = useGame(deck, playback, initialGame, initialError);
 
-  const [showCustomise, setShowCustomise] = useState(false);
   // The slot under consideration. Reversible, and deliberately not engine state.
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
 
@@ -69,20 +77,6 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
     setSelectedSlot(null);
     void draw();
   };
-
-  if (showCustomise) {
-    return (
-      <CustomiseGameScreen
-        teamCount={game.timelines.length}
-        onConfirm={(teamCount) => {
-          configure(teamCount);
-          setSelectedSlot(null);
-          setShowCustomise(false);
-        }}
-        onCancel={() => setShowCustomise(false)}
-      />
-    );
-  }
 
   if (display.phase === "finished") {
     return (
@@ -111,40 +105,12 @@ export function RoundScreen({ deck, playback, onChangeDeck }: Props) {
     );
   }
 
-  const started = display.phase !== "idle";
   const isPlaying = playbackState?.isPlaying ?? false;
 
-  // Before the first draw both rulesets look the same: there is nothing to show yet,
-  // because seeds are not dealt until Start.
-  if (!started) {
-    return (
-      <main className="screen round">
-        <div className="spacer" />
-        <h1 className="screen__title">{deck.name}</h1>
-        <p className="round__meta">
-          {teams
-            ? `${teams.timelines.length} team${teams.timelines.length === 1 ? "" : "s"} · first to 10 cards`
-            : `${display.cardsRemaining} songs`}
-        </p>
-        <div className="spacer" />
-        {error && <p className="alert">{error}</p>}
-        <div className="footer">
-          <button type="button" className="btn btn--primary" onClick={nextSong}>
-            Start
-          </button>
-          {/* The one-tap path is untouched: anyone who ignores this gets the game
-              that already worked. */}
-          <button
-            type="button"
-            className="btn btn--tertiary"
-            onClick={() => setShowCustomise(true)}
-          >
-            Customise game
-          </button>
-        </div>
-      </main>
-    );
-  }
+  // There is no `idle` branch: every route in here — Start, Resume, and "Play this
+  // deck again" — draws inside the click that got here, so the first card is already
+  // in play by the time this mounts. A screen whose only content was the deck name and
+  // a second Start button had nothing left to do once the game start screen existed.
 
   if (teams) {
     // During the reveal the turn has already moved on, so the timeline on screen is

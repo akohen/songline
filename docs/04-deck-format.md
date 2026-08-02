@@ -129,7 +129,7 @@ Steps 1–4 as above, then two more that are easy to miss:
    The validator fails on a mismatch.
 
 6. **Register it in `src/decks/loadDeck.ts`.** A deck file that is not in the `DECKS`
-   array is invisible to the app — it will not appear on the deck-select screen, and
+   array is invisible to the app — it will not appear on the game start screen, and
    nothing will warn you.
 
 ## Validation

@@ -26,7 +26,7 @@ export function AppShell({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const items: MenuItem[] = [
-    ...(onChangeDeck ? [{ label: "Change deck", onSelect: onChangeDeck }] : []),
+    ...(onChangeDeck ? [{ label: "New game", onSelect: onChangeDeck }] : []),
     { label: "Sign out", onSelect: onSignOut },
   ];
 

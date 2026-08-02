@@ -4,13 +4,12 @@ import {
   clearGame,
   createGame,
   type GameState,
-  loadGame,
   reduce,
   saveGame,
   selectStartOffsetMs,
-  selectTrackIdForPlayback,
 } from "@/engine";
 import type { PlaybackPort, PlaybackState } from "@/playback/types";
+import { drawAndPlay, playbackErrorMessage } from "@/ui/drawAndPlay";
 
 /** How long a track may take to start before the screen admits it is slow. */
 const SLOW_LOAD_MS = 15_000;
@@ -20,9 +19,19 @@ const SLOW_LOAD_MS = 15_000;
  *
  * The engine decides *which* card is in play; the adapter decides what the audio is
  * doing. Neither knows about the other — this hook is the only place they meet.
+ *
+ * `initialGame` is the seed, and is read once. This hook used to decide for itself
+ * whether to resume, with `loadGame(deck) ?? createGame(deck)` — which made arriving
+ * at the round screen *be* the resume, with no way to ask for a fresh game instead.
+ * That choice now belongs to the start screen, which is where it is visible.
  */
-export function useGame(deck: Deck, playback: PlaybackPort) {
-  const [game, setGame] = useState<GameState>(() => loadGame(deck) ?? createGame(deck));
+export function useGame(
+  deck: Deck,
+  playback: PlaybackPort,
+  initialGame: GameState,
+  initialError: string | null = null,
+) {
+  const [game, setGame] = useState<GameState>(initialGame);
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [hasEnded, setHasEnded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -114,25 +123,30 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     saveGame(game);
   }, [game]);
 
+  /**
+   * The first round is drawn in the click that opened this screen, so its playback
+   * failure lands *after* mount — too late to seed `useState`. Adopting it here keeps
+   * one error banner rather than two sources fighting over the same line; the next
+   * `draw` clears it like any other.
+   */
+  useEffect(() => {
+    if (initialError !== null) setError(initialError);
+  }, [initialError]);
+
+  /**
+   * Start, Next song and Skip. Must stay reachable synchronously from a click —
+   * see `drawAndPlay`.
+   */
   const draw = useCallback(async () => {
     setError(null);
     resetEndTracking();
-    const next = reduce(gameRef.current, { type: "DRAW" }, deck);
+    const { next, playing } = drawAndPlay(gameRef.current, deck, playback);
     setGame(next);
 
-    const trackId = selectTrackIdForPlayback(next);
-    if (trackId === null) return; // deck exhausted
-
     try {
-      // The track ID goes straight from the engine to the adapter and never into
-      // React state or the DOM — it is one lookup away from being the answer.
-      await playback.playTrack(trackId, selectStartOffsetMs(next, deck));
+      await playing;
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? `${err.message} Press Next song to move on.`
-          : "Playback failed. Press Next song to move on.",
-      );
+      setError(playbackErrorMessage(err));
     }
   }, [deck, playback, resetEndTracking]);
 
@@ -151,27 +165,25 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     [deck],
   );
 
-  const restart = useCallback(() => {
+  /**
+   * "Play this deck again", from the finished screen. Starts playing at once, like
+   * every other way into a round — so this too must stay inside the click.
+   */
+  const restart = useCallback(async () => {
     clearGame();
-    setGame(createGame(deck, { teamCount: gameRef.current.timelines.length }));
     setError(null);
     resetEndTracking();
-    void playback.pause();
-  }, [deck, playback, resetEndTracking]);
 
-  /**
-   * Choose the ruleset. Only reachable before the first draw, where replacing the
-   * game wholesale costs nothing but a reshuffle.
-   *
-   * The choice needs no storage of its own — it is recoverable from
-   * `timelines.length`, and the save effect below persists it like any other change.
-   */
-  const configure = useCallback(
-    (teamCount: number) => {
-      setGame(createGame(deck, { teamCount }));
-    },
-    [deck],
-  );
+    const fresh = createGame(deck, { teamCount: gameRef.current.timelines.length });
+    const { next, playing } = drawAndPlay(fresh, deck, playback);
+    setGame(next);
+
+    try {
+      await playing;
+    } catch (err) {
+      setError(playbackErrorMessage(err));
+    }
+  }, [deck, playback, resetEndTracking]);
 
   const togglePlayPause = useCallback(() => {
     if (playbackState?.isPlaying) void playback.pause();
@@ -204,7 +216,6 @@ export function useGame(deck: Deck, playback: PlaybackPort) {
     draw,
     reveal,
     restart,
-    configure,
     togglePlayPause,
     replay,
     skipForward,

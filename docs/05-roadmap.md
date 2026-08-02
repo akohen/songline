@@ -20,7 +20,7 @@ reveals the year on demand. Players do the rest.
 - Three bundled decks (a 4-card test deck, a 67-card classics deck, a 308-card
   Hitster Rock deck) plus the validation script
 - Engine with the round state machine: two events, `DRAW` and `REVEAL`
-- Screens: Login → Host setup checklist → Deck select → Round (draw / play / pause /
+- Screens: Login → Host setup checklist → Game start → Round (draw / play / pause /
   replay / reveal)
 - Session persistence to `localStorage`
 
@@ -40,7 +40,7 @@ paper version stays the default.
 
 **Built, and not yet played.** Awaiting the same thing iteration 1 is: a real evening.
 
-- Team setup behind a "Customise game" button on the idle round screen
+- Deck, mode and team setup together on a game start screen, with an explicit Resume
 - One timeline per team, tap-to-place into a slot, confirm to resolve
 - Correctness check, discard on a miss, first team to 10 cards wins
 - ~~Introduce the `Ruleset` abstraction~~ — **dropped.** Two real rulesets exist and

@@ -26,7 +26,7 @@ Development is **iterative**. Each document describes the target design; the
 
 Done: scaffold, engine (pure, spoiler-gated), PKCE auth with silent refresh,
 Web Playback SDK adapter, Media Session suppression, three bundled decks (a 4-card
-test deck, a 67-card classics deck, a 308-card Hitster Rock deck) with a deck-select
+test deck, a 67-card classics deck, a 308-card Hitster Rock deck) with a game start
 screen and the validator, host setup checklist, and the round screen. Both
 de-risking spikes resolved — suppression works, playback latency is 136 ms.
 
@@ -40,9 +40,10 @@ Next: play a real evening against the acceptance criteria in
 that playtest is iteration 2's scope.
 
 **Iteration 2 is built and unplayed.** The **optional** in-app timeline — one per team,
-round-robin turns, first to 10 cards —
-is specified in [09-timeline-ruleset.md](09-timeline-ruleset.md) and implemented behind
-a "Customise game" button. The paper ruleset remains the default and is unchanged. Not
+round-robin turns, first to 10 cards — is specified in
+[09-timeline-ruleset.md](09-timeline-ruleset.md). Deck, mode and teams are all chosen on
+the game start screen, where `Start` always begins a new game and `Resume` is the only
+route back into a saved one. The paper ruleset remains the default and is unchanged. Not
 yet exercised in a real game with real audio.
 
 ## Non-negotiable context

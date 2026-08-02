@@ -66,7 +66,7 @@ The browser becomes a Spotify Connect device. Audio comes out of the host machin
 - **iOS caveat:** playback does not start automatically after transferring playback;
   a user interaction is required to begin audio.
 - Autoplay policies mean the first playback must be triggered by a user gesture. The
-  "Draw" button is that gesture, so this is a natural fit.
+  button that begins a round is that gesture, so this is a natural fit.
 - **`player.activateElement()` is required, and its absence fails silently.** Without
   it the first track of a session transfers to our device and then sits *paused* —
   no sound, no error, nothing in the console. Every subsequent track plays, because
@@ -80,8 +80,22 @@ The browser becomes a Spotify Connect device. Audio comes out of the host machin
   **"Synchronous event-path" is the constraint that dictates where the call goes.**
   It cannot be in `initialize()`: the player object does not exist until several
   awaits after the click that begins connection, so the gesture is long gone by then.
-  It has to sit at the top of `playTrack`, which is reached synchronously from the
-  Start button's handler. See `src/playback/webPlaybackSdkAdapter.ts`.
+  It has to sit at the top of `playTrack`. See `src/playback/webPlaybackSdkAdapter.ts`.
+
+  **It also dictates where the first draw goes**, which is less obvious and easier to
+  break. Every route into a round — `Start` and `Resume` on the game start screen, and
+  `Play this deck again` on the finished screen — calls `drawAndPlay` (`src/ui/`)
+  *inside its own click handler*, so `playTrack` is invoked before the handler returns.
+
+  The tempting shortcut is to let the round screen draw itself on mount, from a
+  `useEffect`. **Do not.** An effect is a different task, the gesture is gone by then,
+  and the failure is silent and once-per-session: the first track transfers and sits
+  paused, every later one plays. `drawAndPlay` exists as a separate function precisely
+  so this ordering is written down once instead of re-derived at each call site.
+
+  Earlier revisions relied on a `Start` button on the round screen itself. That button
+  no longer exists — the game start screen supplies the gesture now — but the
+  requirement it was satisfying is unchanged.
 
 #### `playTrack` resolving is not audio starting
 

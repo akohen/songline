@@ -118,8 +118,15 @@ A restored game always resumes at `idle`. Audio cannot survive a reload, so rest
 `inPlay`/`revealed` yields a card nobody can hear — or the answer on screen. See
 `src/engine/persistence.ts`.
 
-Related but deliberately different: an explicit deck change **clears** the save
-(leaving a deck abandons the game); a reload **resumes** it.
+**Restoring is never implicit.** `Start` on the game-start screen always calls
+`createGame`; `Resume` is the only route back into a save. Nothing else reads one.
+
+This replaced an earlier rule — "an explicit deck change clears the save, a reload
+resumes it" — which existed only because *arriving* at the round screen was itself the
+resume, so leaving had to destroy the game to avoid it silently reappearing. Once
+Resume became a button both paths simply return to the start screen and offer it, and
+the distinction had nothing left to protect. Leaving a game no longer clears it; the
+save dies when `Start` mounts a new game over it.
 
 ---
 
@@ -171,6 +178,12 @@ and `strictPort` means yours will fail:
   it the first track of a session transfers and sits paused — silent, no error. It
   cannot live in `initialize()` (the player does not exist until several awaits after
   the click), so it sits at the top of `playTrack`.
+
+  This reaches further up than the adapter. Every route into a round — `Start` and
+  `Resume` on the game start screen, `Play this deck again` on the finished screen —
+  calls `drawAndPlay` **inside its own click handler**, so `playTrack` runs before the
+  handler returns. Drawing from a `useEffect` on mount looks equivalent and is not: the
+  gesture is gone, and it fails silently on the first track only.
 - **`redirect_uri` must match byte for byte**, including the trailing slash, and
   Spotify allows no wildcards. It is read from `VITE_SPOTIFY_REDIRECT_URI`, never
   derived from `window.location` — deriving it was itself a bug. A mismatch fails only

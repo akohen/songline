@@ -145,7 +145,7 @@ Triggered by the `⋯` button. Slides up from the bottom, over a scrim.
 │  Signed in as Alexandre      │  muted, non-interactive
 │  International Classics      │  current deck, when one is chosen
 │                              │
-│  Change deck                 │  ≥48px row
+│  New game                    │  ≥48px row
 │  Sign out                    │
 │                              │
 │  Powered by Spotify          │  muted footnote
@@ -158,7 +158,7 @@ Triggered by the `⋯` button. Slides up from the bottom, over a scrim.
 |---|---|
 | Signed-in name | always |
 | Current deck name | a deck is selected |
-| Change deck | a deck is selected (per the user's request) |
+| New game | a game is in progress. Returns to the game start screen; the game stays resumable |
 | Sign out | always |
 
 Dismissed by: tapping the scrim, pressing Escape, or selecting an item.
@@ -237,10 +237,19 @@ specified in [01-game-design.md](01-game-design.md) and is preserved. Under
 
 | Phase | Primary button | Also present |
 |---|---|---|
-| `idle` | **Start** | — |
 | `inPlay` | **Reveal the year** | Pause/Play, "Skip this song" (tertiary) |
 | `revealed` | **Next song** | Pause/Play |
 | `finished` | **Play this deck again** | "Choose another deck" (secondary) |
+
+**There is no `idle` row.** The round screen is never entered idle: `Start`, `Resume`
+and `Play this deck again` all draw the first card inside their own click, so a song is
+already in play by the time this screen appears. It briefly had a Start button of its
+own, which after the game start screen arrived meant pressing Start twice to begin one
+game.
+
+That the draw happens *in the click* is not a detail — it is what keeps
+`activateElement()` inside a user gesture. See
+[02-spotify-constraints.md](02-spotify-constraints.md).
 
 "Skip this song" and "Next song" dispatch the same `DRAW` event — the engine has only
 two events. The label differs because the intent differs: abandoning a card nobody
@@ -297,18 +306,61 @@ in two slots (a tie) marks **both** — the feedback must not imply a single rig
 
 | Phase | Primary button | Also present |
 |---|---|---|
-| `idle` | **Start** | "Customise game" (tertiary) |
 | `inPlay` | **Place it here** (disabled until a slot is picked) | slots, Pause/Play, Skip |
 | `revealed` | **Next song**, or **See final scores** once a team has 10 | Pause/Play |
 | `finished` | **Play this deck again** | final standings, "Choose another deck" |
 
-### Customise game
+### Game start screen
 
-Reached from a tertiary button beside Start, and only there: the ruleset is fixed for
-the life of a game. Two controls, no more — mode (a pair of cards, as on deck select)
-and a team stepper, 1–6, live only in timeline mode. Teams are numbered, never named:
-a name means a text input and a keyboard over the screen, for something everyone in the
-room already knows.
+Everything a game needs, in one place, immediately after the player connects: deck,
+mode, teams.
+
+```
+┌──────────────────────────────┐
+│  New game                    │
+│  ┌────────────────────────┐  │
+│  │ Test deck              │  │  deck cards, ≥64px, one selected
+│  │ 4 songs · 1965–2016    │  │  (amber border)
+│  └────────────────────────┘  │
+│  … two more decks …          │
+│  ┌────────────────────────┐  │
+│  │ Songs only             │  │  mode, same card pattern
+│  │ You keep the timeline… │  │
+│  └────────────────────────┘  │
+│  ┌────────────────────────┐  │
+│  │ Timeline in the app    │  │
+│  └────────────────────────┘  │
+│   Teams      ⊖   2   ⊕       │  timeline mode only, 1–6
+├──────────────────────────────┤
+│  ┌────────────────────────┐  │
+│  │        Start           │  │  PRIMARY — always a NEW game
+│  └────────────────────────┘  │
+│  ┌────────────────────────┐  │
+│  │ Resume Rock · round 12 │  │  secondary, only when a save exists
+│  └────────────────────────┘  │
+└──────────────────────────────┘
+```
+
+**Start always starts a new game, and Resume is the only way into a saved one.**
+Restoring used to happen just by arriving at the round screen, which left no way to ask
+for a fresh game and no way to tell which one you had got. See invariant 4 in
+[AGENTS.md](../AGENTS.md).
+
+Resume resumes **what was saved**, not what is selected above — the highlighted deck has
+no bearing on a game already in progress. It is absent when there is no save, and also
+when there is one that cannot be restored (wrong version, bad shape, a placed card that
+left the deck), because it is built by asking `loadGame` for each deck in turn and
+taking whatever answers.
+
+Defaults are the saved game's deck and mode if there is one, else the first deck and
+`Songs only` — so the shortest path is one tap on Start.
+
+Teams are numbered, never named: a name means a text input and a keyboard over the
+screen, for something everyone in the room already knows.
+
+This screen replaced a separate deck-select screen and a `Customise game` screen
+reached from the idle round screen. Two places to set one thing, and the setup step was
+invisible until after a deck was already chosen.
 
 ### Replay visibility — the rule requested
 
@@ -396,7 +448,7 @@ What counts as "loaded" is a playback question, answered in
 |---|---|
 | **Login** | Centred card, large primary "Sign in with Spotify". No header. |
 | **Host setup checklist** | Numbered list, generous line height, primary "Ready" pinned to the bottom. Content unchanged — the S0.1 spike made it load-bearing. |
-| **Deck select** | Full-width tappable cards, ≥64px: deck name, then muted "32 songs · 1965–2019". |
+| **Game start** | Full-width tappable cards, ≥64px: deck name, then muted "32 songs · 1965–2019". Same card pattern for the mode choice. See above. |
 | **Deck finished** | Centred, primary "Play this deck again", secondary "Choose another deck". |
 | **Not premium / wrong origin / auth error** | Centred card, `--danger` heading, body text, one action. Wording unchanged; all three carry diagnostic detail that has already proved useful. |
 

@@ -42,15 +42,15 @@ to exactly one team's turn.
 slot and is unconditionally correct, which reads as a bug rather than a rule.
 
 Seeds come **off the draw pile**, so a seeded song cannot come up again later, and N
-teams cost N cards before round one. They are dealt on the **first Start**, not on the
-Customise screen — so the pile is shuffled, then seeded, then played.
+teams cost N cards before round one. They are dealt on the **first draw**, not when the
+game is created — so the pile is shuffled, then seeded, then played.
 
-This puts a trap in the reducer. "First Start" cannot be `round === 0`: a reload rolls
+This puts a trap in the reducer. "First draw" cannot be `round === 0`: a restore rolls
 the in-flight card back to the head of the pile and decrements `round`, so a
 game saved during round one restores to `round === 0` with seeds already dealt, and
 seeding again would deal a second row to every team and consume more of the pile. Seed
 on **all timelines being empty** instead, which is false for any restored game that got
-past its first Start.
+past its first draw.
 
 **Placement validity.** A timeline of *n* cards offers *n+1* slots. Slot *i* has
 bounds `[left, right]` where `left` is the year of the card above it (or −∞ for the
@@ -106,31 +106,36 @@ default ruleset exhaustion ends the game with no winner; here it ends it with a 
 
 ## Setup
 
-**Decided.** The ruleset is chosen **after selecting a deck and before Start**, via a
-new secondary button on the round screen's idle state — alongside Start, not in place
-of it.
+Mode and team count are chosen on the **game start screen**, alongside the deck —
+everything a game needs, decided in one place before it begins.
 
 ```
-Deck select ──▶ Round screen (idle)
-                  ├─ [ Start ]            ← default ruleset, one tap, unchanged
-                  └─ [ Customise game ]   ← teams, timeline on
+Connect the player ──▶ Game start
+                         │  deck · mode · teams
+                         ├─ [ Start ]                  ← always a new game
+                         └─ [ Resume — deck, round N ]  ← only if a save exists
 ```
 
-The path that works today must stay one tap. Anyone who does not press Customise
-gets exactly the current game.
+**Decided.** The screen offers exactly two game settings: **game mode** and **number
+of teams**. Nothing else — no team names, no target score, no clip length. Teams are
+therefore numbered, not named, and the count is only live once timeline mode is
+selected.
 
-**The ruleset is fixed for the life of a game.** There is no mid-game toggle:
-turning the timeline on at round 40 would deal empty timelines into a half-played
-deck. Changing it means returning to deck select, which already clears the save
-(leaving a deck abandons the game — see [03-architecture.md](03-architecture.md)).
+The default path stays short: the deck is preselected and `Songs only` is the default,
+so an unchanged screen plus one tap on Start is the game that always worked.
 
-**Decided.** The Customise screen contains exactly two things: **game mode** and
-**number of teams**. Nothing else — no team names, no target score, no clip length.
+**The ruleset is fixed for the life of a game.** There is no mid-game toggle: turning
+the timeline on at round 40 would deal empty timelines into a half-played deck.
+Changing it means returning to the start screen and pressing Start, which begins a new
+game — the old one is simply replaced.
 
-Teams are therefore numbered, not named. Number of teams is meaningless in the default
-mode, so the control is only live once the timeline mode is selected.
+> An earlier revision put mode and teams behind a `Customise game` button on the idle
+> round screen, deliberately leaving deck select untouched. That screen is gone: once
+> the start page existed there were two places to set one thing, and the button was
+> the redundant one.
 
-**Open:** whether the seed cards are dealt on this screen or on the first Start.
+Seed cards are dealt by the first draw, which Start triggers directly — not here. See
+[Rules](#rules--the-timeline-ruleset).
 
 ---
 

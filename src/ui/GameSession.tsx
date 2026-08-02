@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DECKS } from "@/decks/loadDeck";
 import type { Deck } from "@/decks/types";
-import { clearGame } from "@/engine";
+import type { GameState } from "@/engine";
 import type { PlaybackPort } from "@/playback/types";
 import { WebPlaybackSdkAdapter } from "@/playback/webPlaybackSdkAdapter";
 import { AppShell } from "@/ui/AppShell";
-import { DeckSelectScreen } from "@/ui/DeckSelectScreen";
+import { drawAndPlay, playbackErrorMessage } from "@/ui/drawAndPlay";
+import { GameStartScreen } from "@/ui/GameStartScreen";
 import { HostSetupScreen } from "@/ui/HostSetupScreen";
 import { RoundScreen } from "@/ui/RoundScreen";
 
@@ -15,7 +15,7 @@ type Props = {
   onSignOut: () => void;
 };
 
-type Stage = "setup" | "connecting" | "deck" | "playing" | "failed";
+type Stage = "setup" | "connecting" | "start" | "playing" | "failed";
 
 /**
  * Owns the player and the current deck, and renders the shell around every screen.
@@ -28,6 +28,17 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
   const [stage, setStage] = useState<Stage>("setup");
   const [error, setError] = useState<string | null>(null);
   const [deck, setDeck] = useState<Deck | null>(null);
+  const [game, setGame] = useState<GameState | null>(null);
+  /** A first-round playback failure, which happens after the round screen mounts. */
+  const [startError, setStartError] = useState<string | null>(null);
+  /**
+   * Bumped every time a game starts, and used as `RoundScreen`'s key.
+   *
+   * Keying on the deck id — as this did — silently breaks "Start always starts a new
+   * game": starting again on the deck already loaded would not remount, so the hook's
+   * initialiser would never re-run and the old game would just carry on.
+   */
+  const [gameKey, setGameKey] = useState(0);
   const playbackRef = useRef<PlaybackPort | null>(null);
 
   useEffect(() => {
@@ -48,39 +59,57 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
       const adapter = new WebPlaybackSdkAdapter(getAccessToken);
       await adapter.initialize();
       playbackRef.current = adapter;
-      setStage("deck");
+      setStage("start");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not start the player.");
       setStage("failed");
     }
   }, [getAccessToken]);
 
-  const chooseDeck = useCallback((chosen: Deck) => {
+  /**
+   * New or resumed — the start screen has already decided which, and built the state.
+   *
+   * **The first card is drawn here, in the click**, not in an effect once the round
+   * screen mounts. `playTrack` begins with `activateElement()`, which browsers honour
+   * only inside the synchronous event path of a gesture; move it out and the first
+   * track of the session sits silently paused. This function is called straight from
+   * the Start/Resume button's `onClick`, which is what keeps that path intact.
+   */
+  const startGame = useCallback((chosen: Deck, initial: GameState) => {
+    const playback = playbackRef.current;
+    if (!playback) return;
+
+    setStartError(null);
+    const { next, playing } = drawAndPlay(initial, chosen, playback);
+    playing.catch((err) => setStartError(playbackErrorMessage(err)));
+
     setDeck(chosen);
+    setGame(next);
+    setGameKey((n) => n + 1);
     setStage("playing");
   }, []);
 
   /**
-   * Leaving a deck abandons the game in progress.
+   * Leaving a game does not destroy it.
    *
-   * The saved game must be cleared here, or re-entering the same deck would restore
-   * its old draw pile and the songs-remaining count would carry over. Clearing on
-   * *deck selection* instead would be wrong: that path is also how a mid-game page
-   * refresh gets back to the round screen, and restoring there is the whole point of
-   * persisting. So the reset hangs off the explicit action, not the arrival.
+   * This used to call `clearGame()`, back when arriving at the round screen *was* the
+   * resume and a stale save would silently reappear. Resume is now an explicit button
+   * on the start screen, so clearing here would make it unreachable except after a
+   * page reload. The save dies when it is replaced — pressing Start mounts a new game,
+   * which writes over it.
    */
-  const changeDeck = useCallback(() => {
+  const backToStart = useCallback(() => {
     void playbackRef.current?.pause();
-    clearGame();
     setDeck(null);
-    setStage("deck");
+    setGame(null);
+    setStage("start");
   }, []);
 
   const shell = (children: React.ReactNode) => (
     <AppShell
       profileName={profileName}
       deckName={deck?.name}
-      onChangeDeck={deck ? changeDeck : undefined}
+      onChangeDeck={deck ? backToStart : undefined}
       onSignOut={onSignOut}
     >
       {children}
@@ -98,8 +127,8 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
         </main>,
       );
 
-    case "deck":
-      return shell(<DeckSelectScreen decks={DECKS} onSelect={chooseDeck} />);
+    case "start":
+      return shell(<GameStartScreen onStart={startGame} />);
 
     case "failed":
       return shell(
@@ -122,22 +151,23 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
 
     case "playing": {
       const playback = playbackRef.current;
-      if (!playback || !deck) {
+      if (!playback || !deck || !game) {
         return shell(
           <main className="screen screen--centred">
             <p className="screen__body">Player not ready.</p>
           </main>,
         );
       }
-      // Keyed by deck so a different deck always remounts, re-running useGame's
-      // initialiser. Today the deck-select step guarantees that anyway; the key
-      // means it stays true if that ever stops being the case.
+      // See `gameKey`: this must change on every start, not just on every deck, or
+      // starting again on the current deck would quietly continue the old game.
       return shell(
         <RoundScreen
-          key={deck.id}
+          key={gameKey}
           deck={deck}
+          initialGame={game}
+          initialError={startError}
           playback={playback}
-          onChangeDeck={changeDeck}
+          onChangeDeck={backToStart}
         />,
       );
     }
