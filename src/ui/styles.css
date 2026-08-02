@@ -66,8 +66,12 @@ body {
 
 #root {
   /* dvh, not vh: mobile Safari's vh is wrong when the toolbar hides, which would
-     push the primary button off-screen. */
-  min-height: 100dvh;
+     push the primary button off-screen.
+     A real height, not min-height: the flex chain below (.app, .screen) only clips
+     its content to the remaining space if this container has a definite height —
+     otherwise it grows to fit content and the whole page scrolls, taking the header
+     with it. */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -157,7 +161,8 @@ code {
   color: var(--text-muted);
 }
 
-/* The growing middle region. */
+/* The growing middle region. Scrolls internally when its content overflows, so the
+   header (a fixed-size sibling in .app) never gets pushed off-screen by a long page. */
 .screen {
   flex: 1;
   display: flex;
@@ -166,6 +171,7 @@ code {
   padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
   gap: var(--space-4);
   min-height: 0;
+  overflow-y: auto;
 }
 
 .screen--centred {
@@ -813,6 +819,22 @@ code {
   color: var(--text-muted);
   font-size: 0.875rem;
   margin-top: var(--space-1);
+}
+
+.deck-card--summary {
+  position: relative;
+  padding-right: calc(var(--space-4) + 1.5rem);
+}
+
+.deck-card--summary::after {
+  content: "›";
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 /* ---------- checklist ---------- */

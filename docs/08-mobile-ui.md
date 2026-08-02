@@ -313,22 +313,21 @@ in two slots (a tie) marks **both** — the feedback must not imply a single rig
 ### Game start screen
 
 Everything a game needs, in one place, immediately after the player connects: deck,
-mode, teams.
+mode, teams. Only the current selection shows; tapping it opens a bottom sheet with
+the other options — the same shell (scrim, focus trap, Escape, scroll lock) as the
+app menu above, in [Sheet.tsx](../src/ui/Sheet.tsx), which `MenuSheet.tsx` also
+builds on.
 
 ```
 ┌──────────────────────────────┐
 │  New game                    │
 │  ┌────────────────────────┐  │
-│  │ Test deck              │  │  deck cards, ≥64px, one selected
-│  │ 4 songs · 1965–2016    │  │  (amber border)
+│  │ Test deck             ›│  │  current deck, tap to change
+│  │ 4 songs · 1965–2016    │  │
 │  └────────────────────────┘  │
-│  … two more decks …          │
 │  ┌────────────────────────┐  │
-│  │ Songs only             │  │  mode, same card pattern
+│  │ Songs only            ›│  │  current mode, tap to change
 │  │ You keep the timeline… │  │
-│  └────────────────────────┘  │
-│  ┌────────────────────────┐  │
-│  │ Timeline in the app    │  │
 │  └────────────────────────┘  │
 │   Teams      ⊖   2   ⊕       │  timeline mode only, 1–6
 ├──────────────────────────────┤
@@ -340,6 +339,10 @@ mode, teams.
 │  └────────────────────────┘  │
 └──────────────────────────────┘
 ```
+
+Tapping either row opens a sheet listing all options as the same `deck-card` pattern
+(≥64px, `aria-pressed` marks the current one with an amber border); picking one sets
+the value and closes the sheet immediately — no separate confirm step.
 
 **Start always starts a new game, and Resume is the only way into a saved one.**
 Restoring used to happen just by arriving at the round screen, which left no way to ask

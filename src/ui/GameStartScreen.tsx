@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { DECKS } from "@/decks/loadDeck";
 import type { Deck } from "@/decks/types";
 import { createGame, type GameState, loadGame } from "@/engine";
+import { Sheet } from "@/ui/Sheet";
 
 type Props = {
   onStart: (deck: Deck, game: GameState) => void;
@@ -44,62 +45,111 @@ export function GameStartScreen({ onStart }: Props) {
     [],
   );
 
-  const [deck, setDeck] = useState<Deck>(saved?.deck ?? (DECKS[0] as Deck));
+  const defaultDeck = DECKS.find((option) => option.id === "classics-international");
+  const [deck, setDeck] = useState<Deck>(
+    saved?.deck ?? defaultDeck ?? (DECKS[0] as Deck),
+  );
   const [timeline, setTimeline] = useState((saved?.game.timelines.length ?? 0) > 0);
   // Remembered while "songs only" is selected, so toggling back and forth does not
   // silently discard a choice the host already made.
   const [teams, setTeams] = useState(Math.max(saved?.game.timelines.length ?? 0, 2));
 
+  const [deckPickerOpen, setDeckPickerOpen] = useState(false);
+  const [modePickerOpen, setModePickerOpen] = useState(false);
+
   return (
     <main className="screen">
       <h1 className="screen__title">New game</h1>
 
-      <ul className="deck-list">
-        {DECKS.map((option) => (
-          <li key={option.id}>
-            <button
-              type="button"
-              className="deck-card"
-              aria-pressed={option.id === deck.id}
-              onClick={() => setDeck(option)}
-            >
-              <div className="deck-card__name">{option.name}</div>
-              <div className="deck-card__meta">
-                {option.cards.length} songs · {yearRange(option)}
-              </div>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <button
+        type="button"
+        className="deck-card deck-card--summary"
+        onClick={() => setDeckPickerOpen(true)}
+      >
+        <div className="deck-card__name">{deck.name}</div>
+        <div className="deck-card__meta">
+          {deck.cards.length} songs · {yearRange(deck)}
+        </div>
+      </button>
 
-      <ul className="deck-list">
-        <li>
-          <button
-            type="button"
-            className="deck-card"
-            aria-pressed={!timeline}
-            onClick={() => setTimeline(false)}
-          >
-            <div className="deck-card__name">Songs only</div>
-            <div className="deck-card__meta">
-              You keep the timeline on paper. No teams, no score.
-            </div>
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            className="deck-card"
-            aria-pressed={timeline}
-            onClick={() => setTimeline(true)}
-          >
-            <div className="deck-card__name">Timeline in the app</div>
-            <div className="deck-card__meta">
-              Place each song on your team's timeline. First to 10 cards wins.
-            </div>
-          </button>
-        </li>
-      </ul>
+      <button
+        type="button"
+        className="deck-card deck-card--summary"
+        onClick={() => setModePickerOpen(true)}
+      >
+        <div className="deck-card__name">
+          {timeline ? "Timeline in the app" : "Songs only"}
+        </div>
+        <div className="deck-card__meta">
+          {timeline
+            ? "Place each song on your team's timeline. First to 10 cards wins."
+            : "You keep the timeline on paper. No teams, no score."}
+        </div>
+      </button>
+
+      {deckPickerOpen && (
+        <Sheet label="Choose deck" onClose={() => setDeckPickerOpen(false)}>
+          <ul className="deck-list">
+            {DECKS.map((option) => (
+              <li key={option.id}>
+                <button
+                  type="button"
+                  className="deck-card"
+                  aria-pressed={option.id === deck.id}
+                  onClick={() => {
+                    setDeck(option);
+                    setDeckPickerOpen(false);
+                  }}
+                >
+                  <div className="deck-card__name">{option.name}</div>
+                  <div className="deck-card__meta">
+                    {option.cards.length} songs · {yearRange(option)}
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Sheet>
+      )}
+
+      {modePickerOpen && (
+        <Sheet label="Choose game mode" onClose={() => setModePickerOpen(false)}>
+          <ul className="deck-list">
+            <li>
+              <button
+                type="button"
+                className="deck-card"
+                aria-pressed={!timeline}
+                onClick={() => {
+                  setTimeline(false);
+                  setModePickerOpen(false);
+                }}
+              >
+                <div className="deck-card__name">Songs only</div>
+                <div className="deck-card__meta">
+                  You keep the timeline on paper. No teams, no score.
+                </div>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="deck-card"
+                aria-pressed={timeline}
+                onClick={() => {
+                  setTimeline(true);
+                  setModePickerOpen(false);
+                }}
+              >
+                <div className="deck-card__name">Timeline in the app</div>
+                <div className="deck-card__meta">
+                  Place each song on your team's timeline. First to 10 cards wins.
+                </div>
+              </button>
+            </li>
+          </ul>
+        </Sheet>
+      )}
 
       {/* Teams are numbered, never named: a name means a text input and a keyboard
           over the screen, for something everyone in the room already knows. */}
