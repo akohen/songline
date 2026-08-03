@@ -7,9 +7,10 @@ iteration 1 — later iterations are direction, not a plan.
 
 ## Iteration 1 — Blind jukebox
 
-**Goal:** a real game night works, with the timeline maintained on paper.
-
-> Detailed step-by-step plan: [06-iteration-1-plan.md](06-iteration-1-plan.md)
+**Goal:** a real game night works, with the timeline maintained on paper. Shipped and
+played; the step-by-step plan that got it there is no longer kept, since its only
+lasting content — the two pre-build spikes — is folded into
+[tech/spotify-constraints.md](tech/spotify-constraints.md#spike-result--media-session-suppression-works-2026-08-01).
 
 The app plays a random unplayed song from a deck without revealing anything, then
 reveals the year on demand. Players do the rest.
@@ -36,7 +37,7 @@ mid-game token expiry.
 Bring the timeline into the app, replacing the paper cards — **optionally**. The
 paper version stays the default.
 
-> Rules, state shape and open questions: [09-timeline-ruleset.md](09-timeline-ruleset.md)
+> Rules, state shape and open questions: [product/timeline-ruleset.md](product/timeline-ruleset.md)
 
 **Built, and not yet played.** Awaiting the same thing iteration 1 is: a real evening.
 
@@ -46,7 +47,7 @@ paper version stays the default.
 - ~~Introduce the `Ruleset` abstraction~~ — **dropped.** Two real rulesets exist and
   the difference between them is entirely `timelines.length === 0`, which the state
   already encodes. The abstraction would have been a container for one boolean. See
-  [03-architecture.md](03-architecture.md#still-no-ruleset-parameter).
+  [tech/architecture.md](tech/architecture.md#still-no-ruleset-parameter).
 - Reveal resolves in place on the placed card, not as a full-screen year
 
 **Resolved:** one timeline per *team*, not per player and not shared — a team of one

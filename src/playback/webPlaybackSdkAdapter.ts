@@ -18,7 +18,7 @@ type GetToken = () => string | null;
  * Connect device, so audio comes out of the host machine.
  *
  * Chosen over remote-controlling an existing device because that device's screen
- * would display the track being guessed. See docs/02-spotify-constraints.md.
+ * would display the track being guessed. See docs/tech/spotify-constraints.md.
  */
 export class WebPlaybackSdkAdapter implements PlaybackPort {
   private player: Spotify.Player | null = null;

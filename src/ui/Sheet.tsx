@@ -14,7 +14,7 @@ const FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1
  *
  * Slides up from the bottom rather than dropping from the header so the options land
  * in the thumb zone — reachable one-handed on a large phone, which a top-right
- * dropdown is not. See docs/08-mobile-ui.md.
+ * dropdown is not. See docs/product/mobile-ui.md.
  */
 export function Sheet({ label, onClose, children }: Props) {
   const sheetRef = useRef<HTMLDivElement>(null);

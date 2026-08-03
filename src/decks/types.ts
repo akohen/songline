@@ -1,5 +1,5 @@
 /**
- * Deck and card types. See docs/04-deck-format.md for the curation rules.
+ * Deck and card types. See docs/tech/deck-format.md for the curation rules.
  *
  * The deck is the sole source of truth for release years. Spotify's
  * `album.release_date` reports reissue dates for remasters and compilations, so it

@@ -5,7 +5,7 @@ type Props = {
 /**
  * Not decoration. The S0.1 spike proved that a running Spotify desktop app puts the
  * answer into macOS Control Centre, and that no code of ours can prevent it —
- * quitting Spotify elsewhere is the mitigation. See docs/02-spotify-constraints.md.
+ * quitting Spotify elsewhere is the mitigation. See docs/tech/spotify-constraints.md.
  */
 export function HostSetupScreen({ onReady }: Props) {
   return (

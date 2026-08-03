@@ -15,7 +15,7 @@ import type { PlaybackPort } from "@/playback/types";
  * a user gesture. Reach it from a `useEffect` or after an `await` instead and the first
  * track of the session transfers to our device and sits paused — silent, no error,
  * nothing in the console, and only ever the first one. See
- * docs/02-spotify-constraints.md.
+ * docs/tech/spotify-constraints.md.
  *
  * That requirement is the only reason this is not simply a method on `useGame`: a
  * round can now begin from two places, and the ordering is too easy to get subtly

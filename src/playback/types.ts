@@ -39,7 +39,7 @@ export type Unsubscribe = () => void;
  *
  * Two real implementations are planned — the Web Playback SDK (primary) and Web API
  * device control (fallback) — plus a fake for development. The engine never imports
- * this; the UI wires the two together. See docs/03-architecture.md.
+ * this; the UI wires the two together. See docs/tech/architecture.md.
  */
 export interface PlaybackPort {
   /** Resolves once a device exists and can accept playback. */

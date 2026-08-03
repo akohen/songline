@@ -11,7 +11,7 @@
 
 State stays in React plus `localStorage`; no state library until something demands
 one. Adding a backend is a deliberate future decision (see
-[05-roadmap.md](05-roadmap.md)), not an assumption baked in now.
+[../roadmap.md](../roadmap.md)), not an assumption baked in now.
 
 ### Where the app is served from
 
@@ -69,7 +69,7 @@ type GameState = {
   drawPile: TrackId[]       // shuffled, never mutated in place
   currentCard: TrackId | null
   round: number
-  // Timeline ruleset only; empty is the paper ruleset. See 09-timeline-ruleset.md.
+  // Timeline ruleset only; empty is the paper ruleset. See docs/product/timeline-ruleset.md.
   timelines: TrackId[][]
   currentTeam: number
   lastPlacement: { team: number; slot: number; correct: boolean } | null

@@ -8,8 +8,8 @@ stable URL, which resolves both.
 ## Scope and policy
 
 The Spotify Developer Policy prohibits games, so this app stays in **development
-mode** — capped at 25 manually allowlisted accounts. See
-[02-spotify-constraints.md](02-spotify-constraints.md#legal).
+mode** — capped at 5 manually allowlisted accounts. See
+[spotify-constraints.md](spotify-constraints.md#legal).
 
 A Firebase URL is publicly reachable, but only allowlisted Spotify accounts can sign
 in, so it is effectively private. Do not publicise the URL, and do not request a
@@ -27,7 +27,7 @@ quota extension.
    `firebase.json` is already committed. It serves `dist/`, rewrites everything to
    `index.html`, and sets long cache headers on hashed assets while keeping
    `index.html` uncached. The web app manifest gets the same `no-cache` treatment —
-   see [10-pwa-installability.md](10-pwa-installability.md).
+   see [pwa-installability.md](pwa-installability.md).
 
 2. **Register the redirect URI with Spotify**
 

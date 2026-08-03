@@ -55,7 +55,8 @@ export function isExpired(tokens: TokenSet, now: number, skewMs = 30_000): boole
  * never negative.
  *
  * Refreshing proactively rather than on failure is what keeps a game night from
- * being interrupted: acceptance criterion 7 in docs/06-iteration-1-plan.md.
+ * being interrupted — a session lasting over an hour must never have playback
+ * cut off for a token refresh.
  */
 export function msUntilRefresh(tokens: TokenSet, now: number, fraction = 0.8): number {
   const lifetime = tokens.expiresAt - tokens.issuedAt;

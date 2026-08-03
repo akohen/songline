@@ -8,7 +8,7 @@ import { WrongOriginScreen } from "@/ui/WrongOriginScreen";
 
 /**
  * Auth gate. The game screens (host setup checklist, deck select, round) arrive
- * with playback — see docs/06-iteration-1-plan.md.
+ * with playback — see docs/roadmap.md#iteration-1--blind-jukebox.
  */
 export function App() {
   const { state, login, logout, getAccessToken } = useAuth();

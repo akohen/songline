@@ -40,7 +40,8 @@ fixing, mention it and leave it.
 improvement, say so and let the user decide. Doing more than asked is not generosity
 — it makes the diff harder to review and quietly moves the goalposts.
 
-**Documentation drives the work.** Write or update the relevant `docs/NN-*.md`
+**Documentation drives the work.** Write or update the relevant doc under
+`docs/product/`, `docs/tech/`, or `docs/roadmap.md`
 **first**, get agreement, then implement. Keep docs current
 as behaviour changes, and record decisions that were *reversed* along with why — the
 progress bar is documented as "dropped after first use", not silently deleted.
@@ -147,7 +148,7 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build
 - `pnpm search:tracks "artist title"` finds candidate track IDs when curating.
 
 **Adding tracks or decks: follow the procedure in
-[docs/04-deck-format.md](docs/04-deck-format.md#adding-tracks-and-decks).** It exists
+[docs/tech/deck-format.md](docs/tech/deck-format.md#adding-tracks-and-decks).** It exists
 because two steps are silently skippable — a new deck must be registered in
 `src/decks/loadDeck.ts` or it never appears, and the year must come from an external
 source rather than the search output.
@@ -191,7 +192,7 @@ and `strictPort` means yours will fail:
   agree across `.env.production.local`, the Spotify dashboard, and the GitHub
   repository variable.
 - **A `403` from `GET /v1/me` means the account is not on the dev-mode allowlist**
-  (25 users max), not that something is broken.
+  (5 users max), not that something is broken.
 - **Premium is required and there is no fallback.** `preview_url` is deprecated and
   `null` for apps created after Nov 2024. Mobile-only Premium plans report
   `product: "premium"` but the SDK still refuses them.

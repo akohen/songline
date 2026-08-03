@@ -6,7 +6,7 @@ import type { TrackId } from "@/decks/types";
  * Audio can be paused, replayed or finished while the card is still in play.
  * Playback state belongs to the playback adapter and never enters GameState —
  * mirroring it here would make the engine impure and give playback two sources
- * of truth. See docs/03-architecture.md.
+ * of truth. See docs/tech/architecture.md.
  */
 export type Phase = "idle" | "inPlay" | "revealed" | "finished";
 
@@ -39,7 +39,7 @@ export type GameState = {
    * One timeline per team. **Empty means the default ruleset** — no teams, no
    * placement, no score, the game players keep on paper. This is the only mode flag
    * there is: a separate boolean could disagree with the array, and team count is
-   * just `timelines.length`. See docs/09-timeline-ruleset.md.
+   * just `timelines.length`. See docs/product/timeline-ruleset.md.
    */
   timelines: Timeline[];
   /** Index into `timelines`. Meaningless, and ignored, when `timelines` is empty. */

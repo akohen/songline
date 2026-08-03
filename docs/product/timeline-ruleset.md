@@ -1,7 +1,7 @@
 # Timeline Ruleset
 
 The app takes over the timeline: teams, placement, correctness and score. This is
-the first thing the [rulesets table](01-game-design.md#rules-that-vary-between-rulesets)
+the first thing the [rulesets table](game-design.md#rules-that-vary-between-rulesets)
 was written for, and the first time two real rulesets exist.
 
 Nothing here is built. Marked **Decided** where a call has been made, **Open** where
@@ -100,7 +100,7 @@ they stand — the shortfall is not a failure state and nobody plays on. Under t
 default ruleset exhaustion ends the game with no winner; here it ends it with a score.
 
 **No tokens. No bonus guesses.** Both remain unbuilt, deliberately, and both are
-[iteration 3 material](05-roadmap.md#iteration-3--depth).
+[iteration 3 material](../roadmap.md#iteration-3--depth).
 
 ---
 
@@ -155,7 +155,7 @@ type GameEvent =
 takes `inPlay` straight to `revealed`.
 
 **Rejected: a `placed` phase between `inPlay` and `revealed`,** which
-[01-game-design.md](01-game-design.md#what-later-iterations-insert) predicted. Slot
+[game-design.md](game-design.md#what-later-iterations-insert) predicted. Slot
 selection is reversible, contains no card data, and is read by nothing but the button
 that confirms it — so it belongs in the component, not the engine. A `placed` phase
 would exist only to wait for a second tap. This is the same reasoning that deleted
@@ -241,7 +241,7 @@ than a mistake. That is the change.
 
 Resolve them **inside the engine** instead: `selectTeams()` returns
 `{ year, title, artist }[]` per team. The cost is one selector, and it keeps
-[invariant 1](../AGENTS.md) absolute — which is what makes any violation of it a
+[invariant 1](../../AGENTS.md) absolute — which is what makes any violation of it a
 review-stopper instead of a judgement call, and a stray `currentCard` in a component
 looks no different from a harmless placed ID.
 
@@ -260,7 +260,7 @@ tap must not crash a party.
 Teams, timelines, and turn order **can** be restored — they need no audio and reveal
 nothing. This is the first state in the app that survives a reload meaningfully, and
 it does not weaken
-[invariant 4](../AGENTS.md), which is about `phase`, not about score.
+[invariant 4](../../AGENTS.md), which is about `phase`, not about score.
 
 - `SCHEMA_VERSION` goes to `2`. A version-1 save is discarded, as it already is.
 - Restore still resumes at `idle`, and the in-flight card still returns to the head
@@ -279,7 +279,7 @@ it does not weaken
 ## The screen
 
 **Built.** The layout is specified in
-[08-mobile-ui.md](08-mobile-ui.md#placement-screen--timeline-ruleset); what matters
+[mobile-ui.md](mobile-ui.md#placement-screen--timeline-ruleset); what matters
 here is the rules it encodes.
 
 - **Only the placing team's timeline is on screen**, with a score strip above it for

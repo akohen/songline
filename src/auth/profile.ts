@@ -21,7 +21,7 @@ export type PremiumStatus = "premium" | "not-premium";
  *
  * Known gap: Spotify excludes mobile-only Premium plans from the SDK, but those
  * accounts still report `product: "premium"` here. This check cannot catch them;
- * they will fail later, when the player initialises. See docs/02-spotify-constraints.md.
+ * they will fail later, when the player initialises. See docs/tech/spotify-constraints.md.
  */
 export function classifyPremium(profile: SpotifyProfile): PremiumStatus {
   return profile.product === "premium" ? "premium" : "not-premium";
@@ -36,7 +36,7 @@ export async function fetchProfile(accessToken: string): Promise<SpotifyProfile>
     throw new AuthError("Session expired.", "unauthorized");
   }
   if (response.status === 403) {
-    // Dev-mode apps are capped at 25 allowlisted users, and this is what a
+    // Dev-mode apps are capped at 5 allowlisted users, and this is what a
     // non-allowlisted account gets. The generic message is useless; name the cause.
     throw new AuthError(
       "This Spotify account is not on the app's allowlist. Add it in the Spotify " +

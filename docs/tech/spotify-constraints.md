@@ -15,7 +15,7 @@ segueing/mixing/overlapping Spotify content with other audio.
 
 **Consequences for this project:**
 
-- The app stays in Spotify **development mode**: up to 25 users, each added by hand
+- The app stays in Spotify **development mode**: up to 5 users, each added by hand
   (email + Spotify account) in the developer dashboard.
 - We do not request a quota extension. The extension request describes the use case
   and this one is explicitly prohibited.
@@ -199,7 +199,7 @@ editions and reissues all report the later date. Precision varies (`year`, `mont
 `day`) via `release_date_precision`.
 
 We therefore never read the year from the API. See
-[04-deck-format.md](04-deck-format.md).
+[deck-format.md](deck-format.md).
 
 Related: the audio-features, recommendations and related-artists endpoints were
 deprecated in November 2024 for new apps. We must not design any feature (automatic

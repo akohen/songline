@@ -2,7 +2,7 @@
  * Song Timeline — global stylesheet.
  *
  * Dark only, no framework, no CSS modules: seven small screens do not justify a new
- * dependency. See docs/08-mobile-ui.md for the design rationale.
+ * dependency. See docs/product/mobile-ui.md for the design rationale.
  */
 
 :root {
@@ -443,7 +443,7 @@ code {
 /* ---------- timeline ruleset ---------- */
 
 /*
- * The placement screen. See docs/09-timeline-ruleset.md.
+ * The placement screen. See docs/product/timeline-ruleset.md.
  *
  * Unlike the paper-ruleset round screen, this one is content-dense: the timeline is
  * the game state and needs the vertical space, so it scrolls inside the layout while

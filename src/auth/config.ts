@@ -1,5 +1,5 @@
 /**
- * Spotify OAuth configuration. See docs/02-spotify-constraints.md.
+ * Spotify OAuth configuration. See docs/tech/spotify-constraints.md.
  *
  * Authorization Code with PKCE: a static SPA cannot hold a client secret, and PKCE
  * issues refresh tokens to public clients. No secret appears anywhere in this

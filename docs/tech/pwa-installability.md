@@ -10,7 +10,7 @@ described here.
 
 Firebase Hosting already guarantees fresh builds without one:
 `/assets/**` (Vite's content-hashed build output) is served `immutable`, and
-`/index.html` is served `no-cache` (see [07-deployment.md](07-deployment.md) and
+`/index.html` is served `no-cache` (see [deployment.md](deployment.md) and
 `firebase.json`). A service worker would have nothing left to usefully cache — and
 would be the one component that could ever cause a returning user to be served a
 stale build. Skipping it entirely is a stronger guarantee than any caching strategy,

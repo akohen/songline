@@ -136,7 +136,7 @@ export function selectPlacement(state: GameState, deck: Deck): PlacementOutcome 
   };
 }
 
-/** Playback start offset for the current card, per docs/04-deck-format.md. */
+/** Playback start offset for the current card, per docs/tech/deck-format.md. */
 export function selectStartOffsetMs(state: GameState, deck: Deck): number {
   const card = deck.cards.find((c) => c.spotifyTrackId === state.currentCard);
   return card?.startOffsetMs ?? 0;

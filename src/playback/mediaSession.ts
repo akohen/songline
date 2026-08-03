@@ -7,7 +7,7 @@
  * popup. The Web Playback SDK fills that in with the real track, which would show
  * the answer on screen while players are still arguing about it.
  *
- * See docs/02-spotify-constraints.md — this is the leak surface we can address in
+ * See docs/tech/spotify-constraints.md — this is the leak surface we can address in
  * code; speakers with displays and other logged-in Spotify clients are covered by
  * the host setup checklist instead.
  */

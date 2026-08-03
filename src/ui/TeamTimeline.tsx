@@ -15,7 +15,7 @@ type Props = {
  * The current team's timeline, and the placement interaction.
  *
  * Vertical, not horizontal. A horizontal strip either scrolls the page sideways —
- * which docs/08-mobile-ui.md forbids — or shrinks the slots below a thumb once the
+ * which docs/product/mobile-ui.md forbids — or shrinks the slots below a thumb once the
  * timeline passes about four cards. Years run down the left against a spine; the gaps
  * between cards are the slots, and they are the primary action while a card is in
  * play.

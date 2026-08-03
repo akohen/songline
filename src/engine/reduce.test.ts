@@ -104,7 +104,7 @@ describe("reduce — purity", () => {
 });
 
 // ---------------------------------------------------------------------------
-// The timeline ruleset. See docs/09-timeline-ruleset.md.
+// The timeline ruleset. See docs/product/timeline-ruleset.md.
 // ---------------------------------------------------------------------------
 
 /**

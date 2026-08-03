@@ -4,22 +4,35 @@ A party game where players hear a song and must guess its release year, placing 
 into a chronological timeline of the songs played so far.
 
 Development is **iterative**. Each document describes the target design; the
-[roadmap](05-roadmap.md) says what is actually in scope for each iteration.
+[roadmap](roadmap.md) says what is actually in scope for each iteration.
 
 ## Index
 
+Read in this order: game design first, then the rest as needed.
+
+### Product
+
 | Document | Purpose |
 |---|---|
-| [01-game-design.md](01-game-design.md) | Rules, game loop, terminology, what varies between rulesets |
-| [02-spotify-constraints.md](02-spotify-constraints.md) | Hard limits imposed by Spotify: auth, playback, metadata leakage, legal |
-| [03-architecture.md](03-architecture.md) | Layers, state machine, technology choices |
-| [04-deck-format.md](04-deck-format.md) | Schema and curation rules for song decks |
-| [05-roadmap.md](05-roadmap.md) | Iteration plan |
-| [06-iteration-1-plan.md](06-iteration-1-plan.md) | Step-by-step plan for the iteration in progress |
-| [07-deployment.md](07-deployment.md) | Deploying to Firebase Hosting, for phone play |
-| [08-mobile-ui.md](08-mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
-| [09-timeline-ruleset.md](09-timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring |
-| [10-pwa-installability.md](10-pwa-installability.md) | Home-screen install (manifest, icons) — not offline support |
+| [product/game-design.md](product/game-design.md) | Rules, game loop, terminology, what varies between rulesets |
+| [product/timeline-ruleset.md](product/timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring |
+| [product/mobile-ui.md](product/mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
+
+### Tech
+
+| Document | Purpose |
+|---|---|
+| [tech/spotify-constraints.md](tech/spotify-constraints.md) | Hard limits imposed by Spotify: auth, playback, metadata leakage, legal |
+| [tech/architecture.md](tech/architecture.md) | Layers, state machine, technology choices |
+| [tech/deck-format.md](tech/deck-format.md) | Schema and curation rules for song decks |
+| [tech/deployment.md](tech/deployment.md) | Deploying to Firebase Hosting, for phone play |
+| [tech/pwa-installability.md](tech/pwa-installability.md) | Home-screen install (manifest, icons) — not offline support |
+
+### Planning
+
+| Document | Purpose |
+|---|---|
+| [roadmap.md](roadmap.md) | Iteration plan |
 
 ## Status
 
@@ -31,18 +44,17 @@ test deck, a 67-card classics deck, a 308-card Hitster Rock deck) with a game st
 screen and the validator, host setup checklist, and the round screen. Both
 de-risking spikes resolved — suppression works, playback latency is 136 ms.
 
-Deployed to Firebase Hosting for phone play ([07-deployment.md](07-deployment.md)).
+Deployed to Firebase Hosting for phone play ([tech/deployment.md](tech/deployment.md)).
 
-The mobile interface in [08-mobile-ui.md](08-mobile-ui.md) is built: dark theme,
-bottom-sheet menu, one primary action per phase, wake lock.
+The mobile interface in [product/mobile-ui.md](product/mobile-ui.md) is built: dark
+theme, bottom-sheet menu, one primary action per phase, wake lock.
 
-Next: play a real evening against the acceptance criteria in
-[06-iteration-1-plan.md](06-iteration-1-plan.md#acceptance-criteria). The output of
-that playtest is iteration 2's scope.
+Next: play a real evening against the acceptance criteria that shipped alongside
+iteration 1. The output of that playtest is iteration 2's scope.
 
 **Iteration 2 is built and unplayed.** The **optional** in-app timeline — one per team,
 round-robin turns, first to 10 cards — is specified in
-[09-timeline-ruleset.md](09-timeline-ruleset.md). Deck, mode and teams are all chosen on
+[product/timeline-ruleset.md](product/timeline-ruleset.md). Deck, mode and teams are all chosen on
 the game start screen, where `Start` always begins a new game and `Resume` is the only
 route back into a saved one. The paper ruleset remains the default and is unchanged. Not
 yet exercised in a real game with real audio.
@@ -53,8 +65,8 @@ yet exercised in a real game with real audio.
    the 30-second `preview_url` is deprecated and returns `null` for apps created
    after November 2024.
 2. **This app must stay private.** The Spotify Developer Policy prohibits games
-   (see [02-spotify-constraints.md](02-spotify-constraints.md#legal)). The app runs
-   in Spotify development mode, limited to 25 manually allowlisted users.
+   (see [tech/spotify-constraints.md](tech/spotify-constraints.md#legal)). The app
+   runs in Spotify development mode, limited to 5 manually allowlisted users.
 3. **Release year comes from our deck data, never from the Spotify API.** Spotify's
    `album.release_date` reports reissue dates for remasters and compilations, which
    would silently break the core mechanic.

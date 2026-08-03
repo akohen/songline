@@ -59,7 +59,7 @@ A **PLACED** phase between IN PLAY and REVEALED was predicted here and has since
 **rejected**: placement travels on the reveal event instead, because a slot selection
 is reversible, holds no card data, and would give the phase nothing to do but wait for
 a second tap. See
-[09-timeline-ruleset.md](09-timeline-ruleset.md#reveal-carries-the-slot-there-is-no-placed-phase).
+[timeline-ruleset.md](timeline-ruleset.md#reveal-carries-the-slot-there-is-no-placed-phase).
 
 ## Iteration 1 — timeline lives outside the app
 
@@ -100,13 +100,13 @@ iterations will differ:
 | Bonus guesses | None / guess title or artist for an extra token | None |
 
 The third column is the **second** ruleset, decided but not built — see
-[09-timeline-ruleset.md](09-timeline-ruleset.md). The first, still the default, is
+[timeline-ruleset.md](timeline-ruleset.md). The first, still the default, is
 iteration 1 below: no teams, no timeline, no score.
 
 **Design constraint:** the game engine is a pure function of
 `(state, ruleset, event) → state`. Rulesets are data, not code branches scattered
 through the UI. Iteration 1 scores nothing at all, so it ships no ruleset type —
-see [03-architecture.md](03-architecture.md#no-ruleset-parameter-yet).
+see [../tech/architecture.md](../tech/architecture.md#no-ruleset-parameter-yet).
 
 ## Difficulty levers
 

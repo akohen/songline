@@ -10,7 +10,7 @@ That was deliberate: the goal was a working game loop, and unstyled HTML is hone
 about being unfinished. It works on a desktop and is unpleasant on a phone.
 
 Now that the app is deployed to Firebase and playable from a phone
-([07-deployment.md](07-deployment.md)), the phone is the primary device. This
+([../tech/deployment.md](../tech/deployment.md)), the phone is the primary device. This
 document specifies the interface before any of it is written.
 
 **Decisions taken with the user:** dark theme only; menu opens as a bottom sheet;
@@ -34,7 +34,7 @@ must simply not break), elaborate animation, installability/PWA, offline support
 
 **The pre-reveal screen is deliberately information-poor.** Nothing may identify the
 song — that is the whole game, and the constraint is enforced in the engine, not
-here (see [03-architecture.md](03-architecture.md)). So the play screen has almost
+here (see [../tech/architecture.md](../tech/architecture.md)). So the play screen has almost
 no content to arrange. Rather than fight that, the design leans on it: a lot of
 space, a round number, and one obvious thing to press.
 
@@ -230,7 +230,7 @@ pinned to the bottom.
 ```
 
 The staged reveal — title and artist first, the year about a second later — is
-specified in [01-game-design.md](01-game-design.md) and is preserved. Under
+specified in [game-design.md](game-design.md) and is preserved. Under
 `prefers-reduced-motion` both appear at once.
 
 **Primary action by phase** — exactly one at a time:
@@ -249,7 +249,7 @@ game.
 
 That the draw happens *in the click* is not a detail — it is what keeps
 `activateElement()` inside a user gesture. See
-[02-spotify-constraints.md](02-spotify-constraints.md).
+[../tech/spotify-constraints.md](../tech/spotify-constraints.md).
 
 "Skip this song" and "Next song" dispatch the same `DRAW` event — the engine has only
 two events. The label differs because the intent differs: abandoning a card nobody
@@ -257,7 +257,7 @@ can place, versus moving on after a reveal.
 
 ### Placement screen — timeline ruleset
 
-The optional in-app timeline ([09-timeline-ruleset.md](09-timeline-ruleset.md)) gives
+The optional in-app timeline ([timeline-ruleset.md](timeline-ruleset.md)) gives
 the round screen a second, content-dense layout. The paper-ruleset screen above is
 **unchanged**; which one renders is decided by `selectTeams` returning null.
 
@@ -347,7 +347,7 @@ the value and closes the sheet immediately — no separate confirm step.
 **Start always starts a new game, and Resume is the only way into a saved one.**
 Restoring used to happen just by arriving at the round screen, which left no way to ask
 for a fresh game and no way to tell which one you had got. See invariant 4 in
-[AGENTS.md](../AGENTS.md).
+[AGENTS.md](../../AGENTS.md).
 
 Resume resumes **what was saved**, not what is selected above — the highlighted deck has
 no bearing on a game already in progress. It is absent when there is no save, and also
@@ -443,7 +443,7 @@ hides it: under `prefers-reduced-motion` the spinner does not turn, so the words
 the only thing left carrying the state.
 
 What counts as "loaded" is a playback question, answered in
-[02-spotify-constraints.md](02-spotify-constraints.md#playtrack-resolving-is-not-audio-starting).
+[../tech/spotify-constraints.md](../tech/spotify-constraints.md#playtrack-resolving-is-not-audio-starting).
 
 ### Other screens
 
