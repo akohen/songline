@@ -36,7 +36,8 @@ Read in this order: game design first, then the rest as needed.
 
 ## Status
 
-**Iteration 1 is code-complete and awaiting its first playtest.**
+**Iteration 1 has been played across several real evenings, with no spoiler leak and
+no mid-game token expiry.**
 
 Done: scaffold, engine (pure, spoiler-gated), PKCE auth with silent refresh,
 Web Playback SDK adapter, Media Session suppression, three bundled decks (a 4-card
@@ -49,15 +50,16 @@ Deployed to Firebase Hosting for phone play ([tech/deployment.md](tech/deploymen
 The mobile interface in [product/mobile-ui.md](product/mobile-ui.md) is built: dark
 theme, bottom-sheet menu, one primary action per phase, wake lock.
 
-Next: play a real evening against the acceptance criteria that shipped alongside
-iteration 1. The output of that playtest is iteration 2's scope.
+**Iteration 2 has also been played, with no issues found.** The **optional** in-app
+timeline — one per team, round-robin turns, first to 10 cards — is specified in
+[product/timeline-ruleset.md](product/timeline-ruleset.md). Deck, mode and teams are
+all chosen on the game start screen, where `Start` always begins a new game and
+`Resume` is the only route back into a saved one. The paper ruleset remains the
+default and is unchanged.
 
-**Iteration 2 is built and unplayed.** The **optional** in-app timeline — one per team,
-round-robin turns, first to 10 cards — is specified in
-[product/timeline-ruleset.md](product/timeline-ruleset.md). Deck, mode and teams are all chosen on
-the game start screen, where `Start` always begins a new game and `Resume` is the only
-route back into a saved one. The paper ruleset remains the default and is unchanged. Not
-yet exercised in a real game with real audio.
+Both playable iterations are now validated by real use. What comes next, if
+anything, is open — see the iteration 3/4 direction in
+[roadmap.md](roadmap.md#iteration-3--depth).
 
 ## Non-negotiable context
 

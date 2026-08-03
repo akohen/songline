@@ -25,7 +25,7 @@ reveals the year on demand. Players do the rest.
   replay / reveal)
 - Session persistence to `localStorage`
 
-**Done when:** a full evening is played end to end with no spoiler leak and no
+**Done:** played end to end across several evenings, with no spoiler leak and no
 mid-game token expiry.
 
 **Deliberately excluded:** players, scoring, in-app timeline.
@@ -39,7 +39,7 @@ paper version stays the default.
 
 > Rules, state shape and open questions: [product/timeline-ruleset.md](product/timeline-ruleset.md)
 
-**Built, and not yet played.** Awaiting the same thing iteration 1 is: a real evening.
+**Built and played.** No issues found.
 
 - Deck, mode and team setup together on a game start screen, with an explicit Resume
 - One timeline per team, tap-to-place into a slot, confirm to resolve
@@ -59,10 +59,19 @@ covers the solitaire case, so per-player needs no separate mode.
 
 - Tokens and stealing (Hitster-like ruleset). Per-player timelines are already
   covered by iteration 2's teams-of-one
+- Challenging another team's placement, not just your own turn — the mechanic
+  tokens/stealing above would need to cover
 - Difficulty labels
 - Bonus guesses for title/artist
 - Configurable clip length and replay limits
 - Web API device adapter as a playback fallback, with a spoiler warning
+- A session summary at the end — every song played, so the room can re-listen or
+  look an artist up afterwards. Needs the engine to keep what it currently discards:
+  right now nothing survives past the round it was drawn in. Spoiler-safe by
+  construction — everything on the list has already been through `revealed` — but
+  worth designing as a selector alongside the others, not a UI-side accumulation of
+  `revealed` cards, for the same reason `selectTeams` resolves IDs inside the engine
+  rather than the component.
 
 ---
 
@@ -71,7 +80,15 @@ covers the solitaire case, so per-player needs no separate mode.
 Only if single-screen play proves genuinely limiting. This is the first iteration
 that requires a backend, and it should not be entered casually.
 
-- Room codes, host screen + phone controllers
+Motivating gap: the timeline ruleset (iteration 2) only works when everyone can see
+one screen, which caps the group size it's good for — "songs only," tracked on paper,
+is what large groups already fall back to. Two ways to lift that cap, in increasing
+order of cost:
+
+- Mirror the current single screen to a TV — no new mechanic, just a bigger display.
+  Might not need a backend at all if it's literally the same page cast or plugged in.
+- Room codes, host screen + phone controllers, so each team can see their own
+  timeline on their own device
 - Realtime sync (websockets), backend, room lifecycle
 - Simultaneous secret placement, revealed together
 
@@ -96,3 +113,4 @@ that requires a backend, and it should not be entered casually.
 | Metadata leaks via a surface we do not control | Ruins the round | Host setup checklist; prefer a screenless speaker |
 | Deck rot — tracks removed or market-restricted | Broken round mid-game | Validation script run before each session; skip-and-log at runtime |
 | Curation effort underestimated | Content bottleneck | Start at ~60 cards; treat deck-building as ongoing, not a phase |
+| Player disconnects after the app sits backgrounded for a while | Playback silently dead; only fix found so far is a page refresh | Open. Needs investigating whether the SDK exposes a connection-state event we can act on before reaching for a fix |
