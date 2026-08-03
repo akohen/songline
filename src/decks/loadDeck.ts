@@ -1,3 +1,4 @@
+import classical from "@/decks/classical.json";
 import classicsInternational from "@/decks/classics-international.json";
 import hitsterRock from "@/decks/hitster-rock.json";
 import testDeck from "@/decks/test-deck.json";
@@ -15,6 +16,7 @@ export const DECKS: Deck[] = [
   testDeck as Deck,
   classicsInternational as Deck,
   hitsterRock as Deck,
+  classical as Deck,
 ];
 
 export function getDeck(id: string): Deck | undefined {

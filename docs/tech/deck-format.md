@@ -55,8 +55,8 @@ date comparison, and not something a script can decide.
 | `id` (deck) | Lowercase kebab-case. Must equal the filename stem. |
 | `market` | ISO 3166-1 alpha-2. The market `validate:decks` checked against. |
 | `spotifyTrackId` | Base-62 track ID, not a URI or URL. Unique within the deck, and doubles as the card's identity for "already played" tracking — a separate card ID would be bookkeeping with no payoff. |
-| `year` | Four-digit integer. Year of **first commercial release** of *this recording*. |
-| `title` / `artist` | Display only, shown at reveal. Never used for matching. |
+| `year` | Four-digit integer. Year the **credited artist** first released or performed this version. |
+| `title` / `artist` | Display only, shown at reveal. Never used for matching. For classical decks, `artist` names the **composer**, not the performer — see curation rule 2. |
 | `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. **Omit in iteration 1** — every song starts at 0:00 by decision; the field is honoured but unused. |
 | `notes` | Free text for the curator. Useful for recording a judgement call — an ambiguous year, or why a particular recording was chosen. |
 
@@ -64,9 +64,17 @@ date comparison, and not something a script can decide.
 
 1. **Set the year from a source you trust** — Wikipedia, Discogs or MusicBrainz.
    Whatever you write is what the game uses; there is nothing to reconcile it against.
-2. **Year of the recording, not the song.** A 1994 cover of a 1965 song is 1994.
-   A live 2003 recording of a 1978 song is 2003 — or exclude it; live versions are
-   ambiguous and frustrate players.
+2. **Year the credited artist first released this version, not the underlying song.**
+   A cover by a *different* artist is that artist's own release — Goldfinger's "99 Red
+   Balloons" is dated to Goldfinger's release, not Nena's 1983 original, because the
+   card credits Goldfinger. A live recording of a song the same artist already
+   released in studio form stays dated to that original release — or exclude it; live
+   versions are ambiguous and frustrate players.
+
+   For **classical decks**, `artist` names the composer, not the performing orchestra
+   or soloist. Different performers recording the same work are not a new artist's
+   release the way a cover is, so the year stays the composition/premiere year no
+   matter which recording supplies the audio.
 3. **When the single and the album differ, use the single.** That is when the song
    actually reached the public, and it is what players remember. This is not
    hypothetical: it decides five cards in `classics-international` — Rolling in the
@@ -74,16 +82,17 @@ date comparison, and not something a script can decide.
    ...Baby One More Time (1998/1999), One More Time (2000/2001). Record the split in
    `notes` so the choice is visibly deliberate rather than looking like an error.
 4. **Prefer the original studio release** of a track over a remaster when both are on
-   Spotify, so that the audio matches the year even if the listener recognises the
-   production.
-5. **Avoid**: compilations-only tracks, "Sped Up"/"Slowed" versions, re-recordings
-   (e.g. Taylor's Versions) unless the re-recording year is what you intend, and
-   anything whose release date is genuinely disputed.
+   Spotify, so the audio still sounds like it belongs to the year on the card, even
+   though that year no longer depends on which recording you pick.
+5. **Avoid**: compilations-only tracks, "Sped Up"/"Slowed" versions, and anything
+   whose original release date is genuinely disputed. Re-recordings (e.g. Taylor's
+   Versions) are fine as audio — the card still takes the original release year —
+   but note the substitution if the production sounds noticeably out of era.
 6. **One track per artist per deck**, as a default, to keep variety. This rule can be ignored for thematic decks.
 
 ### Deck size and spread
 
-- **Around 30 cards** for a new deck. Enough for an evening, and it surfaces curation
+- **At least 50 cards** for a new deck. Enough for an evening, and it surfaces curation
   problems before you have sunk effort into twice that.
 - **Spread evenly across decades** — roughly 5 per decade for a 1960s–2010s deck — so
   the timeline has anchors across the whole range instead of clustering.
@@ -137,7 +146,9 @@ Steps 1–4 as above, then two more that are easy to miss:
 `pnpm validate:decks` checks each deck and exits non-zero on error:
 
 - Schema conformance and unique track IDs.
-- `year` is between 1900 and the current year.
+- `year` is an integer no later than the current year. There is no lower bound —
+  `classical` needs years back to the 1600s, and a fixed floor picked for pop/rock
+  decks carries no meaning for other genres.
 - Every `spotifyTrackId` resolves and comes back playable in the deck's market —
   catching typos, removed tracks and market restrictions before game night rather
   than during it.

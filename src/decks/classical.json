@@ -1,0 +1,332 @@
+{
+  "id": "classical",
+  "name": "Classical Music",
+  "description": "Classical masterpieces from Baroque to the 20th century, 1607-1937",
+  "language": "en",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "5mYHphU32rAs0L6tREA7sx",
+      "year": 1607,
+      "title": "L'Orfeo: Toccata",
+      "artist": "Claudio Monteverdi"
+    },
+    {
+      "spotifyTrackId": "3GzLfxLSE34VID8exXO1Gc",
+      "year": 1723,
+      "title": "The Four Seasons: Spring, I. Allegro",
+      "artist": "Antonio Vivaldi"
+    },
+    {
+      "spotifyTrackId": "0BWJNm4TrO6H3qgiCmDBjM",
+      "year": 1704,
+      "title": "Toccata and Fugue in D Minor, BWV 565",
+      "artist": "Johann Sebastian Bach",
+      "notes": "Composition year is disputed by some scholars but 1704 is the conventional attribution"
+    },
+    {
+      "spotifyTrackId": "6pt8oGfiwgidz03nGw1zTb",
+      "year": 1731,
+      "title": "Orchestral Suite No. 3: Air on the G String",
+      "artist": "Johann Sebastian Bach"
+    },
+    {
+      "spotifyTrackId": "4TNCQyG2gmepsGoeLdRKn4",
+      "year": 1741,
+      "title": "Messiah: Hallelujah Chorus",
+      "artist": "George Frideric Handel"
+    },
+    {
+      "spotifyTrackId": "0clABVxOrf8MUwbCVzDKdH",
+      "year": 1749,
+      "title": "Music for the Royal Fireworks: Overture",
+      "artist": "George Frideric Handel"
+    },
+    {
+      "spotifyTrackId": "1c3GkbZBnyrQ1cm4TGHFrK",
+      "year": 1680,
+      "title": "Canon in D",
+      "artist": "Johann Pachelbel",
+      "notes": "Composition date is unknown and estimated to c. 1680"
+    },
+    {
+      "spotifyTrackId": "66gLx85556w2GiV9ksXsJ0",
+      "year": 1721,
+      "title": "Brandenburg Concerto No. 3, I. Allegro",
+      "artist": "Johann Sebastian Bach"
+    },
+    {
+      "spotifyTrackId": "54AJDvSCBOm2LX5XTLQgAm",
+      "year": 1791,
+      "title": "Symphony No. 94 \"Surprise,\" II. Andante",
+      "artist": "Joseph Haydn"
+    },
+    {
+      "spotifyTrackId": "2mRUmSG3XGjFloqgAT2UJN",
+      "year": 1787,
+      "title": "Eine kleine Nachtmusik, I. Allegro",
+      "artist": "Wolfgang Amadeus Mozart"
+    },
+    {
+      "spotifyTrackId": "6OC0v9yU90ME5DW2o1skKr",
+      "year": 1788,
+      "title": "Symphony No. 40, I. Molto allegro",
+      "artist": "Wolfgang Amadeus Mozart"
+    },
+    {
+      "spotifyTrackId": "2IRMCtPrxmJwpyfCF8WcJA",
+      "year": 1791,
+      "title": "The Magic Flute: Queen of the Night aria",
+      "artist": "Wolfgang Amadeus Mozart"
+    },
+    {
+      "spotifyTrackId": "4ATc4is1rQb7PgKqtOdDnR",
+      "year": 1791,
+      "title": "Requiem: Lacrimosa",
+      "artist": "Wolfgang Amadeus Mozart"
+    },
+    {
+      "spotifyTrackId": "5rkhImAE9y8vHwWPjfkx61",
+      "year": 1808,
+      "title": "Symphony No. 5, I. Allegro con brio",
+      "artist": "Ludwig van Beethoven"
+    },
+    {
+      "spotifyTrackId": "6foNAcmEDSJxPkGpxA3VEC",
+      "year": 1801,
+      "title": "Moonlight Sonata, I. Adagio sostenuto",
+      "artist": "Ludwig van Beethoven"
+    },
+    {
+      "spotifyTrackId": "6z8HpVkFOfjsKPDlwjJL0D",
+      "year": 1824,
+      "title": "Symphony No. 9, IV. \"Ode to Joy\"",
+      "artist": "Ludwig van Beethoven"
+    },
+    {
+      "spotifyTrackId": "6msVNnNs5PJ19yb51PNAEk",
+      "year": 1867,
+      "title": "Für Elise",
+      "artist": "Ludwig van Beethoven",
+      "notes": "Composed privately in 1810 (Beethoven died 1827); the manuscript was not discovered and publicly released until 1867, which is the year used"
+    },
+    {
+      "spotifyTrackId": "45YcmxAKzubK5nzHksbxvd",
+      "year": 1797,
+      "title": "Sonatina Op. 36 No. 1, I. Allegro",
+      "artist": "Muzio Clementi"
+    },
+    {
+      "spotifyTrackId": "3eLlW0GegkXy3o92t51xaJ",
+      "year": 1825,
+      "title": "Ave Maria",
+      "artist": "Franz Schubert"
+    },
+    {
+      "spotifyTrackId": "4xt4W0JcZrLzLuFLm3w5AB",
+      "year": 1832,
+      "title": "Nocturne Op. 9 No. 2",
+      "artist": "Frédéric Chopin"
+    },
+    {
+      "spotifyTrackId": "5PJdoZiLVsMy4cfQjZfum6",
+      "year": 1847,
+      "title": "Minute Waltz",
+      "artist": "Frédéric Chopin"
+    },
+    {
+      "spotifyTrackId": "5Z7RIGROuDxyqtWjWqEcqz",
+      "year": 1855,
+      "title": "Fantaisie-Impromptu",
+      "artist": "Frédéric Chopin",
+      "notes": "Composed 1834 but Chopin never published it; first publicly released (posthumously, against his wishes) in 1855, which is the year used"
+    },
+    {
+      "spotifyTrackId": "7eITzwuOcf14wfeg0mP1HX",
+      "year": 1843,
+      "title": "A Midsummer Night's Dream: Wedding March",
+      "artist": "Felix Mendelssohn"
+    },
+    {
+      "spotifyTrackId": "7CIoJE0JfVFcmmUY3fFojH",
+      "year": 1847,
+      "title": "Hungarian Rhapsody No. 2",
+      "artist": "Franz Liszt"
+    },
+    {
+      "spotifyTrackId": "0FGmVOBDjWtP3UFkvtssew",
+      "year": 1850,
+      "title": "Lohengrin: Bridal Chorus",
+      "artist": "Richard Wagner"
+    },
+    {
+      "spotifyTrackId": "1Oy6ZNlKSzP1Tf6XxovDyG",
+      "year": 1856,
+      "title": "Die Walküre: Ride of the Valkyries",
+      "artist": "Richard Wagner"
+    },
+    {
+      "spotifyTrackId": "50KVOLNNqft8SJr5ybrv8G",
+      "year": 1851,
+      "title": "Rigoletto: La donna è mobile",
+      "artist": "Giuseppe Verdi"
+    },
+    {
+      "spotifyTrackId": "4J0e4gEqaLQlG5EM0wws1K",
+      "year": 1866,
+      "title": "The Blue Danube",
+      "artist": "Johann Strauss II"
+    },
+    {
+      "spotifyTrackId": "2cFsO1qC65joLn2GzRViBI",
+      "year": 1869,
+      "title": "Hungarian Dance No. 5",
+      "artist": "Johannes Brahms"
+    },
+    {
+      "spotifyTrackId": "3VlXTyJyEKnWDBYYcEqy80",
+      "year": 1868,
+      "title": "Wiegenlied (Lullaby)",
+      "artist": "Johannes Brahms"
+    },
+    {
+      "spotifyTrackId": "3pzBD8BVdrv7VJ7glRYshl",
+      "year": 1875,
+      "title": "Carmen: Habanera",
+      "artist": "Georges Bizet"
+    },
+    {
+      "spotifyTrackId": "6kyiWsforDWCq1VBCm4BNZ",
+      "year": 1858,
+      "title": "Orphée aux enfers: Galop infernal (Can-Can)",
+      "artist": "Jacques Offenbach"
+    },
+    {
+      "spotifyTrackId": "6mhQ7eOHaV0ur2ooKTavW1",
+      "year": 1880,
+      "title": "1812 Overture",
+      "artist": "Pyotr Ilyich Tchaikovsky"
+    },
+    {
+      "spotifyTrackId": "1oDAFTOXZGSQedBa6hXGhT",
+      "year": 1892,
+      "title": "The Nutcracker: Dance of the Sugar Plum Fairy",
+      "artist": "Pyotr Ilyich Tchaikovsky"
+    },
+    {
+      "spotifyTrackId": "0CJuLeZpCdqrqoCMXWZw8k",
+      "year": 1892,
+      "title": "The Nutcracker: Waltz of the Flowers",
+      "artist": "Pyotr Ilyich Tchaikovsky"
+    },
+    {
+      "spotifyTrackId": "0GbP8finLuBFXdeX49diV6",
+      "year": 1876,
+      "title": "Peer Gynt: In the Hall of the Mountain King",
+      "artist": "Edvard Grieg"
+    },
+    {
+      "spotifyTrackId": "0awWxz7WRKdSpU9RVZ5PVK",
+      "year": 1876,
+      "title": "Peer Gynt: Morning Mood",
+      "artist": "Edvard Grieg"
+    },
+    {
+      "spotifyTrackId": "0jOnZhF75V68VsBObWx2XO",
+      "year": 1886,
+      "title": "Carnival of the Animals: The Swan",
+      "artist": "Camille Saint-Saëns"
+    },
+    {
+      "spotifyTrackId": "6nqHzwOdGIaX57U6VU6kMO",
+      "year": 1893,
+      "title": "Symphony No. 9 \"From the New World,\" IV. Allegro con fuoco",
+      "artist": "Antonín Dvořák"
+    },
+    {
+      "spotifyTrackId": "3uX11UryFh2ujpeZBWYgkv",
+      "year": 1926,
+      "title": "Turandot: Nessun dorma",
+      "artist": "Giacomo Puccini",
+      "notes": "Puccini died in 1924 leaving the opera unfinished; it premiered posthumously in 1926"
+    },
+    {
+      "spotifyTrackId": "78k57V2uo6Sm72j1H7Ih14",
+      "year": 1918,
+      "title": "Gianni Schicchi: O mio babbino caro",
+      "artist": "Giacomo Puccini"
+    },
+    {
+      "spotifyTrackId": "1TR2YzbmK96cbIRHjXs9ul",
+      "year": 1905,
+      "title": "Clair de Lune",
+      "artist": "Claude Debussy"
+    },
+    {
+      "spotifyTrackId": "5nsYZFNyMefd50yamWgMfy",
+      "year": 1901,
+      "title": "Pomp and Circumstance March No. 1",
+      "artist": "Edward Elgar"
+    },
+    {
+      "spotifyTrackId": "7fcDQg8prLdJwim6Ey7neB",
+      "year": 1901,
+      "title": "Piano Concerto No. 2, I. Moderato",
+      "artist": "Sergei Rachmaninoff"
+    },
+    {
+      "spotifyTrackId": "6BywXdPigCH0sgHlJ98kuQ",
+      "year": 1899,
+      "title": "Finlandia",
+      "artist": "Jean Sibelius"
+    },
+    {
+      "spotifyTrackId": "784wbjI3W3Ga4OVYEYg5uf",
+      "year": 1913,
+      "title": "The Rite of Spring: Augurs of Spring",
+      "artist": "Igor Stravinsky"
+    },
+    {
+      "spotifyTrackId": "1C3RIRKQZhSk5d2iioIhkg",
+      "year": 1918,
+      "title": "The Planets: Mars, the Bringer of War",
+      "artist": "Gustav Holst"
+    },
+    {
+      "spotifyTrackId": "7oB0QBEnGRIJjvlDc8YnM6",
+      "year": 1924,
+      "title": "Rhapsody in Blue",
+      "artist": "George Gershwin"
+    },
+    {
+      "spotifyTrackId": "7E1ErYYCn0lYjHODZ1qGuB",
+      "year": 1928,
+      "title": "Boléro",
+      "artist": "Maurice Ravel"
+    },
+    {
+      "spotifyTrackId": "2K2BTUaCTgNPuxinZf7DvR",
+      "year": 1936,
+      "title": "Carmina Burana: O Fortuna",
+      "artist": "Carl Orff"
+    },
+    {
+      "spotifyTrackId": "299l0c2f2WNnyKU5K8aQ6S",
+      "year": 1936,
+      "title": "Adagio for Strings",
+      "artist": "Samuel Barber"
+    },
+    {
+      "spotifyTrackId": "7HSs4srn1qnZhh7WRWBVOk",
+      "year": 1935,
+      "title": "Romeo and Juliet: Dance of the Knights",
+      "artist": "Sergei Prokofiev"
+    },
+    {
+      "spotifyTrackId": "43AaynGtmgrGdiXLXIwnle",
+      "year": 1937,
+      "title": "Symphony No. 5, IV. Finale",
+      "artist": "Dmitri Shostakovich"
+    }
+  ]
+}

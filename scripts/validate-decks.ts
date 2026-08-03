@@ -85,7 +85,7 @@ function checkStructure(deck: Deck, filename: string): string[] {
     }
     seen.add(card.spotifyTrackId);
 
-    if (!Number.isInteger(card.year) || card.year < 1900 || card.year > currentYear) {
+    if (!Number.isInteger(card.year) || card.year > currentYear) {
       errors.push(`implausible year ${card.year} for ${label}`);
     }
     if (!/^[A-Za-z0-9]{22}$/.test(card.spotifyTrackId)) {
