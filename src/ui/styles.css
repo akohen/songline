@@ -65,13 +65,21 @@ body {
 }
 
 #root {
-  /* dvh, not vh: mobile Safari's vh is wrong when the toolbar hides, which would
-     push the primary button off-screen.
+  /* svh, not vh or dvh: vh is wrong on mobile Safari when the toolbar hides, which
+     would push the primary button off-screen — dvh was meant to fix that, but on
+     Android Chrome, pulling to refresh an installed PWA appears to measure dvh while
+     the refresh-spinner UI is still transiently occupying part of the screen, and
+     the layout never gets a follow-up recalculation once it's gone — leaving #root
+     taller than the real viewport and the footer pinned below the visible fold.
+     svh is the smallest possible viewport across every browser-chrome state, so it
+     can never be measured larger than the screen actually is; the tradeoff is not
+     using the last few pixels on the rare occasion the browser's own UI is fully
+     hidden.
      A real height, not min-height: the flex chain below (.app, .screen) only clips
      its content to the remaining space if this container has a definite height —
      otherwise it grows to fit content and the whole page scrolls, taking the header
      with it. */
-  height: 100dvh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
 }
@@ -891,6 +899,10 @@ code {
   border: none;
   padding: 0;
   width: 100%;
+  /* Above .footer's own stacking context (position: sticky) — without this,
+     scrim/sheet only outrank it by DOM order, which broke for GameStartScreen's
+     inline pickers, opened before the footer in the tree. */
+  z-index: 10;
   animation: scrim-in 0.15s ease both;
 }
 
@@ -917,6 +929,7 @@ code {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  z-index: 10;
   animation: sheet-in 0.2s ease both;
 }
 
