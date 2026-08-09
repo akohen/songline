@@ -69,8 +69,9 @@ export function LoginScreen({ onLogin }: Props) {
               placeholder="Leave blank to use the default app"
             />
             <p className="round__meta">
-              Create a free app at developer.spotify.com/dashboard, then add this exact
-              Redirect URI to it: <code>{getRedirectUri()}</code>
+              Create a free app at developer.spotify.com/dashboard, selecting{" "}
+              <strong>Web API</strong> and <strong>Web Playback SDK</strong>, then add
+              this exact Redirect URI to it: <code>{getRedirectUri()}</code>
             </p>
             {error && <p className="field__error">{error}</p>}
           </div>
