@@ -1,5 +1,6 @@
 import { API_BASE } from "@/auth/config";
 import type { TrackId } from "@/decks/types";
+import { playCommandError, unreachableError } from "@/playback/errors";
 import { loadSpotifySdk } from "@/playback/loadSdk";
 import { suppressAll } from "@/playback/mediaSession";
 import {
@@ -89,9 +90,30 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
       });
     });
 
-    const deviceId = await new Promise<string>((resolve, reject) => {
-      player.addListener("ready", ({ device_id }) => resolve(device_id));
+    // Registered for the player's whole life, not just until the first `ready`.
+    //
+    // The device ID is not a constant: the SDK deregisters our device when its socket
+    // drops — backgrounded tab, tunnel — and registers it again on reconnect. Capturing
+    // it once, as this did, left the adapter naming a device that no longer existed, so
+    // every play command 404'd until the page was reloaded. Worse, that 404 read as
+    // "unavailable in your market", blaming the deck for a network problem.
+    let markReady: (() => void) | null = null;
+    player.addListener("ready", ({ device_id }) => {
+      this.deviceId = device_id;
+      markReady?.();
+    });
+    player.addListener("not_ready", () => {
+      this.deviceId = null;
+    });
 
+    await new Promise<void>((resolve, reject) => {
+      // Resolving twice is a no-op, so later `ready` events pass through harmlessly.
+      markReady = resolve;
+
+      // These three, by contrast, are only meaningful before `ready`: afterwards they
+      // reject a settled promise and vanish. Surfacing a mid-session authentication
+      // failure needs an error channel on PlaybackState, which does not exist — see
+      // docs/tech/spotify-constraints.md.
       player.addListener("initialization_error", ({ message }) =>
         reject(new PlaybackError(message, "init_failed")),
       );
@@ -115,7 +137,6 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
       });
     });
 
-    this.deviceId = deviceId;
     suppressAll();
   }
 
@@ -213,9 +234,17 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
     return this.player;
   }
 
+  /**
+   * Past a successful `initialize`, a null device ID can only mean `not_ready` fired —
+   * so this is a connection that dropped, not a player that never started, and Retry is
+   * a reasonable thing to offer.
+   */
   private requireDevice(): string {
     if (!this.deviceId) {
-      throw new PlaybackError("No playback device is ready.", "init_failed");
+      throw new PlaybackError(
+        "The player lost its connection to Spotify.",
+        "connection_lost",
+      );
     }
     return this.deviceId;
   }
@@ -224,36 +253,30 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
     const token = this.getToken();
     if (!token) throw new PlaybackError("Not signed in.", "auth_failed");
 
-    const response = await fetch(`${API_BASE}${path}`, {
-      method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
+    let response: Response;
+    try {
+      response = await fetch(`${API_BASE}${path}`, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+    } catch {
+      // `fetch` rejects rather than resolving when there was no network to carry the
+      // request — a phone in a tunnel. Uncaught, this surfaced as a bare
+      // "Failed to fetch" in the round screen's error banner.
+      throw unreachableError();
+    }
 
     if (response.ok || response.status === 204) return;
 
-    // 404 here means the track is not available in this market, which is a deck
-    // problem rather than a player problem — the round screen offers "Next song".
-    if (response.status === 404) {
-      throw new PlaybackError(
-        "This track is unavailable in your market.",
-        "track_unavailable",
-      );
-    }
-    if (response.status === 403) {
-      throw new PlaybackError(
-        "Spotify refused playback. Premium is required.",
-        "not_premium",
-      );
-    }
-
-    throw new PlaybackError(
-      `Playback request failed (${response.status}).`,
-      "playback_failed",
-    );
+    // The body is what separates a market-restricted track from a device that
+    // deregistered while the connection was down; both answer 404. Guarded because an
+    // error response is not obliged to be JSON.
+    const errorBody = await response.json().catch(() => null);
+    throw playCommandError(response.status, errorBody);
   }
 
   private emit(state: PlaybackState): void {

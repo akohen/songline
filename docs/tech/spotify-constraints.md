@@ -127,6 +127,64 @@ the SDK next speaks, which on a bad connection is the whole problem.
 comparing an ID it was handed by its own caller against itself; nothing is learned, and
 no ID enters `PlaybackState`. See `src/playback/webPlaybackSdkAdapter.ts`.
 
+#### Why a play command failed — and whether retrying is honest
+
+A phone loses the network: a tunnel, a lift, a dead spot. That failure and "this track
+is not licensed here" are different problems with different ways out, and the API does
+not hand us the difference on a plate — **`PUT /me/player/play` returns `404` for both**.
+The endpoint answers 404 when the track is unavailable in the market *and* when the
+`device_id` we named no longer exists.
+
+For a long time the adapter read that 404 as market restriction only, so losing the
+connection accused the deck. Three signals separate them, and the adapter now reads all
+three:
+
+| Signal | Means | Kind |
+|---|---|---|
+| `fetch` itself rejects (`TypeError`) | The request never left the phone. Cannot be a track problem. | `connection_lost` |
+| `404` with `error.reason: "NO_ACTIVE_DEVICE"` | Our device deregistered — the socket dropped. | `connection_lost` |
+| `404` with any other body | Genuinely unavailable here. | `track_unavailable` |
+
+`502/503/504` join the first group: a gateway error is transient by definition.
+`429` deliberately does not — rate limiting is a different problem and nothing in the
+game generates the volume to provoke it.
+
+`PlaybackErrorKind` has exactly one consumer, `describePlaybackError` in `src/ui/`, and
+it asks one question: *may this succeed if tried again?* Only `connection_lost` answers
+yes, and only then does the round screen offer **Retry**. Separate `network_failed` and
+`device_lost` kinds were considered and dropped — they would have differed in wording
+alone, which the message already carries.
+
+**Retry is a button, never automatic.** An attempt fired from an `online` event or a
+timer runs outside a user gesture, and `activateElement` is unforgiving about that: if
+the failure hit the session's *first* track, the flag is not yet latched and an
+automatic retry would transfer the track and leave it silently paused — the worst
+possible outcome, since the screen would report success. See the `activateElement`
+section above.
+
+Retry must also **not** re-run `drawAndPlay`, which dispatches `DRAW` and would burn the
+next card. It re-issues `playTrack` for the card already in play.
+
+#### The device ID is not a constant
+
+`ready` and `not_ready` are registered on the player for its whole life, and `ready`
+writes `this.deviceId` every time it fires. An earlier version captured the ID once,
+inside the promise that `initialize()` awaits — so when the SDK deregistered the device
+and later re-registered it, the adapter went on naming a device that no longer existed
+and every play command 404'd until the page was reloaded.
+
+`not_ready` clears the ID, which makes `requireDevice()` a `connection_lost` rather than
+a guess.
+
+**Known gap:** the `initialization_error` / `authentication_error` / `account_error`
+listeners still live inside that promise's executor, so after `ready` has resolved they
+call `reject` on a settled promise and vanish. Surfacing a mid-session authentication
+failure needs an error channel on `PlaybackState`, which does not exist — nothing that
+fails *after* `playTrack` resolves is visible to the UI today.
+
+**Also unresolved:** if the SDK never re-fires `ready` after a long disconnection,
+Retry keeps failing and reloading the page remains the only fix.
+
 ### B. Web API — remote control of an existing device
 
 The user's Spotify desktop/phone app plays; we send REST commands to it.

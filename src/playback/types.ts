@@ -20,7 +20,17 @@ export type PlaybackErrorKind =
   | "init_failed"
   | "auth_failed"
   | "playback_failed"
-  | "track_unavailable";
+  | "track_unavailable"
+  /**
+   * The failure may not still be true a minute from now — the network dropped, or our
+   * device deregistered while it was down.
+   *
+   * The only kind anything branches on, and it is asked exactly one question: may this
+   * succeed if tried again? Splitting it into `network_failed` and `device_lost` was
+   * considered and dropped — they would differ in wording alone, which the message
+   * already carries. See docs/tech/spotify-constraints.md.
+   */
+  | "connection_lost";
 
 export class PlaybackError extends Error {
   constructor(

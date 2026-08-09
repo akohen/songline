@@ -4,7 +4,11 @@ import type { GameState } from "@/engine";
 import type { PlaybackPort } from "@/playback/types";
 import { WebPlaybackSdkAdapter } from "@/playback/webPlaybackSdkAdapter";
 import { AppShell } from "@/ui/AppShell";
-import { drawAndPlay, playbackErrorMessage } from "@/ui/drawAndPlay";
+import {
+  describePlaybackError,
+  drawAndPlay,
+  type PlaybackFailure,
+} from "@/ui/drawAndPlay";
 import { GameStartScreen } from "@/ui/GameStartScreen";
 import { HostSetupScreen } from "@/ui/HostSetupScreen";
 import { RoundScreen } from "@/ui/RoundScreen";
@@ -30,7 +34,7 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
   const [deck, setDeck] = useState<Deck | null>(null);
   const [game, setGame] = useState<GameState | null>(null);
   /** A first-round playback failure, which happens after the round screen mounts. */
-  const [startError, setStartError] = useState<string | null>(null);
+  const [startError, setStartError] = useState<PlaybackFailure | null>(null);
   /**
    * Bumped every time a game starts, and used as `RoundScreen`'s key.
    *
@@ -81,7 +85,7 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
 
     setStartError(null);
     const { next, playing } = drawAndPlay(initial, chosen, playback);
-    playing.catch((err) => setStartError(playbackErrorMessage(err)));
+    playing.catch((err) => setStartError(describePlaybackError(err)));
 
     setDeck(chosen);
     setGame(next);

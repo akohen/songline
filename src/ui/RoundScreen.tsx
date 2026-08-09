@@ -8,6 +8,7 @@ import {
   selectTeams,
 } from "@/engine";
 import type { PlaybackPort } from "@/playback/types";
+import type { PlaybackFailure } from "@/ui/drawAndPlay";
 import { ScoreStrip } from "@/ui/ScoreStrip";
 import { TeamTimeline } from "@/ui/TeamTimeline";
 import { useGame } from "@/ui/useGame";
@@ -18,7 +19,7 @@ type Props = {
   /** New or resumed; decided on the start screen. Read once, on mount. */
   initialGame: GameState;
   /** A first-round playback failure, raised by the click that opened this screen. */
-  initialError: string | null;
+  initialError: PlaybackFailure | null;
   playback: PlaybackPort;
   onChangeDeck: () => void;
 };
@@ -53,6 +54,7 @@ export function RoundScreen({
     stillLoading,
     error,
     draw,
+    retry,
     reveal,
     restart,
     togglePlayPause,
@@ -164,7 +166,7 @@ export function RoundScreen({
           }
         />
 
-        {error && <p className="alert">{error}</p>}
+        {error && <PlaybackAlert failure={error} onRetry={() => void retry()} />}
 
         <div className="footer">
           {!outcome && (
@@ -231,7 +233,7 @@ export function RoundScreen({
 
       <div className="spacer" />
 
-      {error && <p className="alert">{error}</p>}
+      {error && <PlaybackAlert failure={error} onRetry={() => void retry()} />}
 
       <div className="footer">
         {/* Exactly one primary action at any moment. */}
@@ -257,6 +259,36 @@ export function RoundScreen({
         )}
       </div>
     </main>
+  );
+}
+
+/**
+ * A playback failure, and a way out of it when one exists.
+ *
+ * Retry is a button and never an automatic re-attempt: `playTrack` starts with
+ * `activateElement()`, which browsers honour only inside the synchronous event path of a
+ * gesture. `onRetry` is therefore called straight from the handler, not after an await.
+ * This matters more here than anywhere else — if the failure was the session's first
+ * track, the SDK's element has never been activated, and an attempt outside a gesture
+ * would transfer the track and leave it silently paused while the screen reported
+ * success. See `drawAndPlay`.
+ */
+function PlaybackAlert({
+  failure,
+  onRetry,
+}: {
+  failure: PlaybackFailure;
+  onRetry: () => void;
+}) {
+  if (!failure.canRetry) return <p className="alert">{failure.message}</p>;
+
+  return (
+    <div className="alert alert--action">
+      <p>{failure.message}</p>
+      <button type="button" className="btn btn--tertiary" onClick={onRetry}>
+        Retry
+      </button>
+    </div>
   );
 }
 
@@ -362,10 +394,10 @@ function PlayControl({
           <span aria-hidden="true">+15</span>
         </button>
       </div>
-      {/* Compact mode normally hides the label, but a bare spinner is guessy — and
-          under prefers-reduced-motion the spinner does not move, so the words are the
-          only thing left carrying the state. */}
-      {(!compact || isLoading) && <span className="play-control__label">{label}</span>}
+      {/* Compact mode hides the label in every state, loading included — it used to
+          show while loading, but toggling the row on and off around every load
+          shifted the timeline beneath it. See docs/product/mobile-ui.md. */}
+      {!compact && <span className="play-control__label">{label}</span>}
     </div>
   );
 }

@@ -7,9 +7,14 @@ import {
   reduce,
   saveGame,
   selectStartOffsetMs,
+  selectTrackIdForPlayback,
 } from "@/engine";
 import type { PlaybackPort, PlaybackState } from "@/playback/types";
-import { drawAndPlay, playbackErrorMessage } from "@/ui/drawAndPlay";
+import {
+  describePlaybackError,
+  drawAndPlay,
+  type PlaybackFailure,
+} from "@/ui/drawAndPlay";
 
 /** How long a track may take to start before the screen admits it is slow. */
 const SLOW_LOAD_MS = 15_000;
@@ -29,12 +34,12 @@ export function useGame(
   deck: Deck,
   playback: PlaybackPort,
   initialGame: GameState,
-  initialError: string | null = null,
+  initialError: PlaybackFailure | null = null,
 ) {
   const [game, setGame] = useState<GameState>(initialGame);
   const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
   const [hasEnded, setHasEnded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<PlaybackFailure | null>(null);
   const gameRef = useRef(game);
   gameRef.current = game;
   const maxPositionRef = useRef(0);
@@ -146,7 +151,31 @@ export function useGame(
     try {
       await playing;
     } catch (err) {
-      setError(playbackErrorMessage(err));
+      setError(describePlaybackError(err));
+    }
+  }, [deck, playback, resetEndTracking]);
+
+  /**
+   * Play the current card again after a connection failure. Like every other route into
+   * audio, must stay reachable synchronously from a click — see `drawAndPlay`, and note
+   * that this is the one path where `activateElement` may genuinely not be latched yet,
+   * because the failure can have been the session's very first track.
+   *
+   * Deliberately *not* `drawAndPlay`: that dispatches DRAW, which would burn the next
+   * card as the price of a dead spot in the tunnel. The track ID goes straight from the
+   * engine to the adapter and never enters state or props.
+   */
+  const retry = useCallback(async () => {
+    const trackId = selectTrackIdForPlayback(gameRef.current);
+    if (trackId === null) return;
+
+    setError(null);
+    resetEndTracking();
+
+    try {
+      await playback.playTrack(trackId, selectStartOffsetMs(gameRef.current, deck));
+    } catch (err) {
+      setError(describePlaybackError(err));
     }
   }, [deck, playback, resetEndTracking]);
 
@@ -181,7 +210,7 @@ export function useGame(
     try {
       await playing;
     } catch (err) {
-      setError(playbackErrorMessage(err));
+      setError(describePlaybackError(err));
     }
   }, [deck, playback, resetEndTracking]);
 
@@ -214,6 +243,7 @@ export function useGame(
     stillLoading,
     error,
     draw,
+    retry,
     reveal,
     restart,
     togglePlayPause,

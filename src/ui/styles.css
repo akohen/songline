@@ -992,6 +992,15 @@ code {
   font-size: 0.9375rem;
 }
 
+/* A recoverable failure: the way out sits inside the box that explains it, rather than
+   competing with the round's own primary action in the footer below. */
+.alert--action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
 .screen__title--danger {
   color: var(--danger);
 }

@@ -5,7 +5,7 @@ import {
   selectStartOffsetMs,
   selectTrackIdForPlayback,
 } from "@/engine";
-import type { PlaybackPort } from "@/playback/types";
+import { PlaybackError, type PlaybackPort } from "@/playback/types";
 
 /**
  * Draw the next card and start its audio.
@@ -40,9 +40,25 @@ export function drawAndPlay(
   return { next, playing: playback.playTrack(trackId, selectStartOffsetMs(next, deck)) };
 }
 
-/** Worded once, so a failure reads the same wherever a round was started from. */
-export function playbackErrorMessage(err: unknown): string {
-  return err instanceof Error
-    ? `${err.message} Press Next song to move on.`
-    : "Playback failed. Press Next song to move on.";
+/** A failure as the round screen needs it: what to say, and whether to offer Retry. */
+export type PlaybackFailure = { message: string; canRetry: boolean };
+
+/**
+ * Worded once, so a failure reads the same wherever a round was started from.
+ *
+ * `canRetry` is the only thing anything asks of `PlaybackErrorKind`, and only
+ * `connection_lost` answers yes — a dropped network may well be back. A
+ * market-restricted track never will be, and offering Retry there would just be a
+ * button that fails every time.
+ */
+export function describePlaybackError(err: unknown): PlaybackFailure {
+  const canRetry = err instanceof PlaybackError && err.kind === "connection_lost";
+  const next = canRetry
+    ? "Press Retry, or Next song to move on."
+    : "Press Next song to move on.";
+
+  return {
+    message: err instanceof Error ? `${err.message} ${next}` : `Playback failed. ${next}`,
+    canRetry,
+  };
 }

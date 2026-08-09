@@ -438,12 +438,43 @@ watching a spinner. Deliberately not an error banner: that could fire on a conne
 about to succeed, leaving an error on screen under a track that then starts playing.
 
 Skip and the primary action stay enabled throughout, so a slow load never traps anyone.
-The label is shown even in the timeline ruleset's compact control, which otherwise
-hides it: under `prefers-reduced-motion` the spinner does not turn, so the words are
-the only thing left carrying the state.
+
+**The compact control (timeline ruleset) never shows the label, loading included —
+dropped after one release.** It briefly was the one state where compact showed text,
+because under `prefers-reduced-motion` the spinner does not turn and the words were
+the only thing carrying the state. But showing it only while loading meant the label
+row appeared and disappeared around every load, shifting the timeline beneath it. The
+spinner and the button's disabled state are the loading signal there now; a
+reduced-motion host on the compact control has no visible loading cue, same as they
+already have no ring pulse for "playing".
 
 What counts as "loaded" is a playback question, answered in
 [../tech/spotify-constraints.md](../tech/spotify-constraints.md#playtrack-resolving-is-not-audio-starting).
+
+#### When it does not load at all
+
+A failure surfaces as the `.alert` banner above the footer. Hosting on a phone means
+this is often the network rather than the song — a tunnel, a lift, a dead spot — and
+those two want different things from the host:
+
+- **Connection lost.** "You appear to be offline." or "Could not reach Spotify.",
+  followed by *Press Retry, or Next song to move on.* The banner carries a **Retry**
+  button, which replays **the same card**. Nothing is spent: the card is still in play,
+  the count of songs left does not move, and once the train leaves the tunnel the round
+  carries on as though nothing happened.
+- **Anything else** — a market-restricted track, a refused account — keeps the existing
+  *Press Next song to move on.* and shows no Retry, because there is nothing a second
+  attempt would change.
+
+**Retry is a button, not an automatic re-attempt.** Partly a platform constraint (an
+automatic attempt runs outside a user gesture and can leave the first track of a session
+silently paused — see the tech doc), and partly the same judgement as the 15-second
+loading label: the app does not act on the host's behalf on a connection it cannot see.
+The room decides when it is worth trying again.
+
+This is the one case where an error banner *is* right, and it does not contradict the
+paragraph above. "Still loading" is a guess about a request that may yet succeed;
+a `connection_lost` is a request that has already failed.
 
 ### Other screens
 
