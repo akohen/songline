@@ -162,7 +162,8 @@ code {
 }
 
 /* The growing middle region. Scrolls internally when its content overflows, so the
-   header (a fixed-size sibling in .app) never gets pushed off-screen by a long page. */
+   header (a fixed-size sibling in .app) never gets pushed off-screen by a long page.
+   .footer, below, pins itself to the bottom of this scrollport the same way. */
 .screen {
   flex: 1;
   display: flex;
@@ -189,18 +190,29 @@ code {
   color: var(--text-muted);
 }
 
-/* Pushes the footer to the bottom of a screen. */
+/* Pushes content toward the footer when a screen's content is shorter than the
+   available space; irrelevant once .footer's own sticky rule takes over. */
 .spacer {
   flex: 1;
   min-height: var(--space-4);
 }
 
+/* Sticks to the bottom of .screen's scrollport regardless of scroll position, so a
+   screen with more content than fits (a long checklist, a card timeline) scrolls
+   underneath it instead of carrying it out of view — the same trick .header gets
+   from sitting outside .screen entirely, applied here via position instead of DOM
+   structure since .footer has to stay inside .screen for the spacer trick above to
+   still centre short content. background matches the page so scrolled content
+   doesn't show through the gaps between buttons once it's underneath. */
 .footer {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
   flex-shrink: 0;
   align-self: stretch;
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
 }
 
 /* ---------- buttons ---------- */

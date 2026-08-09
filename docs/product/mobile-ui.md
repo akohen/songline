@@ -474,6 +474,11 @@ explicit fix:
   in progress.
 - **Full-height layout** using `100dvh`, not `100vh` — `vh` is wrong on mobile Safari
   when the toolbar hides, which would push the primary button off-screen.
+- **Footer pinned via `position: sticky`, not layout.** `.footer` stays inside the
+  scrolling `.screen` (so the centring `.spacer` trick still works for short
+  content), but sticks to the bottom of that scrollport once content is taller than
+  the viewport — a long checklist or a many-team score strip scrolls underneath it
+  instead of pushing it out of view.
 - **`-webkit-tap-highlight-color: transparent`**, replaced with an explicit `:active`
   state so presses still feel responsive.
 - **Minimum 16px** on any input, to stop iOS zooming on focus. (No inputs exist today;
