@@ -37,7 +37,15 @@ export function useGame(
   initialError: PlaybackFailure | null = null,
 ) {
   const [game, setGame] = useState<GameState>(initialGame);
-  const [playbackState, setPlaybackState] = useState<PlaybackState | null>(null);
+  // Every mount of this hook follows an already-in-flight `playTrack` call (see
+  // RoundScreen's "no idle branch" comment) — seeding as if a track is loading
+  // avoids one render of a stale "▶ Play" before the SDK's first real event arrives.
+  const [playbackState, setPlaybackState] = useState<PlaybackState | null>({
+    isPlaying: false,
+    positionMs: 0,
+    durationMs: 0,
+    isLoading: true,
+  });
   const [hasEnded, setHasEnded] = useState(false);
   const [error, setError] = useState<PlaybackFailure | null>(null);
   const gameRef = useRef(game);
