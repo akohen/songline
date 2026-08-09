@@ -131,9 +131,6 @@ export function RoundScreen({
           {teams.timelines.length > 1 && (
             <div className="round__number">Team {placingTeam + 1}</div>
           )}
-          {outcome && (
-            <p className="round__meta">{outcome.correct ? "Placed." : "Discarded."}</p>
-          )}
         </div>
 
         <PlayControl
