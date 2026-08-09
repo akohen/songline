@@ -9,9 +9,12 @@ export { createGame } from "@/engine/createGame";
 export { deserialize, serialize } from "@/engine/persistence";
 export { reduce } from "@/engine/reduce";
 export {
+  type HistoryDisplay,
   type PlacedCard,
   type PlacementOutcome,
   type RoundDisplay,
+  selectHistory,
+  selectHistoryEntryForReplay,
   selectPlacement,
   selectRevealedCard,
   selectRoundDisplay,
@@ -25,6 +28,7 @@ export {
   ALL_PHASES,
   type GameEvent,
   type GameState,
+  type HistoryEntry,
   type Phase,
   TARGET_SCORE,
   type Timeline,

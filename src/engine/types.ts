@@ -51,6 +51,20 @@ export type GameState = {
    * read — the placement belongs to whoever just played, not to whoever is next.
    */
   lastPlacement: { team: number; slot: number; correct: boolean } | null;
+  /** Every song once revealed, in play order. Never pruned or reordered. */
+  history: HistoryEntry[];
+};
+
+/**
+ * One song already revealed to players. A skipped card (abandoned before ever
+ * being revealed) leaves no entry — this is not a record of every song drawn.
+ */
+export type HistoryEntry = {
+  trackId: TrackId;
+  /** Team that placed it, or null under the paper ruleset. */
+  team: number | null;
+  /** Whether the placement was correct, or null under the paper ruleset (no scoring). */
+  correct: boolean | null;
 };
 
 /**

@@ -93,6 +93,30 @@ describe("reduce — REVEAL", () => {
   });
 });
 
+describe("reduce — history", () => {
+  it("records a paper-ruleset reveal with no team or result", () => {
+    const state = reveal(draw(newGame()));
+    expect(state.history).toEqual([
+      { trackId: state.currentCard, team: null, correct: null },
+    ]);
+  });
+
+  it("does not record a skip — the card was never revealed", () => {
+    const first = draw(newGame());
+    const skipped = draw(first);
+    expect(skipped.history).toEqual([]);
+  });
+
+  it("accumulates across rounds without reordering", () => {
+    const first = reveal(draw(newGame()));
+    const second = reveal(draw(first));
+    expect(second.history.map((e) => e.trackId)).toEqual([
+      first.currentCard,
+      second.currentCard,
+    ]);
+  });
+});
+
 describe("reduce — purity", () => {
   it("does not mutate the state it is given", () => {
     const state = draw(newGame());
@@ -132,6 +156,7 @@ function stateWith(over: Partial<GameState> = {}): GameState {
     timelines: [[]],
     currentTeam: 0,
     lastPlacement: null,
+    history: [],
     ...over,
   };
 }
@@ -216,6 +241,14 @@ describe("timeline ruleset — placement", () => {
     expect(state.phase).toBe("revealed");
     expect(state.timelines[0]).toEqual(["old", "new"]);
     expect(state.lastPlacement).toEqual({ team: 0, slot: 2, correct: false });
+  });
+
+  it("records the placement in history, right or wrong", () => {
+    const correct = place(stateWith({ timelines: [["old", "new"]] }), 1);
+    expect(correct.history).toEqual([{ trackId: "mid", team: 0, correct: true }]);
+
+    const wrong = place(stateWith({ timelines: [["old", "new"]] }), 2);
+    expect(wrong.history).toEqual([{ trackId: "mid", team: 0, correct: false }]);
   });
 
   it("accepts a tie on either side of its equal-year neighbour", () => {

@@ -65,4 +65,9 @@ describe("createGame", () => {
     // Seeds come off the pile on the first draw, not here.
     expect(state.drawPile).toHaveLength(testDeck.cards.length);
   });
+
+  it("starts with no song history", () => {
+    const state = createGame(testDeck, { rng: seededRng(1) });
+    expect(state.history).toEqual([]);
+  });
 });

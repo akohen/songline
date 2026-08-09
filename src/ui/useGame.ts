@@ -6,6 +6,7 @@ import {
   type GameState,
   reduce,
   saveGame,
+  selectHistoryEntryForReplay,
   selectStartOffsetMs,
   selectTrackIdForPlayback,
 } from "@/engine";
@@ -188,6 +189,31 @@ export function useGame(
   }, [deck, playback, resetEndTracking]);
 
   /**
+   * Replay a song from the finished screen's history list. Like `retry`, the track ID
+   * goes straight from the engine to the adapter and never enters state or props, and
+   * this must stay reachable synchronously from its own click — see `drawAndPlay`.
+   *
+   * Deliberately not `drawAndPlay` or `reduce`: the game is over, so nothing should
+   * touch `GameState` — this only asks the adapter to play a track it already knows
+   * was revealed.
+   */
+  const playHistoryEntry = useCallback(
+    async (index: number) => {
+      const entry = selectHistoryEntryForReplay(gameRef.current, deck, index);
+      if (entry === null) return;
+
+      setError(null);
+
+      try {
+        await playback.playTrack(entry.trackId, entry.startOffsetMs);
+      } catch (err) {
+        setError(describePlaybackError(err));
+      }
+    },
+    [deck, playback],
+  );
+
+  /**
    * Reveal, optionally as a placement.
    *
    * `slot` is required under the timeline ruleset and meaningless without it; the
@@ -257,5 +283,6 @@ export function useGame(
     togglePlayPause,
     replay,
     skipForward,
+    playHistoryEntry,
   };
 }

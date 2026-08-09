@@ -817,6 +817,77 @@ code {
   font-weight: 700;
 }
 
+/* ---------- song history ---------- */
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.history-row__play {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+.history-row__body {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.history-row__title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-row__artist {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-row__meta {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.history-row__result--wrong {
+  color: var(--danger);
+}
+
+.history-row__year {
+  font-variant-numeric: tabular-nums;
+}
+
 .standings__score {
   font-variant-numeric: tabular-nums;
   font-weight: 700;

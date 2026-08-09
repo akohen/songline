@@ -17,6 +17,7 @@ const blank: GameState = {
   timelines: [],
   currentTeam: 0,
   lastPlacement: null,
+  history: [],
 };
 
 const midGame = (): GameState => {
@@ -106,13 +107,13 @@ describe("deserialize — rejects, meaning start fresh", () => {
   });
 
   it("returns null on a malformed state", () => {
-    const raw = JSON.stringify({ version: 2, state: { phase: "inPlay" } });
+    const raw = JSON.stringify({ version: 3, state: { phase: "inPlay" } });
     expect(deserialize(raw, testDeck)).toBeNull();
   });
 
   it("returns null on an unknown phase", () => {
     const raw = JSON.stringify({
-      version: 2,
+      version: 3,
       state: { ...midGame(), phase: "somethingElse" },
     });
     expect(deserialize(raw, testDeck)).toBeNull();
@@ -124,9 +125,21 @@ describe("deserialize — rejects, meaning start fresh", () => {
     expect(deserialize(JSON.stringify({ version: 1, state: v1 }), testDeck)).toBeNull();
   });
 
-  it("returns null when timelines are missing from a version 2 save", () => {
+  it("returns null when timelines are missing from a version 3 save", () => {
     const { timelines, ...withoutTimelines } = midGame();
-    const raw = JSON.stringify({ version: 2, state: withoutTimelines });
+    const raw = JSON.stringify({ version: 3, state: withoutTimelines });
+    expect(deserialize(raw, testDeck)).toBeNull();
+  });
+
+  // Version 2 predates history, so its saves have none to restore.
+  it("returns null on a version 2 save", () => {
+    const { history, ...v2 } = midGame();
+    expect(deserialize(JSON.stringify({ version: 2, state: v2 }), testDeck)).toBeNull();
+  });
+
+  it("returns null when history is missing from a version 3 save", () => {
+    const { history, ...withoutHistory } = midGame();
+    const raw = JSON.stringify({ version: 3, state: withoutHistory });
     expect(deserialize(raw, testDeck)).toBeNull();
   });
 });
@@ -177,6 +190,25 @@ describe("deserialize — deck rot", () => {
     };
     expect(deserialize(serialize(state), testDeck)).toBeNull();
   });
+
+  /*
+   * Unlike a placed card, a rotten history entry costs nobody a score — it is a
+   * display list, not a scoreboard — so it is dropped rather than refusing the
+   * whole restore, the same treatment as the draw pile.
+   */
+  it("drops history entries whose track left the deck", () => {
+    const state: GameState = {
+      ...blank,
+      history: [
+        { trackId: "track-a", team: null, correct: null },
+        { trackId: "track-removed", team: null, correct: null },
+      ],
+    };
+    const restored = deserialize(serialize(state), testDeck);
+    expect(restored?.history).toEqual([
+      { trackId: "track-a", team: null, correct: null },
+    ]);
+  });
 });
 
 describe("deserialize — teams survive a reload", () => {
@@ -189,12 +221,24 @@ describe("deserialize — teams survive a reload", () => {
     timelines: [["track-a", "track-c"], ["track-b"]],
     currentTeam: 1,
     lastPlacement: { team: 0, slot: 1, correct: true },
+    history: [
+      { trackId: "track-a", team: 0, correct: true },
+      { trackId: "track-b", team: 1, correct: true },
+      { trackId: "track-c", team: 0, correct: true },
+    ],
   };
 
   it("keeps timelines, scores and whose turn it is", () => {
     const restored = deserialize(serialize(played), testDeck);
     expect(restored?.timelines).toEqual([["track-a", "track-c"], ["track-b"]]);
     expect(restored?.currentTeam).toBe(1);
+  });
+
+  it("keeps the full song history, including finished games", () => {
+    const finished = { ...played, phase: "finished" as const };
+    const restored = deserialize(serialize(finished), testDeck);
+    expect(restored?.history).toEqual(played.history);
+    expect(restored?.phase).toBe("finished");
   });
 
   /*

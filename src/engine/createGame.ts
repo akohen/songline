@@ -44,5 +44,6 @@ export function createGame(deck: Deck, options: Options = {}): GameState {
     timelines: Array.from({ length: Math.max(0, Math.trunc(teamCount)) }, () => []),
     currentTeam: 0,
     lastPlacement: null,
+    history: [],
   };
 }

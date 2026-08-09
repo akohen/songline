@@ -73,6 +73,9 @@ type GameState = {
   timelines: TrackId[][]
   currentTeam: number
   lastPlacement: { team: number; slot: number; correct: boolean } | null
+  // Every song once revealed, in play order. Append-only — a skipped card
+  // (never revealed) leaves no entry. See docs/product/mobile-ui.md.
+  history: { trackId: TrackId; team: number | null; correct: boolean | null }[]
 }
 
 type GameEvent =

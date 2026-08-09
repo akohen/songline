@@ -239,7 +239,7 @@ specified in [game-design.md](game-design.md) and is preserved. Under
 |---|---|---|
 | `inPlay` | **Reveal the year** | Pause/Play, "Skip this song" (tertiary) |
 | `revealed` | **Next song** | Pause/Play |
-| `finished` | **Play this deck again** | "Choose another deck" (secondary) |
+| `finished` | **Play this deck again** | "Choose another deck" (secondary), "See all songs played" (tertiary) |
 
 **There is no `idle` row.** The round screen is never entered idle: `Start`, `Resume`
 and `Play this deck again` all draw the first card inside their own click, so a song is
@@ -308,7 +308,7 @@ in two slots (a tie) marks **both** — the feedback must not imply a single rig
 |---|---|---|
 | `inPlay` | **Place it here** (disabled until a slot is picked) | slots, Pause/Play, Skip |
 | `revealed` | **Next song**, or **See final scores** once a team has 10 | Pause/Play |
-| `finished` | **Play this deck again** | final standings, "Choose another deck" |
+| `finished` | **Play this deck again** | final standings, "Choose another deck", "See all songs played" (tertiary) |
 
 ### Game start screen
 
@@ -483,7 +483,8 @@ a `connection_lost` is a request that has already failed.
 | **Login** | Centred card, large primary "Sign in with Spotify". No header. |
 | **Host setup checklist** | Numbered list, generous line height, primary "Ready" pinned to the bottom. Content unchanged — the S0.1 spike made it load-bearing. |
 | **Game start** | Full-width tappable cards, ≥64px: deck name, then muted "32 songs · 1965–2019". Same card pattern for the mode choice. See above. |
-| **Deck finished** | Centred, primary "Play this deck again", secondary "Choose another deck". |
+| **Deck finished** | Centred, primary "Play this deck again", secondary "Choose another deck", tertiary "See all songs played". |
+| **Song history** | Plain scrolling list, one row per revealed song: title, artist, year, and — timeline ruleset only — team and a ✓/✗ marker. Each row has a play/pause control. Back returns to the finished screen. |
 | **Not premium / wrong origin / auth error** | Centred card, `--danger` heading, body text, one action. Wording unchanged; all three carry diagnostic detail that has already proved useful. |
 
 ---

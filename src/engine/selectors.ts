@@ -141,3 +141,54 @@ export function selectStartOffsetMs(state: GameState, deck: Deck): number {
   const card = deck.cards.find((c) => c.spotifyTrackId === state.currentCard);
   return card?.startOffsetMs ?? 0;
 }
+
+/** A previously revealed song, resolved for display. Deliberately has no track ID. */
+export type HistoryDisplay = {
+  year: number;
+  title: string;
+  artist: string;
+  /** Team that placed it, or null under the paper ruleset. */
+  team: number | null;
+  /** Whether the placement was correct, or null under the paper ruleset. */
+  correct: boolean | null;
+};
+
+/**
+ * Every song revealed so far, in play order. Safe in every phase: an entry only
+ * exists because `REVEAL` already put that same title/artist/year on screen, so
+ * there is nothing left here for the current or a future card to spoil.
+ */
+export function selectHistory(state: GameState, deck: Deck): HistoryDisplay[] {
+  return state.history.flatMap((entry) => {
+    const card = deck.cards.find((c) => c.spotifyTrackId === entry.trackId);
+    if (card === undefined) return [];
+    return [
+      {
+        year: card.year,
+        title: card.title,
+        artist: card.artist,
+        team: entry.team,
+        correct: entry.correct,
+      },
+    ];
+  });
+}
+
+/**
+ * Track ID and start offset for a past, already-revealed song, for replay.
+ *
+ * Contract: the result goes straight to the playback adapter. It must never enter
+ * React state, component props, or the DOM — same rule as `selectTrackIdForPlayback`,
+ * just applied to history instead of the in-play card.
+ */
+export function selectHistoryEntryForReplay(
+  state: GameState,
+  deck: Deck,
+  index: number,
+): { trackId: TrackId; startOffsetMs: number } | null {
+  const entry = state.history[index];
+  if (entry === undefined) return null;
+  const card = deck.cards.find((c) => c.spotifyTrackId === entry.trackId);
+  if (card === undefined) return null;
+  return { trackId: entry.trackId, startOffsetMs: card.startOffsetMs ?? 0 };
+}

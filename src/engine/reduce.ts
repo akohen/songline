@@ -49,13 +49,23 @@ export function reduce(state: GameState, event: GameEvent, deck: Deck): GameStat
 
     case "REVEAL": {
       if (state.phase !== "inPlay") return state;
+      if (state.currentCard === null) return state;
 
       const timelineMode = state.timelines.length > 0;
 
       // Under the paper ruleset a reveal carries no placement, and under the timeline
       // ruleset it must: a card nobody placed is abandoned with Skip, not revealed.
       if (timelineMode === (event.slot === undefined)) return state;
-      if (event.slot === undefined) return { ...state, phase: "revealed" };
+      if (event.slot === undefined) {
+        return {
+          ...state,
+          phase: "revealed",
+          history: [
+            ...state.history,
+            { trackId: state.currentCard, team: null, correct: null },
+          ],
+        };
+      }
 
       return place(state, deck, event.slot);
     }
@@ -127,5 +137,7 @@ function place(state: GameState, deck: Deck, slot: number): GameState {
     // so the same team plays again without that needing to be encoded anywhere.
     currentTeam: (state.currentTeam + 1) % state.timelines.length,
     lastPlacement: { team: state.currentTeam, slot, correct },
+    // Recorded right or wrong — the card was revealed either way.
+    history: [...state.history, { trackId: card, team: state.currentTeam, correct }],
   };
 }

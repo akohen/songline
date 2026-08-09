@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Deck } from "@/decks/types";
 import {
   type GameState,
+  selectHistory,
   selectPlacement,
   selectRevealedCard,
   selectRoundDisplay,
@@ -10,6 +11,7 @@ import {
 import type { PlaybackPort } from "@/playback/types";
 import type { PlaybackFailure } from "@/ui/drawAndPlay";
 import { ScoreStrip } from "@/ui/ScoreStrip";
+import { SongHistoryScreen } from "@/ui/SongHistoryScreen";
 import { TeamTimeline } from "@/ui/TeamTimeline";
 import { useGame } from "@/ui/useGame";
 import { useWakeLock } from "@/ui/useWakeLock";
@@ -60,10 +62,15 @@ export function RoundScreen({
     togglePlayPause,
     replay,
     skipForward,
+    playHistoryEntry,
   } = useGame(deck, playback, initialGame, initialError);
 
   // The slot under consideration. Reversible, and deliberately not engine state.
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
+
+  // Whether the finished screen is showing the song list instead of scores. Reversible
+  // and UI-only — the engine has no concept of this, the same reasoning as `selectedSlot`.
+  const [showHistory, setShowHistory] = useState(false);
 
   // Nobody wants the phone locking mid-round while everyone argues about a year.
   useWakeLock();
@@ -81,6 +88,18 @@ export function RoundScreen({
   };
 
   if (display.phase === "finished") {
+    if (showHistory) {
+      return (
+        <SongHistoryScreen
+          entries={selectHistory(game, deck)}
+          playbackState={playbackState}
+          onPlay={playHistoryEntry}
+          onTogglePlayPause={togglePlayPause}
+          onBack={() => setShowHistory(false)}
+        />
+      );
+    }
+
     return (
       <main className="screen screen--centred">
         <div className="spacer" />
@@ -101,6 +120,13 @@ export function RoundScreen({
           </button>
           <button type="button" className="btn" onClick={onChangeDeck}>
             Choose another deck
+          </button>
+          <button
+            type="button"
+            className="btn btn--tertiary"
+            onClick={() => setShowHistory(true)}
+          >
+            See all songs played
           </button>
         </div>
       </main>

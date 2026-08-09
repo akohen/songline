@@ -2,8 +2,11 @@ import type { Deck } from "@/decks/types";
 import type { GameState, Phase } from "@/engine/types";
 import { ALL_PHASES } from "@/engine/types";
 
-/** 2 added teams, timelines and the placement outcome. Version 1 saves are discarded. */
-const SCHEMA_VERSION = 2;
+/**
+ * 2 added teams, timelines and the placement outcome. 3 added history — the list of
+ * revealed songs. Earlier-version saves are discarded.
+ */
+const SCHEMA_VERSION = 3;
 
 type Envelope = { version: number; state: GameState };
 
@@ -30,6 +33,16 @@ function isPlacement(value: unknown): boolean {
   );
 }
 
+function isHistoryEntry(value: unknown): boolean {
+  if (typeof value !== "object" || value === null) return false;
+  const e = value as Record<string, unknown>;
+  return (
+    typeof e.trackId === "string" &&
+    (e.team === null || typeof e.team === "number") &&
+    (e.correct === null || typeof e.correct === "boolean")
+  );
+}
+
 function isGameStateShape(value: unknown): value is GameState {
   if (typeof value !== "object" || value === null) return false;
   const s = value as Record<string, unknown>;
@@ -42,7 +55,9 @@ function isGameStateShape(value: unknown): value is GameState {
     Array.isArray(s.timelines) &&
     s.timelines.every(isTrackIdArray) &&
     typeof s.currentTeam === "number" &&
-    isPlacement(s.lastPlacement)
+    isPlacement(s.lastPlacement) &&
+    Array.isArray(s.history) &&
+    s.history.every(isHistoryEntry)
   );
 }
 
@@ -86,6 +101,11 @@ export function deserialize(raw: string, deck: Deck): GameState | null {
 
   const drawPile = state.drawPile.filter((id) => known.has(id));
 
+  // Deck rot in history costs nobody a score — it is a display list, not a
+  // scoreboard — so a rotten entry is simply dropped rather than refusing the
+  // restore outright, the same treatment as the draw pile.
+  const history = state.history.filter((entry) => known.has(entry.trackId));
+
   // Nothing was in flight, or the deck no longer contains it.
   const inFlight =
     state.currentCard !== null && known.has(state.currentCard) ? state.currentCard : null;
@@ -104,6 +124,7 @@ export function deserialize(raw: string, deck: Deck): GameState | null {
     // rolled back, so resuming consumes nothing: the next Start replays that song.
     drawPile: inFlight === null ? drawPile : [inFlight, ...drawPile],
     round: inFlight === null ? state.round : Math.max(0, state.round - 1),
+    history,
     // Reveal output, and the game resumes before the reveal. Left set, it would render
     // an outcome for a card nobody is playing. Teams, timelines and whose turn it is
     // all survive: they need no audio and give nothing away.
