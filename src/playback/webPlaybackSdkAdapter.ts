@@ -74,9 +74,17 @@ export class WebPlaybackSdkAdapter implements PlaybackPort {
       //
       // Comparing this ID against one we were handed ourselves tells the UI nothing
       // it did not already ask for, and no ID leaves this class.
+      //
+      // The requested ID itself is checked first, but Spotify can serve a relinked
+      // equivalent recording instead (e.g. a deluxe reissue) — then `current_track.id`
+      // is the substitute's ID forever, and only `linked_from.id` still names what we
+      // asked for. Without this fallback, playback is correct but the requested ID
+      // never reappears, so `pendingTrackId` never clears and the UI is stuck loading.
+      const currentTrack = state.track_window.current_track;
       if (
         this.pendingTrackId !== null &&
-        state.track_window.current_track?.id === this.pendingTrackId &&
+        (currentTrack?.id === this.pendingTrackId ||
+          currentTrack?.linked_from?.id === this.pendingTrackId) &&
         !state.loading
       ) {
         this.pendingTrackId = null;
