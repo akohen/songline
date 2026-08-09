@@ -28,14 +28,60 @@ export const SCOPES = [
   "user-read-playback-state",
 ] as const;
 
-export function getClientId(): string {
-  const id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-  if (!id) {
+/** Spotify client IDs are 32 lowercase hex characters. */
+export function isValidClientId(value: string): boolean {
+  return /^[0-9a-f]{32}$/i.test(value);
+}
+
+/**
+ * Pure core of {@link getClientId}: a user-supplied override wins if present,
+ * otherwise fall back to the build-time default. Separated out so the precedence
+ * logic is testable without touching `localStorage`.
+ */
+export function resolveClientId(
+  override: string | null,
+  envValue: string | undefined,
+): string {
+  if (override) return override;
+  if (!envValue) {
     throw new Error(
       "VITE_SPOTIFY_CLIENT_ID is not set. Copy .env.example to .env.local and fill it in.",
     );
   }
-  return id;
+  return envValue;
+}
+
+const CLIENT_ID_STORAGE_KEY = "song-timeline:spotify_client_id";
+
+/**
+ * Lets a visitor play through their own Spotify Developer app instead of this
+ * project's, so they don't need one of the 5 dev-mode allowlist slots or a
+ * self-hosted deployment. Safe because PKCE never involves a client secret — see
+ * this module's docstring.
+ */
+export function loadCustomClientId(): string | null {
+  try {
+    return localStorage.getItem(CLIENT_ID_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function saveCustomClientId(id: string | null): void {
+  try {
+    if (id) {
+      localStorage.setItem(CLIENT_ID_STORAGE_KEY, id);
+    } else {
+      localStorage.removeItem(CLIENT_ID_STORAGE_KEY);
+    }
+  } catch {
+    // Private browsing or a full quota. Falling back to the default app is far
+    // better than crashing the login screen over a write.
+  }
+}
+
+export function getClientId(): string {
+  return resolveClientId(loadCustomClientId(), import.meta.env.VITE_SPOTIFY_CLIENT_ID);
 }
 
 export const DEFAULT_REDIRECT_URI = "http://127.0.0.1:5173/";

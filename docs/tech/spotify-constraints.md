@@ -42,6 +42,36 @@ audio files, or a licensed provider — not the app.
 - Redirect URIs must be registered exactly, including the dev URL
   (`http://127.0.0.1:5173/callback` — Spotify no longer accepts `localhost`).
 
+### Bring your own Spotify app
+
+Because auth is Authorization Code with PKCE, the Client ID is not a secret — it is
+safe to let a visitor supply their own instead of this project's. `src/auth/config.ts`
+lets `getClientId()` be overridden by a value saved in `localStorage`
+(`song-timeline:spotify_client_id`), set through an optional control on the login
+screen (`src/ui/LoginScreen.tsx`). Left untouched, nothing changes: the override is
+absent and the build-time `VITE_SPOTIFY_CLIENT_ID` is used exactly as before.
+
+To use it, a visitor creates their own free Spotify Developer app and registers this
+site's existing, unchanged redirect URI in it (still byte-for-byte, still read from
+`VITE_SPOTIFY_REDIRECT_URI` — that value never changes), then pastes their app's
+Client ID into the login screen.
+
+**What this does and does not solve:**
+
+- It removes the need for the *host* of this deployment to either hand-allowlist
+  every friend's Spotify account on the project's own dev app (only 5 slots) or have
+  each friend clone and self-host the whole project.
+- It does **not** lift any of Spotify's own restrictions. Each friend's app is still
+  in Spotify development mode, still capped at 5 users on their own account, and
+  still bound by the Developer Policy prohibition on games (see [Legal](#legal)
+  above). This is a workaround for *hosting and allowlisting*, not for platform
+  policy.
+
+The resolved Client ID is snapshotted into `sessionStorage` for the duration of one
+login round-trip (`spotifyAuth.ts`), the same way the PKCE verifier and state already
+are — so editing the override mid-login cannot send mismatched values to Spotify's
+authorize and token endpoints.
+
 ### Scopes
 
 | Scope | Why |

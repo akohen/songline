@@ -16,6 +16,15 @@ import {
 const VERIFIER_KEY = "song-timeline:pkce_verifier";
 const STATE_KEY = "song-timeline:pkce_state";
 
+/**
+ * The client ID resolved at the start of login is snapshotted the same way as the
+ * verifier and state: if it changed (e.g. the user edited their custom Client ID in
+ * another tab) between `beginLogin` and `completeLogin`, the token exchange must
+ * still use the ID the authorization request was actually sent with, or Spotify
+ * rejects it.
+ */
+const CLIENT_ID_KEY = "song-timeline:pkce_client_id";
+
 export class AuthError extends Error {
   constructor(
     message: string,
@@ -31,12 +40,14 @@ export async function beginLogin(): Promise<void> {
   const verifier = generateCodeVerifier();
   const state = generateState();
   const challenge = await deriveCodeChallenge(verifier);
+  const clientId = getClientId();
 
   sessionStorage.setItem(VERIFIER_KEY, verifier);
   sessionStorage.setItem(STATE_KEY, state);
+  sessionStorage.setItem(CLIENT_ID_KEY, clientId);
 
   const params = new URLSearchParams({
-    client_id: getClientId(),
+    client_id: clientId,
     response_type: "code",
     redirect_uri: getRedirectUri(),
     state,
@@ -81,8 +92,10 @@ export async function completeLogin(
 ): Promise<TokenSet> {
   const verifier = sessionStorage.getItem(VERIFIER_KEY);
   const expectedState = sessionStorage.getItem(STATE_KEY);
+  const clientId = sessionStorage.getItem(CLIENT_ID_KEY) ?? getClientId();
   sessionStorage.removeItem(VERIFIER_KEY);
   sessionStorage.removeItem(STATE_KEY);
+  sessionStorage.removeItem(CLIENT_ID_KEY);
 
   if (!verifier || !expectedState) {
     throw new AuthError(
@@ -99,7 +112,7 @@ export async function completeLogin(
       grant_type: "authorization_code",
       code,
       redirect_uri: getRedirectUri(),
-      client_id: getClientId(),
+      client_id: clientId,
       code_verifier: verifier,
     }),
   );
@@ -130,6 +143,7 @@ export function logout(): void {
   clearTokens();
   sessionStorage.removeItem(VERIFIER_KEY);
   sessionStorage.removeItem(STATE_KEY);
+  sessionStorage.removeItem(CLIENT_ID_KEY);
 }
 
 /**

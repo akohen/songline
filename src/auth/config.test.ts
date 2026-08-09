@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkOrigin } from "@/auth/config";
+import { checkOrigin, isValidClientId, resolveClientId } from "@/auth/config";
 
 describe("checkOrigin", () => {
   it("accepts a matching origin", () => {
@@ -32,5 +32,47 @@ describe("checkOrigin", () => {
   it("rejects a different scheme", () => {
     const result = checkOrigin("https://127.0.0.1:5173", "http://127.0.0.1:5173/");
     expect(result.ok).toBe(false);
+  });
+});
+
+describe("resolveClientId", () => {
+  it("prefers the override when present", () => {
+    expect(resolveClientId("a".repeat(32), "envvalue")).toBe("a".repeat(32));
+  });
+
+  it("falls back to the env value when there is no override", () => {
+    expect(resolveClientId(null, "envvalue")).toBe("envvalue");
+  });
+
+  it("throws when neither an override nor an env value is set", () => {
+    expect(() => resolveClientId(null, undefined)).toThrow(
+      "VITE_SPOTIFY_CLIENT_ID is not set",
+    );
+  });
+});
+
+describe("isValidClientId", () => {
+  it("accepts 32 lowercase hex characters", () => {
+    expect(isValidClientId("a".repeat(32))).toBe(true);
+  });
+
+  it("accepts uppercase hex characters", () => {
+    expect(isValidClientId("A".repeat(32))).toBe(true);
+  });
+
+  it("rejects a value that is too short", () => {
+    expect(isValidClientId("a".repeat(31))).toBe(false);
+  });
+
+  it("rejects a value that is too long", () => {
+    expect(isValidClientId("a".repeat(33))).toBe(false);
+  });
+
+  it("rejects non-hex characters", () => {
+    expect(isValidClientId("g".repeat(32))).toBe(false);
+  });
+
+  it("rejects whitespace", () => {
+    expect(isValidClientId(`${"a".repeat(31)} `)).toBe(false);
   });
 });

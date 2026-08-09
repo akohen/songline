@@ -286,6 +286,35 @@ code {
   color: var(--text-muted);
 }
 
+/* ---------- forms ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: left;
+}
+
+.field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.field__input {
+  min-height: 48px;
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.field__error {
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
 /* ---------- round screen ---------- */
 
 .round {
