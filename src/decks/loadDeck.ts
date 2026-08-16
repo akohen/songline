@@ -1,5 +1,6 @@
 import classical from "@/decks/classical.json";
 import classicsInternational from "@/decks/classics-international.json";
+import hitsFr from "@/decks/hits-fr.json";
 import hitsterRock from "@/decks/hitster-rock.json";
 import testDeck from "@/decks/test-deck.json";
 import type { Deck } from "@/decks/types";
@@ -16,6 +17,7 @@ export const DECKS: Deck[] = [
   testDeck as Deck,
   classicsInternational as Deck,
   hitsterRock as Deck,
+  hitsFr as Deck,
   classical as Deck,
 ];
 

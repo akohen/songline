@@ -74,6 +74,12 @@
       "artist": "Elton John"
     },
     {
+      "spotifyTrackId": "7pKfPomDEeI4TPT6EOYjn9",
+      "year": 1971,
+      "title": "Imagine",
+      "artist": "John Lennon"
+    },
+    {
       "spotifyTrackId": "4N0TP4Rmj6QQezWV88ARNJ",
       "year": 1972,
       "title": "Superstition",
@@ -124,6 +130,13 @@
       "notes": "Available copy sits on the Rumours Super Deluxe remaster."
     },
     {
+      "spotifyTrackId": "40riOy7x9W7GXjyGp4pjAv",
+      "year": 1977,
+      "title": "Hotel California",
+      "artist": "Eagles",
+      "notes": "Album released Dec 1976; single released Feb 1977. ID is the 2013 remaster of the original recording."
+    },
+    {
       "spotifyTrackId": "2zYzyRzz6pRmhPzyfMEC8s",
       "year": 1979,
       "title": "Highway to Hell",
@@ -149,6 +162,12 @@
       "title": "Billie Jean",
       "artist": "Michael Jackson",
       "notes": "Thriller released Nov 1982; issued as a single Jan 1983. Album year used."
+    },
+    {
+      "spotifyTrackId": "2374M0fQpWi3dLnB54qaLX",
+      "year": 1982,
+      "title": "Africa",
+      "artist": "Toto"
     },
     {
       "spotifyTrackId": "1JSTJqkT5qHq8MDJnJbRE1",
@@ -193,6 +212,18 @@
       "artist": "U2"
     },
     {
+      "spotifyTrackId": "2M9ro2krNb7nr7HSprkEgo",
+      "year": 1988,
+      "title": "Fast Car",
+      "artist": "Tracy Chapman"
+    },
+    {
+      "spotifyTrackId": "5GHY1DFWKz3Prg2V0Iodqo",
+      "year": 1990,
+      "title": "Nothing Compares 2 U",
+      "artist": "Sinéad O'Connor"
+    },
+    {
       "spotifyTrackId": "4CeeEOM32jQcH3eN9Q2dGj",
       "year": 1991,
       "title": "Smells Like Teen Spirit",
@@ -219,17 +250,17 @@
       "notes": "Single released Sept 1992; the album Pablo Honey followed in 1993."
     },
     {
-      "spotifyTrackId": "0hrBpAOgrt8RXigk83LLNE",
-      "year": 1993,
-      "title": "The Sign",
-      "artist": "Ace of Base",
-      "notes": "European single released Nov 1993; US single/album followed in 1994."
-    },
-    {
       "spotifyTrackId": "6L89mwZXSOwYl76YXfX13s",
       "year": 1994,
       "title": "Basket Case",
       "artist": "Green Day"
+    },
+    {
+      "spotifyTrackId": "3gjHnylel3PTRpjS44ocqr",
+      "year": 1994,
+      "title": "Zombie",
+      "artist": "The Cranberries",
+      "notes": "ID is the 2025 remaster of the original 1994 No Need to Argue recording."
     },
     {
       "spotifyTrackId": "1qPbGZqppFwLwcBC1JQ6Vr",
@@ -238,10 +269,24 @@
       "artist": "Oasis"
     },
     {
+      "spotifyTrackId": "68DUL7LbMhXzOzq97F5XhJ",
+      "year": 1996,
+      "title": "Wannabe",
+      "artist": "Spice Girls",
+      "notes": "ID is the original recording as reissued on the Spice 25th Anniversary edition."
+    },
+    {
       "spotifyTrackId": "1di1BEgJYzPvXUuinsYJGP",
       "year": 1997,
       "title": "Everybody (Backstreet's Back)",
       "artist": "Backstreet Boys"
+    },
+    {
+      "spotifyTrackId": "57iDDD9N9tTWe75x6qhStw",
+      "year": 1997,
+      "title": "Bitter Sweet Symphony",
+      "artist": "The Verve",
+      "notes": "ID is the 2016 remaster of the original Urban Hymns recording."
     },
     {
       "spotifyTrackId": "3MjUtNVVq3C8Fn0MP3zhXa",
@@ -312,16 +357,16 @@
       "artist": "50 Cent"
     },
     {
-      "spotifyTrackId": "1d6aWHZ6VTwZh9qQhsBmap",
+      "spotifyTrackId": "3dPQuX8Gs42Y7b454ybpMR",
       "year": 2003,
-      "title": "Franco Un-American",
-      "artist": "NOFX"
+      "title": "Seven Nation Army",
+      "artist": "The White Stripes"
     },
     {
-      "spotifyTrackId": "3pdHJCTk85ls2SGGXIJ7XH",
-      "year": 2003,
-      "title": "Fall Back Down",
-      "artist": "Rancid"
+      "spotifyTrackId": "003vvx7Niy0yvhvHt4a68B",
+      "year": 2004,
+      "title": "Mr. Brightside",
+      "artist": "The Killers"
     },
     {
       "spotifyTrackId": "0d28khcov6AiegSCpG5TuT",
@@ -343,6 +388,12 @@
       "notes": "Single released Sept 2006; the album Oh No had come out in 2005."
     },
     {
+      "spotifyTrackId": "1vxw6aYJls2oq3gW0DujAo",
+      "year": 2006,
+      "title": "Crazy",
+      "artist": "Gnarls Barkley"
+    },
+    {
       "spotifyTrackId": "49FYlytm3dAAraYgpoJZux",
       "year": 2007,
       "title": "Umbrella",
@@ -354,6 +405,12 @@
       "year": 2008,
       "title": "Single Ladies (Put a Ring on It)",
       "artist": "Beyoncé"
+    },
+    {
+      "spotifyTrackId": "4kLLWz7srcuLKA7Et40PQR",
+      "year": 2009,
+      "title": "I Gotta Feeling",
+      "artist": "Black Eyed Peas"
     },
     {
       "spotifyTrackId": "4OSBTYWVwsQhGLF9NHvIbR",
@@ -383,11 +440,23 @@
       "notes": "Released as a single in Iceland Sept 2011; international single and My Head Is an Animal album followed in 2012."
     },
     {
+      "spotifyTrackId": "62yJjFtgkhUrXktIoSjgP2",
+      "year": 2012,
+      "title": "Radioactive",
+      "artist": "Imagine Dragons"
+    },
+    {
       "spotifyTrackId": "60nZcImufyMA1MKQY3dcCH",
       "year": 2013,
       "title": "Happy",
       "artist": "Pharrell Williams",
       "notes": "From the Despicable Me 2 soundtrack, 2013; G I R L followed in 2014."
+    },
+    {
+      "spotifyTrackId": "2dLLR6qlu5UJ5gk0dKz0h3",
+      "year": 2013,
+      "title": "Royals",
+      "artist": "Lorde"
     },
     {
       "spotifyTrackId": "32OlwWuMpZ6b0aN2RZOeMS",
