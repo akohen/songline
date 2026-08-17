@@ -150,6 +150,13 @@
       "artist": "Bérurier Noir"
     },
     {
+      "spotifyTrackId": "5Gv8ZgPhUvAFQTHGJgwL5u",
+      "year": 1985,
+      "title": "La Ganja",
+      "artist": "Ludwig Von 88",
+      "notes": "On the album 17 plombs pour péter les tubes les watts (1985); available copy is a reissue."
+    },
+    {
       "spotifyTrackId": "2MuWTIM3b0YEAskbeeFE1i",
       "year": 1986,
       "title": "Master of Puppets",
@@ -161,13 +168,6 @@
       "year": 1986,
       "title": "Raining Blood",
       "artist": "Slayer"
-    },
-    {
-      "spotifyTrackId": "2iHD6LwGapcqr6TqqZQTMR",
-      "year": 1987,
-      "title": "Louison Bobet For Ever",
-      "artist": "Ludwig Von 88",
-      "notes": "On the album Houlala 2, la mission (1987)."
     },
     {
       "spotifyTrackId": "0G21yYKMZoHa30cYVi1iA8",
