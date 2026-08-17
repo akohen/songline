@@ -1,0 +1,476 @@
+{
+  "id": "rock-punk-metal",
+  "name": "Rock · Punk · Metal",
+  "description": "Rock, punk and metal across the decades, 1957–2023",
+  "language": "en",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "4gphxUgq0JSFv2BCLhNDiE",
+      "year": 1957,
+      "title": "Jailhouse Rock",
+      "artist": "Elvis Presley",
+      "notes": "Original 1957 recording on the Golden Records compilation."
+    },
+    {
+      "spotifyTrackId": "2QfiRTz5Yc8DdShCxG1tB2",
+      "year": 1958,
+      "title": "Johnny B. Goode",
+      "artist": "Chuck Berry",
+      "notes": "Single 1958; available copy on Berry Is On Top (1959)."
+    },
+    {
+      "spotifyTrackId": "30gux5mcQNtDSg7fZDkHRF",
+      "year": 1964,
+      "title": "The House of the Rising Sun",
+      "artist": "The Animals",
+      "notes": "Original 1964 recording on a reissue."
+    },
+    {
+      "spotifyTrackId": "6tZdL3Zp8JgrfDbsSeSV1S",
+      "year": 1964,
+      "title": "You Really Got Me",
+      "artist": "The Kinks"
+    },
+    {
+      "spotifyTrackId": "63T7DJ1AFDD6Bn8VzG6JE8",
+      "year": 1966,
+      "title": "Paint It, Black",
+      "artist": "The Rolling Stones"
+    },
+    {
+      "spotifyTrackId": "0wJoRiX5K5BxlqZTolB2LD",
+      "year": 1967,
+      "title": "Purple Haze",
+      "artist": "Jimi Hendrix"
+    },
+    {
+      "spotifyTrackId": "6ToM0uwxtPKo9CMpbPGYvM",
+      "year": 1967,
+      "title": "Break On Through (To the Other Side)",
+      "artist": "The Doors"
+    },
+    {
+      "spotifyTrackId": "2z71jdeVcC782NgsYZ6N8q",
+      "year": 1970,
+      "title": "Paranoid",
+      "artist": "Black Sabbath",
+      "notes": "2012 remaster of the 1970 recording."
+    },
+    {
+      "spotifyTrackId": "5CQ30WqJwcep0pYcV4AMNc",
+      "year": 1971,
+      "title": "Stairway to Heaven",
+      "artist": "Led Zeppelin",
+      "notes": "Remaster of the 1971 recording."
+    },
+    {
+      "spotifyTrackId": "3qiyyUfYe7CRYLucrPmulD",
+      "year": 1971,
+      "title": "Baba O'Riley",
+      "artist": "The Who"
+    },
+    {
+      "spotifyTrackId": "5MMnwYs0hIxkENRsbkWJ2G",
+      "year": 1972,
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "notes": "2012 remaster of the 1972 recording."
+    },
+    {
+      "spotifyTrackId": "1Buwv1iql0YsxftE5LHIgq",
+      "year": 1975,
+      "title": "Rock and Roll All Nite",
+      "artist": "Kiss",
+      "notes": "2025 remaster of the 1975 recording."
+    },
+    {
+      "spotifyTrackId": "6hTcuIQa0sxrrByu9wTD7s",
+      "year": 1975,
+      "title": "Born to Run",
+      "artist": "Bruce Springsteen"
+    },
+    {
+      "spotifyTrackId": "4KcH1ZRV2W1q7Flq0QqC76",
+      "year": 1976,
+      "title": "Blitzkrieg Bop",
+      "artist": "Ramones",
+      "notes": "2016 remaster of the 1976 recording."
+    },
+    {
+      "spotifyTrackId": "5YUJMvTg4AWHKjqQidTsGK",
+      "year": 1978,
+      "title": "Ever Fallen in Love",
+      "artist": "Buzzcocks",
+      "notes": "1996 remaster of the 1978 recording."
+    },
+    {
+      "spotifyTrackId": "2zYzyRzz6pRmhPzyfMEC8s",
+      "year": 1979,
+      "title": "Highway to Hell",
+      "artist": "AC/DC"
+    },
+    {
+      "spotifyTrackId": "5jzma6gCzYtKB1DbEwFZKH",
+      "year": 1979,
+      "title": "London Calling",
+      "artist": "The Clash",
+      "notes": "Remaster of the 1979 recording."
+    },
+    {
+      "spotifyTrackId": "3CIOopLwvyMvXk97ZEksKO",
+      "year": 1980,
+      "title": "Ace of Spades",
+      "artist": "Motörhead",
+      "notes": "Original recording on the Expanded Edition."
+    },
+    {
+      "spotifyTrackId": "7CqUQm7usqKyxtIPKByDZs",
+      "year": 1980,
+      "title": "Holiday in Cambodia",
+      "artist": "Dead Kennedys"
+    },
+    {
+      "spotifyTrackId": "1x8N5sNHdQtY328uP5DxIp",
+      "year": 1981,
+      "title": "Straight Edge",
+      "artist": "Minor Threat"
+    },
+    {
+      "spotifyTrackId": "4Zc7TCHzuNwL0AFBlyLdyr",
+      "year": 1982,
+      "title": "Run to the Hills",
+      "artist": "Iron Maiden",
+      "notes": "2015 remaster of the 1982 recording."
+    },
+    {
+      "spotifyTrackId": "3QIwQYHBVWXSBFJIuCbSCj",
+      "year": 1985,
+      "title": "Porcherie",
+      "artist": "Bérurier Noir"
+    },
+    {
+      "spotifyTrackId": "2MuWTIM3b0YEAskbeeFE1i",
+      "year": 1986,
+      "title": "Master of Puppets",
+      "artist": "Metallica",
+      "notes": "Remaster of the 1986 recording."
+    },
+    {
+      "spotifyTrackId": "4fiOTntQKr24p07FvQDHZE",
+      "year": 1986,
+      "title": "Raining Blood",
+      "artist": "Slayer"
+    },
+    {
+      "spotifyTrackId": "2iHD6LwGapcqr6TqqZQTMR",
+      "year": 1987,
+      "title": "Louison Bobet For Ever",
+      "artist": "Ludwig Von 88",
+      "notes": "On the album Houlala 2, la mission (1987)."
+    },
+    {
+      "spotifyTrackId": "0G21yYKMZoHa30cYVi1iA8",
+      "year": 1987,
+      "title": "Welcome to the Jungle",
+      "artist": "Guns N' Roses"
+    },
+    {
+      "spotifyTrackId": "1aZLIbKEdsyqxyD6iNcrbA",
+      "year": 1987,
+      "title": "Pour Some Sugar on Me",
+      "artist": "Def Leppard"
+    },
+    {
+      "spotifyTrackId": "7wCmS9TTVUcIhRalDYFgPy",
+      "year": 1988,
+      "title": "Where Is My Mind?",
+      "artist": "Pixies",
+      "notes": "2007 remaster of the 1988 recording."
+    },
+    {
+      "spotifyTrackId": "57bgtoPSgt236HzfBOd8kj",
+      "year": 1990,
+      "title": "Thunderstruck",
+      "artist": "AC/DC"
+    },
+    {
+      "spotifyTrackId": "4CeeEOM32jQcH3eN9Q2dGj",
+      "year": 1991,
+      "title": "Smells Like Teen Spirit",
+      "artist": "Nirvana",
+      "notes": "Remaster of the 1991 recording."
+    },
+    {
+      "spotifyTrackId": "1L94M3KIu7QluZe63g64rv",
+      "year": 1991,
+      "title": "Alive",
+      "artist": "Pearl Jam"
+    },
+    {
+      "spotifyTrackId": "59WN2psjkt1tyaxjspN8fp",
+      "year": 1992,
+      "title": "Killing in the Name",
+      "artist": "Rage Against the Machine",
+      "notes": "Original 1992 recording on the XX anniversary edition."
+    },
+    {
+      "spotifyTrackId": "5mc6EyF1OIEOhAkD0Gg9Lc",
+      "year": 1994,
+      "title": "Closer",
+      "artist": "Nine Inch Nails"
+    },
+    {
+      "spotifyTrackId": "4uB28m7RAflobYpnLMb6A2",
+      "year": 1994,
+      "title": "Linoleum",
+      "artist": "NOFX"
+    },
+    {
+      "spotifyTrackId": "6L89mwZXSOwYl76YXfX13s",
+      "year": 1994,
+      "title": "Basket Case",
+      "artist": "Green Day"
+    },
+    {
+      "spotifyTrackId": "1pr9TZGOXeJUggIal1Wq3R",
+      "year": 1994,
+      "title": "Blind",
+      "artist": "Korn"
+    },
+    {
+      "spotifyTrackId": "4xdHI4eFNst0vTZuuKrWjr",
+      "year": 1994,
+      "title": "Black Hole Sun",
+      "artist": "Soundgarden"
+    },
+    {
+      "spotifyTrackId": "3mwvKOyMmG77zZRunnxp9E",
+      "year": 1994,
+      "title": "Buddy Holly",
+      "artist": "Weezer"
+    },
+    {
+      "spotifyTrackId": "56hwcJKj0M40A3qdhV3177",
+      "year": 1995,
+      "title": "Time Bomb",
+      "artist": "Rancid"
+    },
+    {
+      "spotifyTrackId": "6GtX0jaNL8IjVQfrDBx81z",
+      "year": 1995,
+      "title": "Bullet with Butterfly Wings",
+      "artist": "The Smashing Pumpkins",
+      "notes": "2012 remaster of the 1995 recording."
+    },
+    {
+      "spotifyTrackId": "2aIB1CdRRG7YLBu9hNw9nR",
+      "year": 1996,
+      "title": "The Beautiful People",
+      "artist": "Marilyn Manson"
+    },
+    {
+      "spotifyTrackId": "5awDvzxWfd53SSrsRZ8pXO",
+      "year": 1997,
+      "title": "Du Hast",
+      "artist": "Rammstein"
+    },
+    {
+      "spotifyTrackId": "5UWwZ5lm5PKu6eKsHAGxOk",
+      "year": 1997,
+      "title": "Everlong",
+      "artist": "Foo Fighters"
+    },
+    {
+      "spotifyTrackId": "3SFXsFpeGmBTtQvKiwYMDA",
+      "year": 1998,
+      "title": "Pretty Fly (for a White Guy)",
+      "artist": "The Offspring"
+    },
+    {
+      "spotifyTrackId": "2m1hi0nfMR9vdGC8UcrnwU",
+      "year": 1999,
+      "title": "All the Small Things",
+      "artist": "blink-182"
+    },
+    {
+      "spotifyTrackId": "0rOTMSSa6yscfOrGnzfheM",
+      "year": 2000,
+      "title": "99 Red Balloons",
+      "artist": "Goldfinger",
+      "notes": "Cover of Nena's '99 Luftballons'; dated to Goldfinger's 2000 release."
+    },
+    {
+      "spotifyTrackId": "4KacUpvbA3Mfo05gttTjhN",
+      "year": 2001,
+      "title": "Fat Lip",
+      "artist": "Sum 41"
+    },
+    {
+      "spotifyTrackId": "2DlHlPMa4M17kufBvI2lEN",
+      "year": 2001,
+      "title": "Chop Suey!",
+      "artist": "System of a Down"
+    },
+    {
+      "spotifyTrackId": "7kzKAuUzOITUauHAhoMoxA",
+      "year": 2001,
+      "title": "Last Nite",
+      "artist": "The Strokes"
+    },
+    {
+      "spotifyTrackId": "60a0Rd6pjrkxjPbaKzXjfq",
+      "year": 2001,
+      "title": "In the End",
+      "artist": "Linkin Park",
+      "notes": "On the album Hybrid Theory (2000); single 2001."
+    },
+    {
+      "spotifyTrackId": "5xEM5hIgJ1jjgcEBfpkt2F",
+      "year": 2002,
+      "title": "Complicated",
+      "artist": "Avril Lavigne"
+    },
+    {
+      "spotifyTrackId": "2g2a5kDeZexbUTD8abcvm6",
+      "year": 2002,
+      "title": "Lifestyles of the Rich & Famous",
+      "artist": "Good Charlotte"
+    },
+    {
+      "spotifyTrackId": "6y20BV5L33R8YXM0YuI38N",
+      "year": 2002,
+      "title": "No One Knows",
+      "artist": "Queens of the Stone Age"
+    },
+    {
+      "spotifyTrackId": "6nTiIhLmQ3FWhvrGafw2zj",
+      "year": 2004,
+      "title": "American Idiot",
+      "artist": "Green Day"
+    },
+    {
+      "spotifyTrackId": "61mWefnWQOLf90gepjOCb3",
+      "year": 2004,
+      "title": "Duality",
+      "artist": "Slipknot"
+    },
+    {
+      "spotifyTrackId": "20I8RduZC2PWMWTDCZuuAN",
+      "year": 2004,
+      "title": "Take Me Out",
+      "artist": "Franz Ferdinand"
+    },
+    {
+      "spotifyTrackId": "5OjCsHeByDYEGxMrb1z8KQ",
+      "year": 2005,
+      "title": "Flying Whales",
+      "artist": "Gojira"
+    },
+    {
+      "spotifyTrackId": "2TfSHkHiFO4gRztVIkggkE",
+      "year": 2005,
+      "title": "Sugar, We're Goin Down",
+      "artist": "Fall Out Boy"
+    },
+    {
+      "spotifyTrackId": "2h1aovvKPbIupnb8DQLPy6",
+      "year": 2005,
+      "title": "Demain il pleut",
+      "artist": "Guérilla Poubelle",
+      "notes": "From the debut album Il faut repeindre le monde…en noir (2005)."
+    },
+    {
+      "spotifyTrackId": "3DQVgcqaP3iSMbaKsd57l5",
+      "year": 2005,
+      "title": "I Bet You Look Good on the Dancefloor",
+      "artist": "Arctic Monkeys",
+      "notes": "Single 2005; on the album (2006)."
+    },
+    {
+      "spotifyTrackId": "5wQnmLuC1W7ATsArWACrgW",
+      "year": 2006,
+      "title": "Welcome to the Black Parade",
+      "artist": "My Chemical Romance"
+    },
+    {
+      "spotifyTrackId": "2pxqMhbQ9xN4epXsaJg6Qe",
+      "year": 2007,
+      "title": "Monsoon",
+      "artist": "Tokio Hotel"
+    },
+    {
+      "spotifyTrackId": "5sG3G54H21hNfd5etlheoe",
+      "year": 2011,
+      "title": "Satellite",
+      "artist": "Rise Against"
+    },
+    {
+      "spotifyTrackId": "0c4IEciLCDdXEhhKxj4ThA",
+      "year": 2012,
+      "title": "Madness",
+      "artist": "Muse"
+    },
+    {
+      "spotifyTrackId": "3MjrueDQKVr6xDDseZwhEd",
+      "year": 2014,
+      "title": "Figure It Out",
+      "artist": "Royal Blood"
+    },
+    {
+      "spotifyTrackId": "0M3adYbGtyRHACP86dey1H",
+      "year": 2015,
+      "title": "Throne",
+      "artist": "Bring Me the Horizon"
+    },
+    {
+      "spotifyTrackId": "5TNhjanmvwvmjCz2WYwSAv",
+      "year": 2016,
+      "title": "Square Hammer",
+      "artist": "Ghost",
+      "notes": "On the Meliora Deluxe Edition (2016)."
+    },
+    {
+      "spotifyTrackId": "7aOor99o8NNLZYElOXlBG1",
+      "year": 2017,
+      "title": "Highway Tune",
+      "artist": "Greta Van Fleet"
+    },
+    {
+      "spotifyTrackId": "29tBdNJDDT3KbAkbWpckSd",
+      "year": 2018,
+      "title": "Danny Nedelko",
+      "artist": "IDLES"
+    },
+    {
+      "spotifyTrackId": "7cucVWdmNeaPJuo7WkxaZ8",
+      "year": 2019,
+      "title": "Boys in the Better Land",
+      "artist": "Fontaines D.C."
+    },
+    {
+      "spotifyTrackId": "776AftMmFFAWUIEAb3lHhw",
+      "year": 2021,
+      "title": "Zitti e buoni",
+      "artist": "Måneskin"
+    },
+    {
+      "spotifyTrackId": "0bGImSqDB2ebdeoCidUC8o",
+      "year": 2021,
+      "title": "Blackout",
+      "artist": "Turnstile"
+    },
+    {
+      "spotifyTrackId": "0nys6GusuHnjSYLW0PYYb7",
+      "year": 2022,
+      "title": "Chaise Longue",
+      "artist": "Wet Leg"
+    },
+    {
+      "spotifyTrackId": "0S38Oso3I9vpDXcTb7kYt9",
+      "year": 2023,
+      "title": "The Summoning",
+      "artist": "Sleep Token"
+    }
+  ]
+}
