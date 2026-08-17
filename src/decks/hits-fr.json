@@ -1,7 +1,7 @@
 {
   "id": "hits-fr",
-  "name": "Hits français",
-  "description": "Chanson, variété et pop françaises, 1964–2024",
+  "name": "French Hits",
+  "description": "French chanson, variety and pop, 1964–2024",
   "language": "fr",
   "market": "FR",
   "cards": [
@@ -10,6 +10,13 @@
       "year": 1964,
       "title": "Les Copains d'abord",
       "artist": "Georges Brassens"
+    },
+    {
+      "spotifyTrackId": "6phMPtxOkjdXR8ax9xoCJ9",
+      "year": 1964,
+      "title": "Le Pénitencier",
+      "artist": "Johnny Hallyday",
+      "notes": "French adaptation of \"The House of the Rising Sun\"; dated to Hallyday's 1964 release."
     },
     {
       "spotifyTrackId": "2CLeotsLhEUu0qkj56vbUj",
