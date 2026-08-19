@@ -608,7 +608,7 @@ code {
 }
 
 .timeline__year {
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -680,7 +680,7 @@ code {
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 1rem;
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
