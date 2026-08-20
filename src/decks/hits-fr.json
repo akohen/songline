@@ -1,10 +1,24 @@
 {
   "id": "hits-fr",
   "name": "French Hits",
-  "description": "French chanson, variety and pop, 1964–2024",
+  "description": "French chanson, variety and pop, 1962–2024",
   "language": "fr",
   "market": "FR",
   "cards": [
+    {
+      "spotifyTrackId": "0Yg1hSAUgd2AAneReFOVzS",
+      "year": 1962,
+      "title": "Tous les garçons et les filles",
+      "artist": "Françoise Hardy",
+      "notes": "Stereo Mix of the 1962 original."
+    },
+    {
+      "spotifyTrackId": "3K9HiUg6sCoCYZ0dl8Vjf0",
+      "year": 1963,
+      "title": "Tombe la neige",
+      "artist": "Salvatore Adamo",
+      "notes": "2020 remaster of the 1963 original."
+    },
     {
       "spotifyTrackId": "2tsW3Lr6LatRZz7Bbe3CBK",
       "year": 1964,
@@ -17,6 +31,26 @@
       "title": "Le Pénitencier",
       "artist": "Johnny Hallyday",
       "notes": "French adaptation of \"The House of the Rising Sun\"; dated to Hallyday's 1964 release."
+    },
+    {
+      "spotifyTrackId": "0v2oRXJ9K65EMUoJmHN2m9",
+      "year": 1964,
+      "title": "Nathalie",
+      "artist": "Gilbert Bécaud",
+      "notes": "2011 remaster of the 1964 original."
+    },
+    {
+      "spotifyTrackId": "1WvvmEowf7hiz5EnyAwtTj",
+      "year": 1965,
+      "title": "La Bohème",
+      "artist": "Charles Aznavour",
+      "notes": "Single 1965; album La bohème 1966."
+    },
+    {
+      "spotifyTrackId": "245la2fLeLCOpBWDjgE8rj",
+      "year": 1966,
+      "title": "La poupée qui fait non",
+      "artist": "Michel Polnareff"
     },
     {
       "spotifyTrackId": "2CLeotsLhEUu0qkj56vbUj",
@@ -45,6 +79,19 @@
       "artist": "Michel Fugain"
     },
     {
+      "spotifyTrackId": "5jcS1ZXOYMexs2y88yFnyn",
+      "year": 1972,
+      "title": "Amoureuse",
+      "artist": "Véronique Sanson",
+      "notes": "2008 remaster of the 1972 original."
+    },
+    {
+      "spotifyTrackId": "4EucYViqJKQ4lCECHnec1P",
+      "year": 1972,
+      "title": "San Francisco",
+      "artist": "Maxime Le Forestier"
+    },
+    {
       "spotifyTrackId": "2flivK5ivlprHRE7YNcRrj",
       "year": 1973,
       "title": "La Maladie d'amour",
@@ -65,6 +112,13 @@
       "notes": "Original recording on an album-box reissue."
     },
     {
+      "spotifyTrackId": "26hhFPnzMcKxKOVIFg6IAG",
+      "year": 1974,
+      "title": "Vanina",
+      "artist": "Dave",
+      "notes": "Original recording on a compilation."
+    },
+    {
       "spotifyTrackId": "2LplsM7xv7Cj5ne7pxv5Gn",
       "year": 1975,
       "title": "Et si tu n'existais pas",
@@ -76,6 +130,26 @@
       "year": 1975,
       "title": "Le Sud",
       "artist": "Nino Ferrer",
+      "notes": "Original recording on a reissue."
+    },
+    {
+      "spotifyTrackId": "43bbZeCutljKEJgD19Qx5W",
+      "year": 1975,
+      "title": "Les vacances au bord de la mer",
+      "artist": "Michel Jonasz"
+    },
+    {
+      "spotifyTrackId": "0hO4TgWkyR3XiI6P3x731B",
+      "year": 1975,
+      "title": "La Ballade des gens heureux",
+      "artist": "Gérard Lenorman",
+      "notes": "Original recording on a compilation."
+    },
+    {
+      "spotifyTrackId": "6aV2qifrzZkfT2PW3gsWDE",
+      "year": 1975,
+      "title": "J'ai encore rêvé d'elle",
+      "artist": "Il Était Une Fois",
       "notes": "Original recording on a reissue."
     },
     {
@@ -92,10 +166,24 @@
       "notes": "Original recording on a compilation."
     },
     {
+      "spotifyTrackId": "4sf4Lq52b2iCoAgpge7a9g",
+      "year": 1977,
+      "title": "Ça plane pour moi",
+      "artist": "Plastic Bertrand",
+      "notes": "Available copy is a later re-recording/reissue; year is the 1977 original."
+    },
+    {
       "spotifyTrackId": "3N9Vibj1SwLn4SRtWJVDVO",
       "year": 1978,
       "title": "Ma préférence",
       "artist": "Julien Clerc"
+    },
+    {
+      "spotifyTrackId": "6Z1gSuAnhDCWkSkLDKAMfY",
+      "year": 1978,
+      "title": "Tu verras",
+      "artist": "Claude Nougaro",
+      "notes": "Adaptation of Chico Buarque's \"O que será\"; original recording on a compilation."
     },
     {
       "spotifyTrackId": "496eQC5FPo3dmfNRXPcmps",
@@ -103,6 +191,13 @@
       "title": "La Groupie du pianiste",
       "artist": "Michel Berger",
       "notes": "2002 remaster of the 1980 recording."
+    },
+    {
+      "spotifyTrackId": "4JhUljpTRmzjzlXGXNpt76",
+      "year": 1981,
+      "title": "Vertige de l'amour",
+      "artist": "Alain Bashung",
+      "notes": "Album Pizza."
     },
     {
       "spotifyTrackId": "3uZyx7GfVWJh2Aum6xS6my",
@@ -130,6 +225,12 @@
       "artist": "Jean-Jacques Goldman"
     },
     {
+      "spotifyTrackId": "0hMUcAdD9QT8apFfjv26A5",
+      "year": 1984,
+      "title": "Week-end à Rome",
+      "artist": "Étienne Daho"
+    },
+    {
       "spotifyTrackId": "1uFWyT4KLFXisiVkiBPCTb",
       "year": 1985,
       "title": "L'Aziza",
@@ -151,11 +252,32 @@
       "notes": "On the 1984 debut album; single released 1985."
     },
     {
+      "spotifyTrackId": "3QIwQYHBVWXSBFJIuCbSCj",
+      "year": 1985,
+      "title": "Porcherie",
+      "artist": "Bérurier Noir",
+      "notes": "French punk; \"la jeunesse emmerde le Front National\"."
+    },
+    {
       "spotifyTrackId": "2ne2QYNb5DjByvKPOtzQaM",
       "year": 1986,
       "title": "Les Démons de minuit",
       "artist": "Images",
       "notes": "The 1986 hit is credited to Images; 'Émile et Images' is the later reunion act."
+    },
+    {
+      "spotifyTrackId": "23YtNuZf92xMntIAUgQBV3",
+      "year": 1986,
+      "title": "En rouge et noir",
+      "artist": "Jeanne Mas",
+      "notes": "Original recording on a deluxe reissue."
+    },
+    {
+      "spotifyTrackId": "6ey7Qs7waKdyWbvltamg7A",
+      "year": 1986,
+      "title": "Houlala !",
+      "artist": "Ludwig Von 88",
+      "notes": "French punk."
     },
     {
       "spotifyTrackId": "67CfbIKKTCKFqmQLJwUftX",
@@ -169,6 +291,27 @@
       "year": 1987,
       "title": "Joe le taxi",
       "artist": "Vanessa Paradis"
+    },
+    {
+      "spotifyTrackId": "2d8D7uk3tbAThjRkdfrx9c",
+      "year": 1987,
+      "title": "Voyage voyage",
+      "artist": "Desireless",
+      "notes": "Single 1986; European hit 1987; album copy reports 1989."
+    },
+    {
+      "spotifyTrackId": "3CEEt3Yy9BoxkkNHorYVpV",
+      "year": 1988,
+      "title": "Zobi la mouche",
+      "artist": "Les Négresses Vertes",
+      "notes": "Album Mlah (1988)."
+    },
+    {
+      "spotifyTrackId": "2pXzTDfEoA19Fqhtl08Hiw",
+      "year": 1988,
+      "title": "Nuit de folie",
+      "artist": "Début De Soirée",
+      "notes": "Original 1988 version."
     },
     {
       "spotifyTrackId": "6GKfnB8wQhmCqsHmgDAkN4",
@@ -190,10 +333,23 @@
       "artist": "MC Solaar"
     },
     {
+      "spotifyTrackId": "47C8ia2xbsaYpeGHo02dxZ",
+      "year": 1992,
+      "title": "Le courage des oiseaux",
+      "artist": "Dominique A",
+      "notes": "2012 remaster of the 1992 La Fossette recording."
+    },
+    {
       "spotifyTrackId": "2W4ZxAHZAXOf6r65pCskGR",
       "year": 1993,
       "title": "Foule sentimentale",
       "artist": "Alain Souchon"
+    },
+    {
+      "spotifyTrackId": "6ri4yWOtcfGpTcigL2YeBe",
+      "year": 1993,
+      "title": "Sensualité",
+      "artist": "Axelle Red"
     },
     {
       "spotifyTrackId": "1sTWIzAlg8HapeWz2fXvfJ",
@@ -217,10 +373,52 @@
       "notes": "Title track of the album Zen (1995); Spotify reports 1996."
     },
     {
+      "spotifyTrackId": "6mYSphiU3Qg07g37bZlE4c",
+      "year": 1995,
+      "title": "Pour que tu m'aimes encore",
+      "artist": "Céline Dion",
+      "notes": "Album D'eux."
+    },
+    {
+      "spotifyTrackId": "3mgFUpTSGwwyZL11YTu8cw",
+      "year": 1995,
+      "title": "Respect",
+      "artist": "Alliance Ethnik",
+      "notes": "Feat. Vinia Mojica; original recording on a deluxe reissue."
+    },
+    {
       "spotifyTrackId": "3T3on6iqfXhwc0BXAM1era",
       "year": 1996,
       "title": "Lucie",
       "artist": "Pascal Obispo"
+    },
+    {
+      "spotifyTrackId": "0cYX51Hneb8qIOx0tHm7ng",
+      "year": 1996,
+      "title": "Aïcha",
+      "artist": "Khaled",
+      "notes": "\"Version Mixte\" (the single version), album Sahra."
+    },
+    {
+      "spotifyTrackId": "1DtVWIZqHqf1a0GXCnuMpA",
+      "year": 1996,
+      "title": "Partir un jour",
+      "artist": "2 Be 3",
+      "notes": "Single 1996; album copy reports 1997."
+    },
+    {
+      "spotifyTrackId": "4QlC4HmIyo2nO0l0bRrgdm",
+      "year": 1996,
+      "title": "Dieu m'a donné la foi",
+      "artist": "Ophélie Winter",
+      "notes": "Album Soon."
+    },
+    {
+      "spotifyTrackId": "5cYrrz28M629ZyiV5gz1f3",
+      "year": 1996,
+      "title": "Un jour en France",
+      "artist": "Noir Désir",
+      "notes": "Album 666.667 Club."
     },
     {
       "spotifyTrackId": "0Wr98MVkENZXddiLB3bPb0",
@@ -260,6 +458,13 @@
       "artist": "Johnny Hallyday"
     },
     {
+      "spotifyTrackId": "3EDLcIQHnBUZB0HaI0Tomh",
+      "year": 1998,
+      "title": "Ya Rayah",
+      "artist": "Rachid Taha",
+      "notes": "Album Diwân; cover of Dahmane El Harrachi, dated to Taha's release."
+    },
+    {
       "spotifyTrackId": "7JGmpugbdiVWskY1S3EmTY",
       "year": 1999,
       "title": "Tomber la chemise",
@@ -277,6 +482,13 @@
       "year": 2001,
       "title": "Je serai (ta meilleure amie)",
       "artist": "Lorie"
+    },
+    {
+      "spotifyTrackId": "2rbOfMNGeAJ46REyCtxqDf",
+      "year": 2001,
+      "title": "Alter Ego",
+      "artist": "Jean-Louis Aubert",
+      "notes": "Solo; album Comme un accord."
     },
     {
       "spotifyTrackId": "3J7L4214bjQfnry4dKjZZt",
@@ -318,6 +530,18 @@
       "notes": "On the album Brut de femme (2003); single 2004."
     },
     {
+      "spotifyTrackId": "1HOtCYTuOCISpTn9cW6fcz",
+      "year": 2004,
+      "title": "Ma philosophie",
+      "artist": "Amel Bent"
+    },
+    {
+      "spotifyTrackId": "4iVnfuAmwJNAGsiHz8Po6Y",
+      "year": 2004,
+      "title": "Femme Like U",
+      "artist": "K.Maro"
+    },
+    {
       "spotifyTrackId": "3OK8lPgSMxSLNEQjzCxQXj",
       "year": 2005,
       "title": "Le Dîner",
@@ -336,16 +560,50 @@
       "artist": "Camille"
     },
     {
+      "spotifyTrackId": "4I1LbLy9xIFZ9sftxGSLDR",
+      "year": 2005,
+      "title": "Que Sera",
+      "artist": "Wax Tailor",
+      "notes": "French touch / trip-hop; album Tales of the Forgotten Melodies."
+    },
+    {
       "spotifyTrackId": "2qaFgVtoMyWAb53M1UcCjj",
       "year": 2006,
       "title": "La Lettre",
       "artist": "Renan Luce"
     },
     {
+      "spotifyTrackId": "2PTmBINQ8738rxaTruWmTI",
+      "year": 2006,
+      "title": "Saint-Denis",
+      "artist": "Grand Corps Malade",
+      "notes": "Slam; album Midi 20."
+    },
+    {
+      "spotifyTrackId": "5oDHtv5XcJzLeXR7mjp86f",
+      "year": 2006,
+      "title": "Lola",
+      "artist": "Superbus",
+      "notes": "Album Wow."
+    },
+    {
       "spotifyTrackId": "4E8hgGDOwG5CpiEke6qZMT",
       "year": 2007,
       "title": "On s'attache",
       "artist": "Christophe Maé"
+    },
+    {
+      "spotifyTrackId": "7tYLyoMAzQDrcCTUE3b6bS",
+      "year": 2007,
+      "title": "J'aime plus Paris",
+      "artist": "Thomas Dutronc"
+    },
+    {
+      "spotifyTrackId": "33yAEqzKXexYM3WlOYtTfQ",
+      "year": 2007,
+      "title": "D.A.N.C.E.",
+      "artist": "Justice",
+      "notes": "French touch; album †."
     },
     {
       "spotifyTrackId": "1cl6UxttwMTjJXsdyMDUde",
@@ -380,11 +638,25 @@
       "artist": "Sexion d'Assaut"
     },
     {
+      "spotifyTrackId": "0U0ldCRmgCqhVvD6ksG63j",
+      "year": 2010,
+      "title": "Nightcall",
+      "artist": "Kavinsky",
+      "notes": "French touch; single/EP Nightcall."
+    },
+    {
       "spotifyTrackId": "3aAfTIGq9wkOD8kxgUYIEi",
       "year": 2011,
       "title": "À nos actes manqués",
       "artist": "M. Pokora",
       "notes": "Cover of Fredericks Goldman Jones (1991); dated to Pokora's 2011 release."
+    },
+    {
+      "spotifyTrackId": "1x5MjCffpcdHLf65eR9r3T",
+      "year": 2012,
+      "title": "Down the Road",
+      "artist": "C2C",
+      "notes": "French touch; album Tetra."
     },
     {
       "spotifyTrackId": "7svxfKwNtrPkf6lBMuUAnC",
@@ -405,6 +677,19 @@
       "artist": "Julien Doré"
     },
     {
+      "spotifyTrackId": "3GZRgTBfMrGQI8zCnN07Pn",
+      "year": 2013,
+      "title": "Blizzard",
+      "artist": "Fauve"
+    },
+    {
+      "spotifyTrackId": "1vELwZM3uBYWd8HrtddD4l",
+      "year": 2013,
+      "title": "Bella",
+      "artist": "GIMS",
+      "notes": "Album Subliminal."
+    },
+    {
       "spotifyTrackId": "65uoaqX5qcjXZRheAj1qQT",
       "year": 2014,
       "title": "Dernière danse",
@@ -419,10 +704,31 @@
       "notes": "Single 2014; on the album Kendji (2015)."
     },
     {
+      "spotifyTrackId": "6tNDVXXaYWsBd3Mqhfelvl",
+      "year": 2014,
+      "title": "Christine",
+      "artist": "Christine and the Queens",
+      "notes": "Album Chaleur humaine."
+    },
+    {
+      "spotifyTrackId": "2a7Sqh8bpbabVWlY2jRET9",
+      "year": 2014,
+      "title": "Cosmo",
+      "artist": "Soprano",
+      "notes": "Single 2014; album copy reports 2015."
+    },
+    {
       "spotifyTrackId": "5vhLa5SMn0PJJd1GZIUitd",
       "year": 2015,
       "title": "Avenir",
       "artist": "Louane"
+    },
+    {
+      "spotifyTrackId": "57I5KhEpQFC9XBgKt6nklL",
+      "year": 2015,
+      "title": "On verra",
+      "artist": "Nekfeu",
+      "notes": "Album Feu."
     },
     {
       "spotifyTrackId": "6cZDf3mpynxrZbnx95j0tp",
@@ -457,6 +763,13 @@
       "notes": "Single 2020 (feat. Julien Doré); available copy on the 2022 album."
     },
     {
+      "spotifyTrackId": "1uAOCTevGnyKIDbgZdOCnE",
+      "year": 2020,
+      "title": "Voilà",
+      "artist": "Barbara Pravi",
+      "notes": "Single Nov 2020; Eurovision 2021."
+    },
+    {
       "spotifyTrackId": "73oVDoxJHbqOIkZ0C9ir31",
       "year": 2021,
       "title": "Le Reste",
@@ -467,6 +780,34 @@
       "year": 2021,
       "title": "Le Temps",
       "artist": "Tayc"
+    },
+    {
+      "spotifyTrackId": "4CWcaGtaOyAqBDKIeZMUe0",
+      "year": 2021,
+      "title": "La kiffance",
+      "artist": "Naps",
+      "notes": "Single La kiffance."
+    },
+    {
+      "spotifyTrackId": "273vXUGkKr04KJUPvWD16Y",
+      "year": 2021,
+      "title": "Tu t'en iras",
+      "artist": "La Zarra",
+      "notes": "Album Traîtrise."
+    },
+    {
+      "spotifyTrackId": "5EWPzyWm0b9McPS5Qyaijp",
+      "year": 2022,
+      "title": "Un jour je marierai un ange",
+      "artist": "Pierre de Maere",
+      "notes": "Original single (2022)."
+    },
+    {
+      "spotifyTrackId": "1NwjfTd5fsvRFtYGERuKzA",
+      "year": 2022,
+      "title": "Des milliers de je t'aime",
+      "artist": "Slimane",
+      "notes": "Solo; album Chroniques d'un cupidon."
     },
     {
       "spotifyTrackId": "4QIH0XYnCLoCl1WZIV08Pn",
