@@ -92,10 +92,17 @@ date comparison, and not something a script can decide.
 
 ### Deck size and spread
 
-- **At least 50 cards** for a new deck. Enough for an evening, and it surfaces curation
-  problems before you have sunk effort into twice that.
-- **Spread evenly across decades** — roughly 5 per decade for a 1960s–2010s deck — so
-  the timeline has anchors across the whole range instead of clustering.
+- **At least ~70 cards** for a new deck, and **aim for 100–150**. Enough for a full
+  evening, and a large deck surfaces curation problems before you have sunk effort into
+  polishing a small one.
+- **Balance the decades** — each decade should hold about the same number of cards, so
+  the timeline has anchors across the whole range instead of clustering. An incomplete
+  decade (one that opens or closes the deck's range and does not span the full ten
+  years) can hold fewer. **Bias towards the 90s and 00s**: those decades carry the songs
+  most players know best, so weight them a little more heavily than the rest.
+- **About 20% of the cards should be less well known**, so that players have to reason
+  about the date from era and style rather than recognising the song outright. A deck of
+  only hits collapses into pure recall; the harder cards are what make placement a game.
 - A wide year range is *easier* to play than a narrow one. A deck spanning 1965–2019
   is a gentler introduction than one spanning 1990–2005.
 
