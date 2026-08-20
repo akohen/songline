@@ -19,6 +19,13 @@ type Options = {
    */
   teamCount?: number;
   rng?: () => number;
+  /**
+   * Restrict the pile to these track IDs instead of the whole deck. Used to play on
+   * only the songs a previous game never reached, so a second game does not repeat the
+   * first. IDs not present in `deck.cards` are dropped — the caller's set can predate a
+   * deck edit, and a card the deck no longer defines has no year to score against.
+   */
+  cardIds?: readonly TrackId[];
 };
 
 /**
@@ -33,8 +40,11 @@ type Options = {
  * before it starts.
  */
 export function createGame(deck: Deck, options: Options = {}): GameState {
-  const { teamCount = 0, rng = Math.random } = options;
-  const trackIds: TrackId[] = deck.cards.map((card) => card.spotifyTrackId);
+  const { teamCount = 0, rng = Math.random, cardIds } = options;
+  const deckIds: TrackId[] = deck.cards.map((card) => card.spotifyTrackId);
+  // Deck rot: a supplied ID the deck no longer defines has no year to score against,
+  // so drop it — mirrors the drawPile filter in persistence.ts.
+  const trackIds = cardIds ? cardIds.filter((id) => deckIds.includes(id)) : deckIds;
   return {
     phase: "idle",
     deckId: deck.id,

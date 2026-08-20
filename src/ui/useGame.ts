@@ -21,6 +21,15 @@ import {
 const SLOW_LOAD_MS = 15_000;
 
 /**
+ * Playing again continues with the songs the finished game never reached, so a second
+ * game on the same deck does not repeat the first. Below this many left there are too
+ * few for a full game, so the whole deck is reshuffled and repeats are accepted. Only
+ * ever bites in the timeline ruleset: a paper game ends only by exhausting the deck, so
+ * nothing remains to carry over.
+ */
+const CONTINUE_MIN_REMAINING = 25;
+
+/**
  * Wires the pure engine to a playback adapter.
  *
  * The engine decides *which* card is in play; the adapter decides what the audio is
@@ -237,7 +246,14 @@ export function useGame(
     setError(null);
     resetEndTracking();
 
-    const fresh = createGame(deck, { teamCount: gameRef.current.timelines.length });
+    // At `finished`, `drawPile` is exactly the songs never drawn — never heard — and
+    // `currentCard` is always null, so the pile alone is the un-played set to carry over.
+    const remaining = gameRef.current.drawPile;
+    const teamCount = gameRef.current.timelines.length;
+    const fresh =
+      remaining.length > CONTINUE_MIN_REMAINING
+        ? createGame(deck, { teamCount, cardIds: remaining })
+        : createGame(deck, { teamCount });
     const { next, playing } = drawAndPlay(fresh, deck, playback);
     setGame(next);
 

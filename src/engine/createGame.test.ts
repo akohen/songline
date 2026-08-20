@@ -70,4 +70,37 @@ describe("createGame", () => {
     const state = createGame(testDeck, { rng: seededRng(1) });
     expect(state.history).toEqual([]);
   });
+
+  describe("with cardIds — playing again on the un-played remainder", () => {
+    it("restricts the pile to exactly the given IDs", () => {
+      const subset = testDeck.cards.slice(0, 2).map((c) => c.spotifyTrackId);
+      const state = createGame(testDeck, { cardIds: subset, rng: seededRng(1) });
+      expect([...state.drawPile].sort()).toEqual([...subset].sort());
+    });
+
+    it("drops IDs the deck no longer defines (deck rot)", () => {
+      const [known] = testDeck.cards.map((c) => c.spotifyTrackId);
+      const state = createGame(testDeck, {
+        cardIds: [known ?? "", "notInThisDeckAtAll"],
+        rng: seededRng(1),
+      });
+      expect(state.drawPile).toEqual([known]);
+    });
+
+    it("still honours teamCount and stays deterministic for a seed", () => {
+      const subset = testDeck.cards.map((c) => c.spotifyTrackId);
+      const a = createGame(testDeck, {
+        cardIds: subset,
+        teamCount: 2,
+        rng: seededRng(9),
+      });
+      const b = createGame(testDeck, {
+        cardIds: subset,
+        teamCount: 2,
+        rng: seededRng(9),
+      });
+      expect(a.timelines).toEqual([[], []]);
+      expect(a.drawPile).toEqual(b.drawPile);
+    });
+  });
 });
