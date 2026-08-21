@@ -154,7 +154,9 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build
 [docs/tech/deck-format.md](docs/tech/deck-format.md#adding-tracks-and-decks).** It exists
 because two steps are silently skippable — a new deck must be registered in
 `src/decks/loadDeck.ts` or it never appears, and the year must come from an external
-source rather than the search output.
+source rather than the search output. Budget several searches per classic: the original
+recording is often only on Spotify as a remaster, compilation or re-record, and picking
+the right one is the slow part.
 
 ---
 

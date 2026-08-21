@@ -89,6 +89,15 @@ date comparison, and not something a script can decide.
    Versions) are fine as audio — the card still takes the original release year —
    but note the substitution if the production sounds noticeably out of era.
 6. **One track per artist per deck**, as a default, to keep variety. This rule can be ignored for thematic decks.
+7. **The original pressing is often gone — budget several searches per classic.** For
+   pre-1990s songs especially, the first `search:tracks` hit is routinely a remaster,
+   compilation, live cut or full re-recording rather than the original master; expect a
+   few refined queries before you find the recording you want. What is acceptable, in
+   order of preference: the original release, then a remaster, then a compilation copy of
+   the *original* recording (much of the existing decks are exactly these). **Reject**
+   live cuts, remixes and "Sped Up"/"Slowed" versions — they sound off-era. When *only* a
+   re-recording exists it is a per-song judgement: keep it and flag the substitution in
+   `notes` (rule 5), or swap the song for another that has its original on Spotify.
 
 ### Deck size and spread
 
@@ -133,9 +142,16 @@ date comparison, and not something a script can decide.
 
 3. **Add the card** to the deck's JSON. Fill `notes` if you made a judgement call.
 
-4. **Validate:** `pnpm validate:decks`. Read the output, do not just check it passed —
-   it prints the resolved track and album for every card, and that is the only check
-   on whether an ID points at the recording you meant.
+4. **Validate:** `pnpm validate:decks <deck-id>` — scope it to the deck you touched.
+   Read the output, do not just check it passed: it prints the resolved track and album
+   for every card, and that is the only check on whether an ID points at the recording
+   you meant.
+
+**Bulk adds: append and re-sort, don't hand-weave.** The card arrays are kept in year
+order for readability only — the game draws at random, so order carries no meaning. When
+adding many cards at once, append them and re-sort the array by year with a throwaway
+script rather than hand-inserting each one among the existing entries, which risks
+silently corrupting cards you never meant to touch.
 
 ### Adding a new deck
 
