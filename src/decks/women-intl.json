@@ -1,0 +1,836 @@
+{
+  "id": "women-intl",
+  "name": "Women in Music",
+  "description": "International music composed or performed by women, 1963–2024",
+  "language": "mul",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "7ngRS53kqxLcEt9Pythc5d",
+      "year": 1963,
+      "title": "You Don't Own Me",
+      "artist": "Lesley Gore"
+    },
+    {
+      "spotifyTrackId": "6S55C80YzjhSrCRRd1p80b",
+      "year": 1964,
+      "title": "Downtown",
+      "artist": "Petula Clark",
+      "notes": "Original recording on a compilation."
+    },
+    {
+      "spotifyTrackId": "3xsOtNxtBW0oTI1OWKAzTm",
+      "year": 1964,
+      "title": "Walk On By",
+      "artist": "Dionne Warwick"
+    },
+    {
+      "spotifyTrackId": "6rLqjzGV5VMLDWEnuUqi8q",
+      "year": 1964,
+      "title": "Dancing in the Street",
+      "artist": "Martha Reeves & The Vandellas",
+      "notes": "Single 1964; album Dance Party 1965."
+    },
+    {
+      "spotifyTrackId": "6Rqn2GFlmvmV4w9Ala0I1e",
+      "year": 1965,
+      "title": "Feeling Good",
+      "artist": "Nina Simone",
+      "notes": "Album I Put a Spell on You."
+    },
+    {
+      "spotifyTrackId": "2PneNdtypG6XcgmWmGd9FI",
+      "year": 1966,
+      "title": "These Boots Are Made for Walkin'",
+      "artist": "Nancy Sinatra"
+    },
+    {
+      "spotifyTrackId": "1OppEieGNdItZbE14gLBEv",
+      "year": 1966,
+      "title": "You Can't Hurry Love",
+      "artist": "The Supremes",
+      "notes": "Diana Ross; original recording on an expanded edition."
+    },
+    {
+      "spotifyTrackId": "7s25THrKz86DM225dOYwnr",
+      "year": 1967,
+      "title": "Respect",
+      "artist": "Aretha Franklin"
+    },
+    {
+      "spotifyTrackId": "6ek9SiEj5a65WIs2EV7qiM",
+      "year": 1968,
+      "title": "Son of a Preacher Man",
+      "artist": "Dusty Springfield",
+      "notes": "Single 1968; album Dusty in Memphis 1969."
+    },
+    {
+      "spotifyTrackId": "1xKQbqQtQWrtQS47fUJBtl",
+      "year": 1968,
+      "title": "Piece of My Heart",
+      "artist": "Janis Joplin",
+      "notes": "With Big Brother & the Holding Company; album Cheap Thrills."
+    },
+    {
+      "spotifyTrackId": "6UkMcAA19lTdjs22jtB7o2",
+      "year": 1970,
+      "title": "Big Yellow Taxi",
+      "artist": "Joni Mitchell",
+      "notes": "Album Ladies of the Canyon."
+    },
+    {
+      "spotifyTrackId": "12q3V8ShACq2PSWINMc2rC",
+      "year": 1971,
+      "title": "It's Too Late",
+      "artist": "Carole King",
+      "notes": "Album Tapestry."
+    },
+    {
+      "spotifyTrackId": "1zaiZAuhPkQfhhY9X2mTnn",
+      "year": 1973,
+      "title": "Can the Can",
+      "artist": "Suzi Quatro"
+    },
+    {
+      "spotifyTrackId": "17VWTx7LD7liGlpnlGhUbn",
+      "year": 1974,
+      "title": "Lady Marmalade",
+      "artist": "LaBelle",
+      "notes": "Patti LaBelle; album Nightbirds."
+    },
+    {
+      "spotifyTrackId": "23DZLSxCK6kM8FF2RlzKDl",
+      "year": 1974,
+      "title": "You're No Good",
+      "artist": "Linda Ronstadt",
+      "notes": "Album Heart Like a Wheel."
+    },
+    {
+      "spotifyTrackId": "7cdnq45E9aP2XDStHg5vd7",
+      "year": 1976,
+      "title": "Cherry Bomb",
+      "artist": "The Runaways",
+      "notes": "Cherie Currie / Joan Jett."
+    },
+    {
+      "spotifyTrackId": "3MFa9idQuY4iJLWsZl3tIQ",
+      "year": 1976,
+      "title": "Young Hearts Run Free",
+      "artist": "Candi Staton"
+    },
+    {
+      "spotifyTrackId": "1vCBk33l9HaWp5FOnhSGxk",
+      "year": 1977,
+      "title": "I Feel Love",
+      "artist": "Donna Summer",
+      "notes": "Album I Remember Yesterday."
+    },
+    {
+      "spotifyTrackId": "4KfSdst7rW39C0sfhArdrz",
+      "year": 1977,
+      "title": "Barracuda",
+      "artist": "Heart",
+      "notes": "Ann & Nancy Wilson; album Little Queen."
+    },
+    {
+      "spotifyTrackId": "0ofHAoxe9vBkTCp2UQIavz",
+      "year": 1977,
+      "title": "Dreams",
+      "artist": "Fleetwood Mac",
+      "notes": "Stevie Nicks; 2004 remaster of Rumours (1977)."
+    },
+    {
+      "spotifyTrackId": "0lIoY4ZQsdn5QzhraM9o9u",
+      "year": 1978,
+      "title": "Because the Night",
+      "artist": "Patti Smith",
+      "notes": "Album Easter."
+    },
+    {
+      "spotifyTrackId": "1oFiPGBafH9Woo9AMwgBSl",
+      "year": 1978,
+      "title": "I'm Every Woman",
+      "artist": "Chaka Khan",
+      "notes": "Album Chaka."
+    },
+    {
+      "spotifyTrackId": "7rIovIsXE6kMn629b7kDig",
+      "year": 1978,
+      "title": "I Will Survive",
+      "artist": "Gloria Gaynor",
+      "notes": "Album Love Tracks."
+    },
+    {
+      "spotifyTrackId": "4v2rkl1mC3zVAz0nXMx9r4",
+      "year": 1979,
+      "title": "Heart of Glass",
+      "artist": "Blondie",
+      "notes": "Debbie Harry; album Parallel Lines (1978), single 1979."
+    },
+    {
+      "spotifyTrackId": "4jTqsgDaffdNH0BMBwhjFv",
+      "year": 1981,
+      "title": "I Love Rock 'n' Roll",
+      "artist": "Joan Jett & the Blackhearts",
+      "notes": "Album 1981; single 1982."
+    },
+    {
+      "spotifyTrackId": "3LaHsdzzmvhx6TJedpomVy",
+      "year": 1981,
+      "title": "Kids in America",
+      "artist": "Kim Wilde"
+    },
+    {
+      "spotifyTrackId": "653Fi3bqMxQQQmjw72ur6G",
+      "year": 1981,
+      "title": "Pull Up to the Bumper",
+      "artist": "Grace Jones",
+      "notes": "Album Nightclubbing."
+    },
+    {
+      "spotifyTrackId": "4y1LsJpmMti1PfRQV9AWWe",
+      "year": 1983,
+      "title": "Girls Just Want to Have Fun",
+      "artist": "Cyndi Lauper",
+      "notes": "Album She's So Unusual."
+    },
+    {
+      "spotifyTrackId": "1TfqLAPs4K3s2rJMoCokcS",
+      "year": 1983,
+      "title": "Sweet Dreams (Are Made of This)",
+      "artist": "Eurythmics",
+      "notes": "Annie Lennox; 2005 remaster of the 1983 recording."
+    },
+    {
+      "spotifyTrackId": "06dAFXkgM2OGAkGS3CxpEm",
+      "year": 1983,
+      "title": "Love Is a Battlefield",
+      "artist": "Pat Benatar",
+      "notes": "Studio track on Live from Earth (1983)."
+    },
+    {
+      "spotifyTrackId": "2EGaDf0cPX789H3LNeB03D",
+      "year": 1983,
+      "title": "Cruel Summer",
+      "artist": "Bananarama",
+      "notes": "Single 1983; on the 1984 album."
+    },
+    {
+      "spotifyTrackId": "3ErsOxqe2RmXkR65wkygDz",
+      "year": 1984,
+      "title": "What's Love Got to Do with It",
+      "artist": "Tina Turner",
+      "notes": "2015 remaster of Private Dancer (1984)."
+    },
+    {
+      "spotifyTrackId": "7pLuEMFougkSHXrPBtNxTR",
+      "year": 1984,
+      "title": "Smooth Operator",
+      "artist": "Sade",
+      "notes": "Album Diamond Life."
+    },
+    {
+      "spotifyTrackId": "1ZnXuijpwEBjhNxpEnb8WH",
+      "year": 1984,
+      "title": "Lorelei",
+      "artist": "Cocteau Twins",
+      "notes": "Elizabeth Fraser; album Treasure."
+    },
+    {
+      "spotifyTrackId": "1PtQJZVZIdWIYdARpZRDFO",
+      "year": 1985,
+      "title": "Running Up That Hill (A Deal with God)",
+      "artist": "Kate Bush",
+      "notes": "Album Hounds of Love."
+    },
+    {
+      "spotifyTrackId": "7Di7t9yGoxdZRLAt5a4pi0",
+      "year": 1986,
+      "title": "Manic Monday",
+      "artist": "The Bangles",
+      "notes": "Written by Prince, sung by the Bangles; album Different Light."
+    },
+    {
+      "spotifyTrackId": "07OzC5JlcaDwEkzWmvqp6y",
+      "year": 1986,
+      "title": "Nasty",
+      "artist": "Janet Jackson",
+      "notes": "Album Control."
+    },
+    {
+      "spotifyTrackId": "2tUBqZG2AbRi7Q0BIrVrEj",
+      "year": 1987,
+      "title": "I Wanna Dance with Somebody (Who Loves Me)",
+      "artist": "Whitney Houston"
+    },
+    {
+      "spotifyTrackId": "1ryT9eOWD1JuxPD5ew53SJ",
+      "year": 1987,
+      "title": "Heaven Is a Place on Earth",
+      "artist": "Belinda Carlisle",
+      "notes": "Original recording on a deluxe edition."
+    },
+    {
+      "spotifyTrackId": "6sT9MWlJManry3EQwf4V80",
+      "year": 1987,
+      "title": "Push It",
+      "artist": "Salt-N-Pepa",
+      "notes": "On Hot, Cool & Vicious (1986); hit single 1987."
+    },
+    {
+      "spotifyTrackId": "3VkyKA0iCT1ABwaSjb0kpf",
+      "year": 1988,
+      "title": "Peek-a-Boo",
+      "artist": "Siouxsie and the Banshees",
+      "notes": "Siouxsie Sioux; album Peepshow."
+    },
+    {
+      "spotifyTrackId": "2v7ywbUzCgcVohHaKUcacV",
+      "year": 1989,
+      "title": "Like a Prayer",
+      "artist": "Madonna"
+    },
+    {
+      "spotifyTrackId": "1Pr2b8WV0rFkSAjrnzUeDc",
+      "year": 1990,
+      "title": "Sweetness and Light",
+      "artist": "Lush",
+      "notes": "Miki Berenyi; comp Gala."
+    },
+    {
+      "spotifyTrackId": "5GHY1DFWKz3Prg2V0Iodqo",
+      "year": 1990,
+      "title": "Nothing Compares 2 U",
+      "artist": "Sinéad O'Connor",
+      "notes": "Written by Prince; album I Do Not Want What I Haven't Got."
+    },
+    {
+      "spotifyTrackId": "3z5ggGtcs4t8pizW521gW9",
+      "year": 1992,
+      "title": "Pretend We're Dead",
+      "artist": "L7",
+      "notes": "Album Bricks Are Heavy."
+    },
+    {
+      "spotifyTrackId": "3gjHnylel3PTRpjS44ocqr",
+      "year": 1994,
+      "title": "Zombie",
+      "artist": "The Cranberries",
+      "notes": "2025 remaster of the No Need to Argue (1994) recording."
+    },
+    {
+      "spotifyTrackId": "3ZpQiJ78LKINrW9SQTgbXd",
+      "year": 1994,
+      "title": "All I Wanna Do",
+      "artist": "Sheryl Crow",
+      "notes": "On Tuesday Night Music Club (1993); single 1994."
+    },
+    {
+      "spotifyTrackId": "3Ty7OTBNSigGEpeW2PqcsC",
+      "year": 1994,
+      "title": "Glory Box",
+      "artist": "Portishead",
+      "notes": "Beth Gibbons; album Dummy."
+    },
+    {
+      "spotifyTrackId": "5lWRaa0fBxDE5yU91npPq7",
+      "year": 1995,
+      "title": "Just a Girl",
+      "artist": "No Doubt",
+      "notes": "Gwen Stefani; album Tragic Kingdom."
+    },
+    {
+      "spotifyTrackId": "23Llyuevgg4Dt5vNdZcEEf",
+      "year": 1995,
+      "title": "Only Happy When It Rains",
+      "artist": "Garbage",
+      "notes": "Shirley Manson; 2015 remaster of the 1995 recording."
+    },
+    {
+      "spotifyTrackId": "6xkryXuiZU360Lngd4sx13",
+      "year": 1995,
+      "title": "Fantasy",
+      "artist": "Mariah Carey",
+      "notes": "Album Daydream."
+    },
+    {
+      "spotifyTrackId": "3jS7bB0oXVOwGFZn3aE5NV",
+      "year": 1995,
+      "title": "You Oughta Know",
+      "artist": "Alanis Morissette",
+      "notes": "2015 remaster of Jagged Little Pill (1995)."
+    },
+    {
+      "spotifyTrackId": "6qspW4YKycviDFjHBOaqUY",
+      "year": 1995,
+      "title": "Waterfalls",
+      "artist": "TLC",
+      "notes": "On CrazySexyCool (1994); single 1995."
+    },
+    {
+      "spotifyTrackId": "4UFQBhIOgANiBG44USIgsf",
+      "year": 1995,
+      "title": "Army of Me",
+      "artist": "Björk",
+      "notes": "Album Post."
+    },
+    {
+      "spotifyTrackId": "48mJX8glOrQkrSdVBjc0Wb",
+      "year": 1995,
+      "title": "Down by the Water",
+      "artist": "PJ Harvey",
+      "notes": "Album To Bring You My Love."
+    },
+    {
+      "spotifyTrackId": "7aQjPecQdIuNd1sz3KCDhD",
+      "year": 1996,
+      "title": "Lovefool",
+      "artist": "The Cardigans",
+      "notes": "Remastered copy of the 1996 recording."
+    },
+    {
+      "spotifyTrackId": "1Je1IMUlBXcx1Fz0WE7oPT",
+      "year": 1996,
+      "title": "Wannabe",
+      "artist": "Spice Girls",
+      "notes": "Album Spice."
+    },
+    {
+      "spotifyTrackId": "6PNvv1dmDbOWrAYwEcuKBX",
+      "year": 1996,
+      "title": "Criminal",
+      "artist": "Fiona Apple",
+      "notes": "Album Tidal."
+    },
+    {
+      "spotifyTrackId": "5Ihd9HrPvOADyVoonH9ZjB",
+      "year": 1996,
+      "title": "Un-Break My Heart",
+      "artist": "Toni Braxton",
+      "notes": "Album Secrets."
+    },
+    {
+      "spotifyTrackId": "2WRzpLD8qDRrxMXc63E5WJ",
+      "year": 1997,
+      "title": "The Rain (Supa Dupa Fly)",
+      "artist": "Missy Elliott",
+      "notes": "Album Supa Dupa Fly."
+    },
+    {
+      "spotifyTrackId": "3i6qNxyVgIdUZTTi5m25EM",
+      "year": 1997,
+      "title": "Bitch",
+      "artist": "Meredith Brooks",
+      "notes": "Album Blurring the Edges."
+    },
+    {
+      "spotifyTrackId": "0uEp9E98JB5awlA084uaIg",
+      "year": 1998,
+      "title": "Doo Wop (That Thing)",
+      "artist": "Lauryn Hill",
+      "notes": "Album The Miseducation of Lauryn Hill."
+    },
+    {
+      "spotifyTrackId": "4QTO9eLRONw0rzOVWU4uB4",
+      "year": 1998,
+      "title": "Are You That Somebody?",
+      "artist": "Aaliyah",
+      "notes": "Originally 1998 (Dr. Dolittle soundtrack); original recording on the I Care 4 U compilation."
+    },
+    {
+      "spotifyTrackId": "2V4Bc2I962j7acQj1N0PiQ",
+      "year": 1998,
+      "title": "Celebrity Skin",
+      "artist": "Hole",
+      "notes": "Courtney Love; album Celebrity Skin."
+    },
+    {
+      "spotifyTrackId": "7H6ev70Weq6DdpZyyTmUXk",
+      "year": 1999,
+      "title": "Say My Name",
+      "artist": "Destiny's Child",
+      "notes": "Album The Writing's on the Wall."
+    },
+    {
+      "spotifyTrackId": "6sxptembJVty4sNtcPMAVz",
+      "year": 1999,
+      "title": "Man! I Feel Like a Woman!",
+      "artist": "Shania Twain",
+      "notes": "On Come On Over (1997); single 1999."
+    },
+    {
+      "spotifyTrackId": "2aGw77pZqli064JiPuXYRi",
+      "year": 2000,
+      "title": "I'm Like a Bird",
+      "artist": "Nelly Furtado",
+      "notes": "Album Whoa, Nelly!."
+    },
+    {
+      "spotifyTrackId": "02jcEwywffn3Tsb48fXmlW",
+      "year": 2001,
+      "title": "Get the Party Started",
+      "artist": "P!nk",
+      "notes": "Album Missundaztood."
+    },
+    {
+      "spotifyTrackId": "2lnzGkdtDj5mtlcOW2yRtG",
+      "year": 2001,
+      "title": "Whenever, Wherever",
+      "artist": "Shakira",
+      "notes": "Album Laundry Service."
+    },
+    {
+      "spotifyTrackId": "0KQx6HOpJueiSkztcS0r7D",
+      "year": 2001,
+      "title": "Fallin'",
+      "artist": "Alicia Keys",
+      "notes": "Album Songs in A Minor."
+    },
+    {
+      "spotifyTrackId": "6QyBIZEvs11K9lKjyLYtv6",
+      "year": 2002,
+      "title": "Take It Off",
+      "artist": "The Donnas",
+      "notes": "Album Spend the Night (2002); single 2003."
+    },
+    {
+      "spotifyTrackId": "3TCauNPqFiniaYHBvEVoHG",
+      "year": 2002,
+      "title": "Beautiful",
+      "artist": "Christina Aguilera",
+      "notes": "Album Stripped."
+    },
+    {
+      "spotifyTrackId": "5xEM5hIgJ1jjgcEBfpkt2F",
+      "year": 2002,
+      "title": "Complicated",
+      "artist": "Avril Lavigne",
+      "notes": "Album Let Go."
+    },
+    {
+      "spotifyTrackId": "1zNXF2svmdlNxfS5XeNUgr",
+      "year": 2002,
+      "title": "Don't Know Why",
+      "artist": "Norah Jones",
+      "notes": "Album Come Away with Me."
+    },
+    {
+      "spotifyTrackId": "0hDQV9X1Da5JrwhK8gu86p",
+      "year": 2003,
+      "title": "Maps",
+      "artist": "Yeah Yeah Yeahs",
+      "notes": "Karen O; remastered copy of Fever to Tell (2003)."
+    },
+    {
+      "spotifyTrackId": "5IVuqXILoxVWvWEPm82Jxr",
+      "year": 2003,
+      "title": "Crazy in Love",
+      "artist": "Beyoncé",
+      "notes": "Feat. Jay-Z; album Dangerously in Love."
+    },
+    {
+      "spotifyTrackId": "0COqiPhxzoWICwFCS4eZcp",
+      "year": 2003,
+      "title": "Bring Me to Life",
+      "artist": "Evanescence",
+      "notes": "Amy Lee; album Fallen."
+    },
+    {
+      "spotifyTrackId": "6JY1IdkZGeIcPegKxjSKeb",
+      "year": 2004,
+      "title": "Since U Been Gone",
+      "artist": "Kelly Clarkson",
+      "notes": "Album Breakaway."
+    },
+    {
+      "spotifyTrackId": "5LKdAzDeMyMXezSTIHkXcE",
+      "year": 2006,
+      "title": "Ça me vexe",
+      "artist": "Mademoiselle K"
+    },
+    {
+      "spotifyTrackId": "1L5tZi0izXsi5Kk5OJf4W0",
+      "year": 2006,
+      "title": "Rehab",
+      "artist": "Amy Winehouse",
+      "notes": "Album Back to Black."
+    },
+    {
+      "spotifyTrackId": "3NK28cXAkO5JIM7YOiCQAx",
+      "year": 2006,
+      "title": "Smile",
+      "artist": "Lily Allen",
+      "notes": "Album Alright, Still."
+    },
+    {
+      "spotifyTrackId": "2nGFzvICaeEWjIrBrL2RAx",
+      "year": 2006,
+      "title": "Put Your Records On",
+      "artist": "Corinne Bailey Rae"
+    },
+    {
+      "spotifyTrackId": "113v1MA9MTShy98uCz37nO",
+      "year": 2007,
+      "title": "Umbrella",
+      "artist": "Rihanna",
+      "notes": "Feat. Jay-Z; 2007 single radio edit."
+    },
+    {
+      "spotifyTrackId": "1ixbwbeBi5ufN4noUKmW5a",
+      "year": 2007,
+      "title": "Paper Planes",
+      "artist": "M.I.A.",
+      "notes": "Album Kala."
+    },
+    {
+      "spotifyTrackId": "3l9CW99AHtExIRV4hW2N5m",
+      "year": 2007,
+      "title": "Misery Business",
+      "artist": "Paramore",
+      "notes": "Hayley Williams; album Riot!."
+    },
+    {
+      "spotifyTrackId": "49CP2usyaN98EdtrOWXnal",
+      "year": 2007,
+      "title": "1234",
+      "artist": "Feist",
+      "notes": "Album The Reminder."
+    },
+    {
+      "spotifyTrackId": "14iN3o8ptQ8cFVZTEmyQRV",
+      "year": 2008,
+      "title": "I Kissed a Girl",
+      "artist": "Katy Perry",
+      "notes": "Album One of the Boys."
+    },
+    {
+      "spotifyTrackId": "1QV6tiMFM6fSOKOGLMHYYg",
+      "year": 2008,
+      "title": "Poker Face",
+      "artist": "Lady Gaga",
+      "notes": "Album The Fame."
+    },
+    {
+      "spotifyTrackId": "5R8TGuZ8WSbH2ASGlLDpKg",
+      "year": 2009,
+      "title": "Let Me Alone",
+      "artist": "Izïa"
+    },
+    {
+      "spotifyTrackId": "0cahtHEywK64NSWqm2SDTi",
+      "year": 2009,
+      "title": "Help I'm Alive",
+      "artist": "Metric",
+      "notes": "Emily Haines; album Fantasies."
+    },
+    {
+      "spotifyTrackId": "4OSBTYWVwsQhGLF9NHvIbR",
+      "year": 2011,
+      "title": "Rolling in the Deep",
+      "artist": "Adele",
+      "notes": "Album 21."
+    },
+    {
+      "spotifyTrackId": "33HucJaMg7OBQLqmaVx58p",
+      "year": 2011,
+      "title": "Video Games",
+      "artist": "Lana Del Rey",
+      "notes": "Album Born to Die."
+    },
+    {
+      "spotifyTrackId": "71iSmEeF0qRVyULABxP75P",
+      "year": 2011,
+      "title": "Shake It Out",
+      "artist": "Florence + the Machine",
+      "notes": "Florence Welch; album Ceremonials."
+    },
+    {
+      "spotifyTrackId": "1hWevDWKD3zVOJvAN3AYcS",
+      "year": 2012,
+      "title": "Twist Me to the Left",
+      "artist": "The Dollyrots"
+    },
+    {
+      "spotifyTrackId": "3zzZVLdBKRW8JH7GhFPyvu",
+      "year": 2012,
+      "title": "Hold On",
+      "artist": "Alabama Shakes",
+      "notes": "Brittany Howard; album Boys & Girls."
+    },
+    {
+      "spotifyTrackId": "2dLLR6qlu5UJ5gk0dKz0h3",
+      "year": 2013,
+      "title": "Royals",
+      "artist": "Lorde",
+      "notes": "Album Pure Heroine."
+    },
+    {
+      "spotifyTrackId": "3h8mGFJU0OSrMGyOSRF5xH",
+      "year": 2013,
+      "title": "The Wire",
+      "artist": "HAIM",
+      "notes": "Album Days Are Gone."
+    },
+    {
+      "spotifyTrackId": "0a0CwJBn8lmT5ifk63EUbP",
+      "year": 2014,
+      "title": "True Trans Soul Rebel",
+      "artist": "Against Me!",
+      "notes": "Laura Jane Grace; album Transgender Dysphoria Blues."
+    },
+    {
+      "spotifyTrackId": "0cqRj7pUJDkTCEsJkx8snD",
+      "year": 2014,
+      "title": "Shake It Off",
+      "artist": "Taylor Swift",
+      "notes": "Album 1989."
+    },
+    {
+      "spotifyTrackId": "5a8AFKfx0vuiepeyiHgH7O",
+      "year": 2014,
+      "title": "Chandelier",
+      "artist": "Sia",
+      "notes": "Album 1000 Forms of Fear."
+    },
+    {
+      "spotifyTrackId": "2MWC3IWfhh3IteOUPbtogB",
+      "year": 2016,
+      "title": "She Got Arrested",
+      "artist": "The Interrupters",
+      "notes": "Aimee Interrupter; album Say It Out Loud."
+    },
+    {
+      "spotifyTrackId": "3EEr6l5PYelwkrvvKX7N0X",
+      "year": 2016,
+      "title": "Shut Up Kiss Me",
+      "artist": "Angel Olsen",
+      "notes": "Album My Woman."
+    },
+    {
+      "spotifyTrackId": "2ekn2ttSfGqwhhate0LSR0",
+      "year": 2017,
+      "title": "New Rules",
+      "artist": "Dua Lipa",
+      "notes": "Album Dua Lipa."
+    },
+    {
+      "spotifyTrackId": "2qTy3hGSbxoSenKmlKGHFw",
+      "year": 2017,
+      "title": "Los Ageless",
+      "artist": "St. Vincent",
+      "notes": "Annie Clark; album MASSEDUCTION."
+    },
+    {
+      "spotifyTrackId": "2771LMNxwf62FTAdpJMQfM",
+      "year": 2017,
+      "title": "Bodak Yellow",
+      "artist": "Cardi B",
+      "notes": "2017 single."
+    },
+    {
+      "spotifyTrackId": "3e9HZxeyfWwjeyPAMmWSSQ",
+      "year": 2018,
+      "title": "thank u, next",
+      "artist": "Ariana Grande",
+      "notes": "Single 2018; album 2019."
+    },
+    {
+      "spotifyTrackId": "1B0BQaSRHxhI0AUlItY3LK",
+      "year": 2018,
+      "title": "Malamente",
+      "artist": "Rosalía",
+      "notes": "Album El Mal Querer."
+    },
+    {
+      "spotifyTrackId": "5gW5dSy3vXJxgzma4rQuzH",
+      "year": 2018,
+      "title": "Make Me Feel",
+      "artist": "Janelle Monáe",
+      "notes": "Album Dirty Computer."
+    },
+    {
+      "spotifyTrackId": "7jEwBMtA7gM43NxiuvfF3h",
+      "year": 2019,
+      "title": "Kimi no Sei",
+      "artist": "the peggies",
+      "notes": "君のせい; anime Domestic na Kanojo opening."
+    },
+    {
+      "spotifyTrackId": "3HWzoMvoF3TQfYg4UPszDq",
+      "year": 2019,
+      "title": "Truth Hurts",
+      "artist": "Lizzo",
+      "notes": "Originally 2017; broke through and charted 2019."
+    },
+    {
+      "spotifyTrackId": "55CHeLEfn5iJ0IIkgaa4si",
+      "year": 2020,
+      "title": "Savage",
+      "artist": "Megan Thee Stallion",
+      "notes": "Album Suga."
+    },
+    {
+      "spotifyTrackId": "4vjvx7Zxkb4AltGcZ0BBvI",
+      "year": 2020,
+      "title": "Kyoto",
+      "artist": "Phoebe Bridgers",
+      "notes": "Album Punisher."
+    },
+    {
+      "spotifyTrackId": "7vrJn5hDSXRmdXoR30KgF1",
+      "year": 2020,
+      "title": "Bichota",
+      "artist": "Karol G",
+      "notes": "2020 single."
+    },
+    {
+      "spotifyTrackId": "6Uj1ctrBOjOas8xZXGqKk4",
+      "year": 2021,
+      "title": "Woman",
+      "artist": "Doja Cat",
+      "notes": "Album Planet Her."
+    },
+    {
+      "spotifyTrackId": "4RVwu0g32PAqgUiJoXsdF8",
+      "year": 2021,
+      "title": "Happier Than Ever",
+      "artist": "Billie Eilish",
+      "notes": "Album Happier Than Ever."
+    },
+    {
+      "spotifyTrackId": "4ZtFanR9U6ndgddUvNcjcG",
+      "year": 2021,
+      "title": "good 4 u",
+      "artist": "Olivia Rodrigo",
+      "notes": "Album SOUR."
+    },
+    {
+      "spotifyTrackId": "7iqAuZe5yS0suLQcFfVK39",
+      "year": 2021,
+      "title": "Chaise Longue",
+      "artist": "Wet Leg",
+      "notes": "2021 single."
+    },
+    {
+      "spotifyTrackId": "3OHfY25tqY28d16oZczHc8",
+      "year": 2022,
+      "title": "Kill Bill",
+      "artist": "SZA",
+      "notes": "Album SOS."
+    },
+    {
+      "spotifyTrackId": "0WbMK4wrZ1wFSty9F7FCgu",
+      "year": 2024,
+      "title": "Good Luck, Babe!",
+      "artist": "Chappell Roan",
+      "notes": "2024 single."
+    },
+    {
+      "spotifyTrackId": "2qSkIjg1o9h3YT9RAgYN75",
+      "year": 2024,
+      "title": "Espresso",
+      "artist": "Sabrina Carpenter",
+      "notes": "2024 single."
+    }
+  ]
+}
