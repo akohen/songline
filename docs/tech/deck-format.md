@@ -160,10 +160,23 @@ Steps 1–4 as above, then two more that are easy to miss:
   catching typos, removed tracks and market restrictions before game night rather
   than during it.
 
+**Validate one deck at a time.** `pnpm validate:decks hits-fr` (id or filename, several
+allowed) checks only the named deck(s); with no argument it checks all of them. An
+unknown name stops with the list of valid decks rather than silently falling back to the
+whole set. Scope to the deck you edited — validating everything is hundreds of requests
+you rarely need.
+
 **It looks tracks up one at a time.** The bulk endpoint (`GET /v1/tracks?ids=`)
 returns **403** for this app regardless of market or batch size, while
-`GET /v1/tracks/{id}` works. Batching is simply not available to us; at deck scale
-this is a few dozen sequential requests and takes a second or two.
+`GET /v1/tracks/{id}` works. Batching is simply not available to us, so a deck is one
+sequential request per card.
+
+**Requests are paced, and a punitive rate limit aborts fast.** Calls are spaced (~8/s) to
+stay under Spotify's rolling window instead of discovering it by tripping a `429`. A
+short `Retry-After` is still waited out; anything over 30s is not — Spotify has answered
+with tens of thousands of seconds (~24h), which used to hang the run for a day, so past
+the cap it aborts with a message telling you to wait or scope to one deck. Pacing is in
+`scripts/spotifyApp.ts` and applies to `search:tracks` too.
 
 It does **not** compare `year` against `album.release_date`. Those two fields answer
 different questions, so a mismatch carries no information; on a representative deck
