@@ -102,6 +102,15 @@ default ruleset exhaustion ends the game with no winner; here it ends it with a 
 **No tokens. No bonus guesses.** Both remain unbuilt, deliberately, and both are
 [iteration 3 material](../roadmap.md#iteration-3--depth).
 
+**Playing again continues with the songs you didn't reach.** A game usually ends when a
+team hits 10, with plenty of the deck never drawn — so **"Play this deck again"** builds
+the next game from just those un-played songs when **more than 25** remain, and a second
+game on the same deck does not repeat the first. Fewer than that and it reshuffles the
+whole deck: too few to fill a game, so repeats are accepted. The carried-over set is the
+finished game's draw pile (the songs never heard); it is filtered against the live deck
+first, so a deck edited between games drops nothing stale. This only bites here — a paper
+game ends only by exhausting the deck, so nothing is ever left to carry over.
+
 ---
 
 ## Setup
