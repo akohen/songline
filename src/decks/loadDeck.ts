@@ -5,6 +5,7 @@ import hitsterRock from "@/decks/hitster-rock.json";
 import rockPunkMetal from "@/decks/rock-punk-metal.json";
 import testDeck from "@/decks/test-deck.json";
 import type { Deck } from "@/decks/types";
+import womenIntl from "@/decks/women-intl.json";
 
 /**
  * Decks are bundled at build time — no CMS, no database, versioned with the code.
@@ -19,6 +20,7 @@ export const DECKS: Deck[] = [
   classicsInternational as Deck,
   hitsterRock as Deck,
   hitsFr as Deck,
+  womenIntl as Deck,
   rockPunkMetal as Deck,
   classical as Deck,
 ];
