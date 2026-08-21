@@ -67,17 +67,48 @@ export type SpotifyTrack = {
 const MAX_RATE_LIMIT_RETRIES = 5;
 
 /**
- * `GET` against the Web API, retrying on 429 up to `MAX_RATE_LIMIT_RETRIES` times.
+ * Minimum spacing between Web API requests, in ms (~8 req/s).
+ *
+ * The point is to stay *under* Spotify's rolling window rather than discovering it by
+ * tripping a 429. Requests here are sequential, so a single module-level clock is
+ * enough — each call waits until the slot after the previous one. At deck scale this
+ * costs a few extra seconds and removes the rate-limit stall entirely.
+ */
+const MIN_REQUEST_INTERVAL_MS = 120;
+
+/**
+ * Longest `Retry-After` we will wait out, in seconds.
+ *
+ * A short 429 is worth sleeping through; a punitive one is not. Spotify has answered
+ * with tens of thousands of seconds (~24h), which turned the run into an indefinite
+ * hang. Past this we abort with a clear message instead.
+ */
+const MAX_BACKOFF_S = 30;
+
+let nextRequestAt = 0;
+
+/** One request, no sooner than `MIN_REQUEST_INTERVAL_MS` after the previous one. */
+async function pacedFetch(url: URL, token: string): Promise<Response> {
+  const wait = nextRequestAt - Date.now();
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  nextRequestAt = Date.now() + MIN_REQUEST_INTERVAL_MS;
+  return fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+}
+
+/**
+ * `GET` against the Web API. Requests are paced to stay under the rate limit; a 429 is
+ * still retried up to `MAX_RATE_LIMIT_RETRIES` times as a safety net.
  *
  * A single retry was not enough at deck scale (300 cards means 300 sequential
  * requests): a sustained rate limit outlasts one wait and the second 429 would abort
- * the whole validation run.
+ * the whole validation run. But an oversized `Retry-After` is not waited out — it
+ * throws, so a punitive limit fails fast rather than hanging for hours.
  */
 export async function spotifyGet(
   url: URL,
   token: string,
 ): Promise<{ status: number; body: unknown }> {
-  let response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  let response = await pacedFetch(url, token);
 
   for (
     let attempt = 0;
@@ -85,9 +116,15 @@ export async function spotifyGet(
     attempt++
   ) {
     const wait = Number(response.headers.get("retry-after") ?? "2");
+    if (wait > MAX_BACKOFF_S) {
+      throw new Error(
+        `Spotify rate-limited for ${wait}s (Retry-After over the ${MAX_BACKOFF_S}s cap). ` +
+          "Wait a while and retry, or validate one deck at a time: pnpm validate:decks <deck-id>.",
+      );
+    }
     console.log(`  rate limited, waiting ${wait}s…`);
     await new Promise((r) => setTimeout(r, (wait + 1) * 1000));
-    response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    response = await pacedFetch(url, token);
   }
 
   const body = await response.json().catch(() => null);

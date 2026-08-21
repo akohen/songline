@@ -142,16 +142,21 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build
 - `pnpm format` fixes formatting. **CI runs `pnpm lint`, so a formatting failure
   breaks the deploy.**
 - `pnpm validate:decks` checks every deck's IDs resolve and are playable. Run it
-  after touching any deck. It deliberately does *not* compare years — read its output
-  to confirm each ID points at the intended *recording*, since a live cut or remix is
-  the failure that matters and no script can judge it.
+  after touching any deck — **scope it to the deck you changed**, `pnpm validate:decks
+  <deck-id>`, since validating all of them is hundreds of requests you rarely need
+  (requests are paced to stay under the rate limit, and a punitive `Retry-After` aborts
+  rather than hanging). It deliberately does *not* compare years — read its output to
+  confirm each ID points at the intended *recording*, since a live cut or remix is the
+  failure that matters and no script can judge it.
 - `pnpm search:tracks "artist title"` finds candidate track IDs when curating.
 
 **Adding tracks or decks: follow the procedure in
 [docs/tech/deck-format.md](docs/tech/deck-format.md#adding-tracks-and-decks).** It exists
 because two steps are silently skippable — a new deck must be registered in
 `src/decks/loadDeck.ts` or it never appears, and the year must come from an external
-source rather than the search output.
+source rather than the search output. Budget several searches per classic: the original
+recording is often only on Spotify as a remaster, compilation or re-record, and picking
+the right one is the slow part.
 
 ---
 

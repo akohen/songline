@@ -97,18 +97,40 @@ function checkStructure(deck: Deck, filename: string): string[] {
   return errors;
 }
 
-async function main(): Promise<void> {
-  const token = await getAppToken();
+/** Map requested deck names (id or filename) to files; exit on any that do not exist. */
+function resolveDecks(requested: string[], files: string[]): string[] {
+  if (requested.length === 0) return files;
 
+  const selected: string[] = [];
+  for (const name of requested) {
+    const file = name.endsWith(".json") ? name : `${name}.json`;
+    if (!files.includes(file)) {
+      const available = files.map((f) => f.replace(/\.json$/, "")).join(", ");
+      console.error(`Unknown deck "${name}". Available: ${available}`);
+      process.exit(1);
+    }
+    selected.push(file);
+  }
+  return selected;
+}
+
+async function main(): Promise<void> {
   const files = readdirSync(DECKS_DIR).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
     console.error("No deck files found in src/decks");
     process.exit(1);
   }
 
+  // Named decks validate only those, so a single edited deck does not pay for all of
+  // them (647 sequential requests). No names = every deck, as before. An unknown name
+  // stops loudly rather than silently falling back to the whole set.
+  const requested = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+  const selected = resolveDecks(requested, files);
+
+  const token = await getAppToken();
   let failed = false;
 
-  for (const file of files) {
+  for (const file of selected) {
     const deck = JSON.parse(readFileSync(join(DECKS_DIR, file), "utf8")) as Deck;
     console.log(`\n=== ${file} — ${deck.cards.length} cards, market ${deck.market} ===`);
 
@@ -152,4 +174,9 @@ async function main(): Promise<void> {
   console.log("\nValidation passed");
 }
 
-await main();
+// A thrown error here is an aborted run (e.g. a punitive rate limit) — show the message,
+// not a stack trace the curator can do nothing with.
+main().catch((err: unknown) => {
+  console.error(err instanceof Error ? err.message : String(err));
+  process.exit(1);
+});
