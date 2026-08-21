@@ -718,13 +718,6 @@
       "artist": "Fauve"
     },
     {
-      "spotifyTrackId": "1vELwZM3uBYWd8HrtddD4l",
-      "year": 2013,
-      "title": "Bella",
-      "artist": "GIMS",
-      "notes": "Album Subliminal."
-    },
-    {
       "spotifyTrackId": "65uoaqX5qcjXZRheAj1qQT",
       "year": 2014,
       "title": "Dernière danse",
@@ -770,6 +763,13 @@
       "year": 2016,
       "title": "Je m'en vais",
       "artist": "Vianney"
+    },
+    {
+      "spotifyTrackId": "6bXd0YhKLCTvlLVc4tErH9",
+      "year": 2016,
+      "title": "Tchikita",
+      "artist": "Jul",
+      "notes": "Album L'Ovni."
     },
     {
       "spotifyTrackId": "45T3Ee5uw32XI2X1VNsJqn",
