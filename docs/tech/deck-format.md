@@ -57,7 +57,7 @@ date comparison, and not something a script can decide.
 | `spotifyTrackId` | Base-62 track ID, not a URI or URL. Unique within the deck, and doubles as the card's identity for "already played" tracking — a separate card ID would be bookkeeping with no payoff. |
 | `year` | Four-digit integer. Year the **credited artist** first released or performed this version. |
 | `title` / `artist` | Display only, shown at reveal. Never used for matching. For classical decks, `artist` names the **composer**, not the performer — see curation rule 2. |
-| `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. **Omit in iteration 1** — every song starts at 0:00 by decision; the field is honoured but unused. |
+| `startOffsetMs` | Playback start position. Use to skip a spoiler-heavy or dead intro. Omit by default — every song starts at 0:00. Used only where Spotify bundles the wanted song inside a longer track (`abi-et-olivier`: Infernal follows Une douce lueur). |
 | `notes` | Free text for the curator. Useful for recording a judgement call — an ambiguous year, or why a particular recording was chosen. |
 
 ## Curation rules

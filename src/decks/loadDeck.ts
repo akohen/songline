@@ -1,3 +1,4 @@
+import abiEtOlivier from "@/decks/abi-et-olivier.json";
 import classical from "@/decks/classical.json";
 import classicsInternational from "@/decks/classics-international.json";
 import hitsFr from "@/decks/hits-fr.json";
@@ -23,6 +24,7 @@ export const DECKS: Deck[] = [
   womenIntl as Deck,
   rockPunkMetal as Deck,
   classical as Deck,
+  abiEtOlivier as Deck,
 ];
 
 export function getDeck(id: string): Deck | undefined {
