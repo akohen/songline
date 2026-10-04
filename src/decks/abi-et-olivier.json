@@ -1,0 +1,317 @@
+{
+  "id": "abi-et-olivier",
+  "name": "Abi et Olivier",
+  "description": "Deck de l'événement : classique, jazz, rock et pop, 1714–2024",
+  "language": "fr",
+  "market": "FR",
+  "cards": [
+    {
+      "spotifyTrackId": "3Ipltg4CnS9mWTuryrMe3n",
+      "year": 1714,
+      "title": "Concerto in D Minor, BWV 974: Adagio",
+      "artist": "Johann Sebastian Bach",
+      "notes": "Bach's transcription of Marcello's oboe concerto, c. 1713–14. Víkingur Ólafsson recording."
+    },
+    {
+      "spotifyTrackId": "1FcWbPjfy4pg7OTbXqaa4V",
+      "year": 1722,
+      "title": "Prelude & Fugue in C Minor, BWV 847",
+      "artist": "Johann Sebastian Bach",
+      "notes": "Well-Tempered Clavier Book I. Listed twice in the event's requests; one card. András Schiff recording."
+    },
+    {
+      "spotifyTrackId": "2fUmX0l47iC61VDVkgJT7d",
+      "year": 1753,
+      "title": "Keyboard Sonata in A Major, K. 322",
+      "artist": "Domenico Scarlatti",
+      "notes": "Exact composition date unknown; 1753 is the date on the title page of Venice Libro 6, its manuscript source. Michelangeli recording."
+    },
+    {
+      "spotifyTrackId": "3GOzfR7NcMpZ7wJov6WJ0P",
+      "year": 1762,
+      "title": "Orfeo ed Euridice: Dance of the Blessed Spirits",
+      "artist": "Christoph Willibald Gluck",
+      "notes": "Karajan / Berlin Philharmonic recording."
+    },
+    {
+      "spotifyTrackId": "1iR34ZbPs3eFniMpnrHI6s",
+      "year": 1783,
+      "title": "Piano Sonata No. 11, K. 331: Rondo alla Turca",
+      "artist": "Wolfgang Amadeus Mozart",
+      "notes": "Composed c. 1783, published 1784. András Schiff recording."
+    },
+    {
+      "spotifyTrackId": "5Xg5NcjCrA8N5nkdOmWq6B",
+      "year": 1828,
+      "title": "Piano Sonata No. 21, D. 960: I. Molto moderato",
+      "artist": "Franz Schubert",
+      "notes": "Marc-André Hamelin recording, as requested."
+    },
+    {
+      "spotifyTrackId": "7t8spQaGgNXVZdWcWDAOge",
+      "year": 1849,
+      "title": "Waldszenen, Op. 82: Vogel als Prophet",
+      "artist": "Robert Schumann",
+      "notes": "Composed 1848–49. No. 7 chosen as the best-known movement. Maria João Pires recording."
+    },
+    {
+      "spotifyTrackId": "4UtLg8rcI8KmHAG12THN03",
+      "year": 1853,
+      "title": "Piano Sonata in B Minor, S. 178",
+      "artist": "Franz Liszt",
+      "notes": "Completed 1853. Whole sonata as one track (Tomoki Sakata); the well-known recordings are only on Spotify as excerpts."
+    },
+    {
+      "spotifyTrackId": "5OPT7l9b5SMwfTQgLPoNl7",
+      "year": 1888,
+      "title": "Gymnopédie No. 1",
+      "artist": "Erik Satie"
+    },
+    {
+      "spotifyTrackId": "3L0SyNok31C6FaFtg0S8yX",
+      "year": 1888,
+      "title": "Arabesque No. 1",
+      "artist": "Claude Debussy",
+      "notes": "Composed 1888–91, published 1891; start of composition used. Jean-Efflam Bavouzet recording."
+    },
+    {
+      "spotifyTrackId": "3rd1Chqzxr95fcyBaJl0JZ",
+      "year": 1892,
+      "title": "Prelude in C-sharp Minor, Op. 3 No. 2",
+      "artist": "Sergei Rachmaninoff",
+      "notes": "Rachmaninoff's own Ampico piano-roll recording."
+    },
+    {
+      "spotifyTrackId": "41dyAOhZJo5ws6PzRnSMW2",
+      "year": 1905,
+      "title": "Sonatine: I. Modéré",
+      "artist": "Maurice Ravel",
+      "notes": "Jean-Yves Thibaudet recording."
+    },
+    {
+      "spotifyTrackId": "0Otf1ZfYNIjhqFIuJk0fsy",
+      "year": 1924,
+      "title": "Tea for Two",
+      "artist": "Art Tatum",
+      "notes": "Event deck uses the original composition year (Vincent Youmans, 1924). Audio is Tatum's 1933 recording; the requested 1939 one is not on Spotify."
+    },
+    {
+      "spotifyTrackId": "61znp1Iy11bdJ2YAbwaqw7",
+      "year": 1936,
+      "title": "Sing, Sing, Sing",
+      "artist": "Benny Goodman",
+      "notes": "Event deck uses the original composition year: Louis Prima wrote and first recorded it in 1936. Audio is Goodman's 1937 studio recording (8:40), not the 1938 Carnegie Hall live cut."
+    },
+    {
+      "spotifyTrackId": "64Ljpz63XjSF8EWmjx48FI",
+      "year": 1942,
+      "title": "Gayane: Sabre Dance",
+      "artist": "Aram Khachaturian"
+    },
+    {
+      "spotifyTrackId": "6EC51OfUhguCbNp5H5SdGm",
+      "year": 1956,
+      "title": "Waltz for Debby",
+      "artist": "Bill Evans",
+      "notes": "Composition year: first recorded on New Jazz Conceptions (1956). Audio is the famous 1961 Village Vanguard trio take."
+    },
+    {
+      "spotifyTrackId": "1U2KQVXl3SsUo7hVXXAQtd",
+      "year": 1962,
+      "title": "Time Remembered",
+      "artist": "Bill Evans",
+      "notes": "Evans's first recording of his own tune (1962 Interplay sessions, issued only in 1982). First released recording was 1966; 1962 used as the closest documented composition date."
+    },
+    {
+      "spotifyTrackId": "6q1ZqNkfcq2R7j8MRLRnUf",
+      "year": 1964,
+      "title": "You Look Good to Me",
+      "artist": "Oscar Peterson Trio",
+      "notes": "From We Get Requests (1964), the song's first notable recording."
+    },
+    {
+      "spotifyTrackId": "7sEpQIyx0ot2t6PhT7ycTZ",
+      "year": 1968,
+      "title": "Once Upon a Time in the West",
+      "artist": "Ennio Morricone"
+    },
+    {
+      "spotifyTrackId": "6VX6FUglwtwHj3D9Zs66E0",
+      "year": 1970,
+      "title": "Graceful Ghost Rag",
+      "artist": "William Bolcom",
+      "notes": "Marc-André Hamelin recording."
+    },
+    {
+      "spotifyTrackId": "5RrJCusmR1J54b5ivqdWIu",
+      "year": 1973,
+      "title": "Spain",
+      "artist": "Chick Corea & Return to Forever",
+      "notes": "From Light as a Feather (recorded 1972, released 1973), the tune's first release."
+    },
+    {
+      "spotifyTrackId": "2xzrgKFxv7uoqLwWYNUnVd",
+      "year": 1976,
+      "title": "Early Summer",
+      "artist": "Ryo Fukui",
+      "notes": "From Scenery (1976); only the 2025 remaster turned up as an album copy."
+    },
+    {
+      "spotifyTrackId": "37ZJ0p5Jm13JPevGcx4SkF",
+      "year": 1986,
+      "title": "Livin' on a Prayer",
+      "artist": "Bon Jovi"
+    },
+    {
+      "spotifyTrackId": "5TZn3LQSWwVPnBlPgFKb54",
+      "year": 1993,
+      "title": "American Jesus",
+      "artist": "Bad Religion"
+    },
+    {
+      "spotifyTrackId": "6JNgTjdCMt4lYqFfFaBtCr",
+      "year": 1996,
+      "title": "Ashitaka and San",
+      "artist": "Joe Hisaishi",
+      "notes": "Composition year: the theme first appeared on the 1996 Image Album. Audio is the 1997 film soundtrack version."
+    },
+    {
+      "spotifyTrackId": "2PWG1LwZM36LDWIQeDus6h",
+      "year": 1996,
+      "title": "Infernal (Le Bossu de Notre-Dame)",
+      "artist": "Jean Piat",
+      "startOffsetMs": 110000,
+      "notes": "Spotify only has it combined with Une douce lueur. startOffsetMs is an UNVERIFIED estimate of where Infernal begins; confirm by ear."
+    },
+    {
+      "spotifyTrackId": "6WlmA3HPHuNIR2mxI8LkZF",
+      "year": 1997,
+      "title": "Hitchin' a Ride",
+      "artist": "Green Day"
+    },
+    {
+      "spotifyTrackId": "708AblfH21HU5gOFBWAQHx",
+      "year": 1998,
+      "title": "Memory",
+      "artist": "Seatbelts"
+    },
+    {
+      "spotifyTrackId": "2m1hi0nfMR9vdGC8UcrnwU",
+      "year": 1999,
+      "title": "All the Small Things",
+      "artist": "blink-182",
+      "notes": "Enema of the State released June 1999; single followed Jan 2000. Album year used."
+    },
+    {
+      "spotifyTrackId": "4gd9sHUPgvFpQz70Oj4bwe",
+      "year": 2000,
+      "title": "Blood, Sex and Booze",
+      "artist": "Green Day",
+      "notes": "Original Warning recording, not the 2025 anniversary remaster."
+    },
+    {
+      "spotifyTrackId": "6crBy2sODw2HS53xquM6us",
+      "year": 2001,
+      "title": "Tribute",
+      "artist": "Tenacious D"
+    },
+    {
+      "spotifyTrackId": "14rZjW3RioG7WesZhYESso",
+      "year": 2001,
+      "title": "Comptine d'un autre été, l'après-midi",
+      "artist": "Yann Tiersen"
+    },
+    {
+      "spotifyTrackId": "4KacUpvbA3Mfo05gttTjhN",
+      "year": 2001,
+      "title": "Fat Lip",
+      "artist": "Sum 41",
+      "notes": "Original All Killer No Filler recording, not the 2026 remaster."
+    },
+    {
+      "spotifyTrackId": "6I9VzXrHxO9rA9A5euc8Ak",
+      "year": 2003,
+      "title": "Toxic",
+      "artist": "Britney Spears",
+      "notes": "In The Zone released Nov 2003; single followed Jan 2004. Album year used, as the song reached the public first there."
+    },
+    {
+      "spotifyTrackId": "1xdP0tvcUngytAwfUB63JG",
+      "year": 2003,
+      "title": "Stacy's Mom",
+      "artist": "Fountains of Wayne"
+    },
+    {
+      "spotifyTrackId": "3jUTjCISntIUFL8jnAjzgc",
+      "year": 2006,
+      "title": "Fallen Leaves",
+      "artist": "Billy Talent"
+    },
+    {
+      "spotifyTrackId": "6hxa24dKfCoe1EA6g0RHNw",
+      "year": 2006,
+      "title": "Prelude 12/21",
+      "artist": "AFI"
+    },
+    {
+      "spotifyTrackId": "2aibwv5hGXSgw7Yru8IYTO",
+      "year": 2006,
+      "title": "Snow (Hey Oh)",
+      "artist": "Red Hot Chili Peppers",
+      "notes": "Stadium Arcadium released May 2006; single followed Nov 2006. Album year used."
+    },
+    {
+      "spotifyTrackId": "21dWpqfTyYM2LtBvY3gDeB",
+      "year": 2011,
+      "title": "Spectronizer",
+      "artist": "Sentai Express",
+      "notes": "Written for Just Dance 3 (2011); the only Spotify copy sits on a 2020 Just Dance compilation."
+    },
+    {
+      "spotifyTrackId": "4cluDES4hQEUhmXj6TXkSo",
+      "year": 2011,
+      "title": "What Makes You Beautiful",
+      "artist": "One Direction",
+      "notes": "Single released Sept 2011; Up All Night followed in Nov 2011."
+    },
+    {
+      "spotifyTrackId": "0dnx2LK0rnPTACGzbLc1Jx",
+      "year": 2012,
+      "title": "Mz. Hyde",
+      "artist": "Halestorm"
+    },
+    {
+      "spotifyTrackId": "1Vk4yRsz0iBzDiZEoFMQyv",
+      "year": 2016,
+      "title": "Mia & Sebastian's Theme",
+      "artist": "Justin Hurwitz"
+    },
+    {
+      "spotifyTrackId": "2MWC3IWfhh3IteOUPbtogB",
+      "year": 2016,
+      "title": "She Got Arrested",
+      "artist": "The Interrupters"
+    },
+    {
+      "spotifyTrackId": "3Kj2M9gRU1Lwf5eiNjBtBp",
+      "year": 2021,
+      "title": "Gaddaar",
+      "artist": "Bloodywood",
+      "notes": "Single released Nov 2021; Rakshak followed in Feb 2022."
+    },
+    {
+      "spotifyTrackId": "5fmL7CXM7dGkGQ4jTMYa41",
+      "year": 2023,
+      "title": "Patricia",
+      "artist": "Guillaume Poncelet",
+      "notes": "Studio version from Durango; the requested Durango Studio Session video is not on Spotify as such."
+    },
+    {
+      "spotifyTrackId": "3j1lvwbdfj3xflDnQazc8n",
+      "year": 2024,
+      "title": "Alicia (Clair Obscur: Expedition 33)",
+      "artist": "Lorien Testard",
+      "notes": "The game's main theme, from the official soundtrack. First released on the 2024 reveal-edition single; the game and full OST followed in 2025."
+    }
+  ]
+}
