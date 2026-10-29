@@ -159,6 +159,7 @@ Triggered by the `⋯` button. Slides up from the bottom, over a scrim.
 | Signed-in name | always |
 | Current deck name | a deck is selected |
 | New game | a game is in progress. Returns to the game start screen; the game stays resumable |
+| Let others join / Stop letting others join | a timeline game is in progress. Flips the same setting as the start screen's switch; see [watching.md](watching.md) |
 | Sign out | always |
 
 Dismissed by: tapping the scrim, pressing Escape, or selecting an item.

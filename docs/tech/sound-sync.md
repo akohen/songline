@@ -38,7 +38,10 @@ on real phones with music playing, and it gets through. Audible modes were teste
 the probe too and dropped: the room would hear a chirp on every turn, over the song.
 No volume ducking, no jingles.
 
-Transmit volume is **50** (of ggwave's 1–100), the level used in device testing.
+Transmit volume is **30** (of ggwave's 1–100). Device testing was done at 50; 30 was
+chosen afterwards to make the burst less noticeable in the room, at some cost in range
+— about 4.4 dB quieter. Range at 30 has not been checked on real phones yet. The
+host phone's media volume scales it further.
 
 ## Byte layout
 
@@ -99,8 +102,9 @@ reveal.
 ### When the host transmits
 
 After every state change, which on the round screen means `DRAW` or `REVEAL` — and only
-while "Let others join" is on and the game has teams. Nothing is sent otherwise: no
-heartbeat, no repeat. If a new snapshot is ready while the previous one is still on air,
+while "Let others join" is on and the game has teams. Switching it on mid-game, from the
+menu, sends the current snapshot at once, so nobody waits a turn for the first one.
+Nothing is sent otherwise: no heartbeat, no repeat. If a new snapshot is ready while the previous one is still on air,
 the old one is cut off and the new one sent; it supersedes it anyway.
 
 ## ggwave 0.4.0 — quirks that cost time
@@ -158,8 +162,10 @@ which matches the device figures where they overlap.
 The same rule as `activateElement` in AGENTS.md, for iOS's audio:
 
 - **Host:** the `AudioContext` is created, or resumed, inside the Start/Resume click
-  handler — never from an effect. It lives as long as the game session, so "Play this
-  deck again" keeps broadcasting.
+  handler, or the menu tap that switches joining on mid-game — never from an effect. It
+  lives as long as the game session, so "Play this deck again" keeps broadcasting.
+  Switching joining off mid-game suspends it rather than closing it, so switching back
+  on resumes the same one.
 - **Viewer:** the context is created inside the Join tap, then the microphone is
   requested. Retry after a denial is its own tap.
 

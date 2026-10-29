@@ -136,6 +136,29 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
    * page reload. The save dies when it is replaced — pressing Start mounts a new game,
    * which writes over it.
    */
+  /**
+   * The menu's mid-game switch for the same setting.
+   *
+   * Runs inside the menu item's click, so switching on can start the audio context
+   * there — the same iOS gesture rule as Start. Nothing sends here: `useBroadcast`
+   * transmits whenever its context changes, so the current game goes out at once and
+   * phones already listening do not wait a turn.
+   */
+  const toggleLetOthersJoinInGame = useCallback(() => {
+    if (letOthersJoin) {
+      setLetOthersJoin(false);
+      setBroadcast(null);
+      // Suspended, not closed: switching back on resumes this one, and the
+      // transmitter's cleanup never has to stop a source on a closed context.
+      void broadcastRef.current?.suspend().catch(() => {});
+      return;
+    }
+    setLetOthersJoin(true);
+    broadcastRef.current ??= createBroadcastContext();
+    void broadcastRef.current.resume().catch(() => {});
+    setBroadcast(broadcastRef.current);
+  }, [letOthersJoin]);
+
   const backToStart = useCallback(() => {
     void playbackRef.current?.pause();
     setDeck(null);
@@ -148,6 +171,13 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
       profileName={profileName}
       deckName={deck?.name}
       onChangeDeck={deck ? backToStart : undefined}
+      letOthersJoin={letOthersJoin}
+      // Timeline games only, as on the start screen: songs only has nothing to show.
+      onToggleLetOthersJoin={
+        stage === "playing" && (game?.timelines.length ?? 0) > 0
+          ? toggleLetOthersJoinInGame
+          : undefined
+      }
       onSignOut={onSignOut}
     >
       {children}

@@ -16,6 +16,9 @@ A toggle on the game start screen, under Teams.
 - **Off by default.** It puts an ultrasonic signal into the room on every turn; that
   should be a choice.
 - **Applies to Start and Resume alike.**
+- **Can be changed mid-game** from the menu (timeline games only). Switching it on sends
+  the current game at once, so phones already listening catch up without waiting for
+  the next turn. Switching it off stops broadcasting immediately.
 - **A session setting, not game state.** It is kept while the app is open — going back
   to choose another deck keeps it — but it is not in `GameState` and not in the save.
 

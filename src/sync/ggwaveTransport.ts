@@ -14,8 +14,11 @@ export const GG_RATE = 48_000;
 /** ggwave silently drops any input left over after whole frames of this size. */
 export const FRAME = 1024;
 
-/** Of ggwave's 1–100. The level used in device testing, music playing. */
-const VOLUME = 50;
+/**
+ * Of ggwave's 1–100. Device testing was at 50; 30 makes the burst less noticeable in
+ * the room, at some cost in range (about 4.4 dB) — not yet checked on real phones.
+ */
+const VOLUME = 30;
 
 export type GgwaveCodec = {
   /** Mono float samples at `GG_RATE`. */

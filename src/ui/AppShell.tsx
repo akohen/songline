@@ -6,6 +6,10 @@ type Props = {
   /** Present only once a deck is selected. */
   deckName?: string | undefined;
   onChangeDeck?: (() => void) | undefined;
+  /** Whether a timeline game is being broadcast to nearby phones. */
+  letOthersJoin?: boolean;
+  /** Present only while a timeline game is in progress. */
+  onToggleLetOthersJoin?: (() => void) | undefined;
   onSignOut: () => void;
   children: ReactNode;
 };
@@ -20,6 +24,8 @@ export function AppShell({
   profileName,
   deckName,
   onChangeDeck,
+  letOthersJoin = false,
+  onToggleLetOthersJoin,
   onSignOut,
   children,
 }: Props) {
@@ -27,6 +33,14 @@ export function AppShell({
 
   const items: MenuItem[] = [
     ...(onChangeDeck ? [{ label: "New game", onSelect: onChangeDeck }] : []),
+    ...(onToggleLetOthersJoin
+      ? [
+          {
+            label: letOthersJoin ? "Stop letting others join" : "Let others join",
+            onSelect: onToggleLetOthersJoin,
+          },
+        ]
+      : []),
     { label: "Sign out", onSelect: onSignOut },
   ];
 
