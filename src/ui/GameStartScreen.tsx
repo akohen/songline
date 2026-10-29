@@ -5,6 +5,9 @@ import { createGame, type GameState, loadGame } from "@/engine";
 import { Sheet } from "@/ui/Sheet";
 
 type Props = {
+  /** Broadcast the game to nearby phones. A session setting, owned by GameSession. */
+  letOthersJoin: boolean;
+  onLetOthersJoinChange: (on: boolean) => void;
   onStart: (deck: Deck, game: GameState) => void;
 };
 
@@ -25,7 +28,11 @@ function yearRange(deck: Deck): string {
  * to tell which of the two you had got. Resume is now a button, and the only route
  * back into a save.
  */
-export function GameStartScreen({ onStart }: Props) {
+export function GameStartScreen({
+  letOthersJoin,
+  onLetOthersJoinChange,
+  onStart,
+}: Props) {
   /**
    * The saved game, and which deck it belongs to.
    *
@@ -182,6 +189,27 @@ export function GameStartScreen({ onStart }: Props) {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Timeline mode only: a songs-only game has nothing for a viewer to show. Applies
+          to Start and Resume alike. See docs/product/watching.md. */}
+      {timeline && (
+        <label className="toggle">
+          <span className="toggle__text">
+            <span className="toggle__label">Let others join</span>
+            <span className="toggle__meta">
+              Phones nearby can follow the game with "Join a game" — no Spotify needed.
+            </span>
+          </span>
+          <input
+            type="checkbox"
+            role="switch"
+            aria-checked={letOthersJoin}
+            className="toggle__switch"
+            checked={letOthersJoin}
+            onChange={(event) => onLetOthersJoinChange(event.target.checked)}
+          />
+        </label>
       )}
 
       {timeline && teams === 1 && (

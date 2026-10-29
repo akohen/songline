@@ -3,8 +3,9 @@ import type { PlacedCard, PlacementOutcome } from "@/engine";
 type Props = {
   cards: PlacedCard[];
   /** The slot the player is considering. Reversible, and never engine state. */
-  selected: number | null;
-  onSelect: (slot: number) => void;
+  selected?: number | null;
+  /** Absent for a viewer on another phone: no slots are offered, only the cards. */
+  onSelect?: (slot: number) => void;
   /** Set once the placement has resolved; slots stop being offered. */
   outcome: PlacementOutcome | null;
   /** The card just placed. Only ever non-null at the reveal. */
@@ -34,7 +35,7 @@ export function TeamTimeline({ cards, selected, onSelect, outcome, revealed }: P
       // One marker per slot the card could have gone in. With a tie there are two, and
       // showing both is the point — the feedback must not invent a single right answer.
       rows.push(<HintRow key={`hint-${slot}`} />);
-    } else if (!outcome) {
+    } else if (!outcome && onSelect) {
       rows.push(
         <SlotRow
           key={`slot-${slot}`}

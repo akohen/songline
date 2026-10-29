@@ -5,7 +5,7 @@
 | Choice | Rationale |
 |---|---|
 | React + TypeScript + Vite | Fast iteration, static output, no server needed |
-| No backend | PKCE removes the need for a secret-holding server. Single-screen play removes the need for realtime sync. |
+| No backend | PKCE removes the need for a secret-holding server. Play is driven from one screen, so nothing needs two-way realtime sync — and the read-only viewers that do exist get the game over ultrasound, host to phone, one way ([sound-sync.md](sound-sync.md)). |
 | Served at `127.0.0.1` on the host machine | Forced by two constraints, see below |
 | Decks as bundled JSON | No CMS, no database, versioned with the code |
 
@@ -24,8 +24,9 @@ Two constraints combine to rule out LAN hosting:
 
 The host therefore runs the app on their own machine at `http://127.0.0.1:5173`,
 which is a valid secure context and a registrable redirect URI. This costs nothing:
-single-screen play means only the host's machine ever renders the game. Deploying to
-a real HTTPS host stays possible later, and is what iteration 4 would need.
+only the host's machine ever *drives* the game. The app is also deployed to HTTPS
+([deployment.md](deployment.md)), which is what phone play needs — and what watching
+needs too: a viewer phone only gets microphone access in a secure context.
 
 ## Layers
 

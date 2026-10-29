@@ -13,6 +13,7 @@ import type { PlaybackFailure } from "@/ui/drawAndPlay";
 import { ScoreStrip } from "@/ui/ScoreStrip";
 import { SongHistoryScreen } from "@/ui/SongHistoryScreen";
 import { TeamTimeline } from "@/ui/TeamTimeline";
+import { useBroadcast } from "@/ui/useBroadcast";
 import { useGame } from "@/ui/useGame";
 import { useWakeLock } from "@/ui/useWakeLock";
 
@@ -23,6 +24,8 @@ type Props = {
   /** A first-round playback failure, raised by the click that opened this screen. */
   initialError: PlaybackFailure | null;
   playback: PlaybackPort;
+  /** Set while "Let others join" is on: every new state goes out over ultrasound. */
+  broadcast: AudioContext | null;
   onChangeDeck: () => void;
 };
 
@@ -46,6 +49,7 @@ export function RoundScreen({
   initialGame,
   initialError,
   playback,
+  broadcast,
   onChangeDeck,
 }: Props) {
   const {
@@ -74,6 +78,8 @@ export function RoundScreen({
 
   // Nobody wants the phone locking mid-round while everyone argues about a year.
   useWakeLock();
+
+  useBroadcast(game, broadcast);
 
   const display = selectRoundDisplay(game);
   const revealed = selectRevealedCard(game, deck);
@@ -315,8 +321,11 @@ function PlaybackAlert({
   );
 }
 
-/** Standings at the end of a timeline game. Teams level at the top are simply level. */
-function FinalScores({ scores }: { scores: number[] }) {
+/**
+ * Standings at the end of a timeline game. Teams level at the top are simply level.
+ * Also the watch screen's ending.
+ */
+export function FinalScores({ scores }: { scores: number[] }) {
   const top = Math.max(...scores);
   const ranked = scores
     .map((score, team) => ({ score, team }))
