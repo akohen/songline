@@ -361,6 +361,9 @@ Defaults are the saved game's deck and mode if there is one, else the first deck
 Teams are numbered, never named: a name means a text input and a keyboard over the
 screen, for something everyone in the room already knows.
 
+Timeline mode also shows a **Let others join** switch under Teams, off by default, which
+broadcasts the game to nearby phones. See [watching.md](watching.md).
+
 This screen replaced a separate deck-select screen and a `Customise game` screen
 reached from the idle round screen. Two places to set one thing, and the setup step was
 invisible until after a deck was already chosen.
@@ -480,7 +483,8 @@ a `connection_lost` is a request that has already failed.
 
 | Screen | Changes |
 |---|---|
-| **Login** | Centred card, large primary "Sign in with Spotify". No header. |
+| **Login** | Centred card, large primary "Sign in with Spotify", secondary "Join a game" below it. No header. |
+| **Watch** | Read-only timeline round screen for viewers, no play control and no actions. See [watching.md](watching.md). |
 | **Host setup checklist** | Numbered list, generous line height, primary "Ready" pinned to the bottom. Content unchanged — the S0.1 spike made it load-bearing. |
 | **Game start** | Full-width tappable cards, ≥64px: deck name, then muted "32 songs · 1965–2019". Same card pattern for the mode choice. See above. |
 | **Deck finished** | Centred, primary "Play this deck again", secondary "Choose another deck", tertiary "See all songs played". |

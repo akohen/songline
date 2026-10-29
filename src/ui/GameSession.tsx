@@ -3,6 +3,7 @@ import type { Deck } from "@/decks/types";
 import type { GameState } from "@/engine";
 import type { PlaybackPort } from "@/playback/types";
 import { WebPlaybackSdkAdapter } from "@/playback/webPlaybackSdkAdapter";
+import { createBroadcastContext, loadGgwave } from "@/sync/ggwaveTransport";
 import { AppShell } from "@/ui/AppShell";
 import {
   describePlaybackError,
@@ -45,11 +46,30 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
   const [gameKey, setGameKey] = useState(0);
   const playbackRef = useRef<PlaybackPort | null>(null);
 
+  /**
+   * "Let others join" — a setting of this session, not of the game. Kept here so it
+   * survives a trip back to the start screen, and deliberately absent from `GameState`
+   * and the save. Off by default. See docs/product/watching.md.
+   */
+  const [letOthersJoin, setLetOthersJoin] = useState(false);
+  /** The broadcast's audio context, while a game is being broadcast. */
+  const [broadcast, setBroadcast] = useState<AudioContext | null>(null);
+  const broadcastRef = useRef<AudioContext | null>(null);
+
   useEffect(() => {
     return () => {
       playbackRef.current?.disconnect();
       playbackRef.current = null;
+      void broadcastRef.current?.close().catch(() => {});
+      broadcastRef.current = null;
     };
+  }, []);
+
+  const changeLetOthersJoin = useCallback((on: boolean) => {
+    setLetOthersJoin(on);
+    // Fetch ggwave now rather than on the first packet. Only ever on demand: a host who
+    // never broadcasts never downloads it.
+    if (on) void loadGgwave().catch(() => {});
   }, []);
 
   /**
@@ -79,19 +99,33 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
    * track of the session sits silently paused. This function is called straight from
    * the Start/Resume button's `onClick`, which is what keeps that path intact.
    */
-  const startGame = useCallback((chosen: Deck, initial: GameState) => {
-    const playback = playbackRef.current;
-    if (!playback) return;
+  const startGame = useCallback(
+    (chosen: Deck, initial: GameState) => {
+      const playback = playbackRef.current;
+      if (!playback) return;
 
-    setStartError(null);
-    const { next, playing } = drawAndPlay(initial, chosen, playback);
-    playing.catch((err) => setStartError(describePlaybackError(err)));
+      setStartError(null);
+      const { next, playing } = drawAndPlay(initial, chosen, playback);
+      playing.catch((err) => setStartError(describePlaybackError(err)));
 
-    setDeck(chosen);
-    setGame(next);
-    setGameKey((n) => n + 1);
-    setStage("playing");
-  }, []);
+      // Also inside the click, for the same reason: iOS starts an AudioContext only from
+      // a gesture. Songs-only games have nothing for a viewer to show.
+      if (letOthersJoin && initial.timelines.length > 0) {
+        broadcastRef.current ??= createBroadcastContext();
+        void broadcastRef.current.resume().catch(() => {});
+      } else {
+        void broadcastRef.current?.close().catch(() => {});
+        broadcastRef.current = null;
+      }
+      setBroadcast(broadcastRef.current);
+
+      setDeck(chosen);
+      setGame(next);
+      setGameKey((n) => n + 1);
+      setStage("playing");
+    },
+    [letOthersJoin],
+  );
 
   /**
    * Leaving a game does not destroy it.
@@ -132,7 +166,13 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
       );
 
     case "start":
-      return shell(<GameStartScreen onStart={startGame} />);
+      return shell(
+        <GameStartScreen
+          letOthersJoin={letOthersJoin}
+          onLetOthersJoinChange={changeLetOthersJoin}
+          onStart={startGame}
+        />,
+      );
 
     case "failed":
       return shell(
@@ -171,6 +211,7 @@ export function GameSession({ getAccessToken, profileName, onSignOut }: Props) {
           initialGame={game}
           initialError={startError}
           playback={playback}
+          broadcast={broadcast}
           onChangeDeck={backToStart}
         />,
       );

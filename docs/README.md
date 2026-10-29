@@ -17,6 +17,7 @@ Read in this order: game design first, then the rest as needed.
 | [product/game-design.md](product/game-design.md) | Rules, game loop, terminology, what varies between rulesets |
 | [product/timeline-ruleset.md](product/timeline-ruleset.md) | The optional in-app timeline: teams, placement, scoring |
 | [product/mobile-ui.md](product/mobile-ui.md) | Mobile interface — design system, layouts, interaction rules |
+| [product/watching.md](product/watching.md) | Following a timeline game on another phone: the join flow and the host toggle |
 
 ### Tech
 
@@ -27,6 +28,7 @@ Read in this order: game design first, then the rest as needed.
 | [tech/deck-format.md](tech/deck-format.md) | Schema and curation rules for song decks |
 | [tech/deployment.md](tech/deployment.md) | Deploying to Firebase Hosting, for phone play |
 | [tech/pwa-installability.md](tech/pwa-installability.md) | Home-screen install (manifest, icons) — not offline support |
+| [tech/sound-sync.md](tech/sound-sync.md) | Host-to-phone game snapshots over ultrasound: protocol, byte layout, ggwave quirks |
 
 ### Planning
 
@@ -56,6 +58,10 @@ timeline — one per team, round-robin turns, first to 10 cards — is specified
 all chosen on the game start screen, where `Start` always begins a new game and
 `Resume` is the only route back into a saved one. The paper ruleset remains the
 default and is unchanged.
+
+**Watching** — nearby phones following a timeline game over ultrasound, with no
+backend — is built but not yet played; see
+[product/watching.md](product/watching.md).
 
 Both playable iterations are now validated by real use. What comes next, if
 anything, is open — see the iteration 3/4 direction in

@@ -818,6 +818,68 @@ code {
   font-variant-numeric: tabular-nums;
 }
 
+/* "Let others join". A native checkbox restyled as a switch, so it keeps keyboard,
+   label and screen-reader behaviour for free; the whole row is the label, so the
+   tap target is the row, not the 52px pill. */
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-1);
+  cursor: pointer;
+}
+
+.toggle__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle__label {
+  font-weight: 600;
+}
+
+.toggle__meta {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.toggle__switch {
+  appearance: none;
+  flex-shrink: 0;
+  position: relative;
+  width: 52px;
+  height: 32px;
+  margin: 0;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  transition: background 0.15s ease;
+}
+
+.toggle__switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 0.15s ease;
+}
+
+.toggle__switch:checked {
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.toggle__switch:checked::before {
+  transform: translateX(20px);
+  background: var(--accent-text);
+}
+
 /* ---------- final standings ---------- */
 
 .standings {
@@ -1104,6 +1166,15 @@ code {
 
 .screen__title--danger {
   color: var(--danger);
+}
+
+/* ---------- watch screen ---------- */
+
+/* Small and quiet: it is there to tell a quiet turn from a lost signal, not to be read. */
+.watch__updated {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- motion ---------- */

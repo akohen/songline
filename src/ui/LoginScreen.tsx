@@ -8,9 +8,11 @@ import {
 
 type Props = {
   onLogin: () => void;
+  /** Follow someone else's game on this phone, without Spotify. */
+  onJoin: () => void;
 };
 
-export function LoginScreen({ onLogin }: Props) {
+export function LoginScreen({ onLogin, onJoin }: Props) {
   const [advancedOpen, setAdvancedOpen] = useState(() => loadCustomClientId() !== null);
   const [clientId, setClientId] = useState(() => loadCustomClientId() ?? "");
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +81,9 @@ export function LoginScreen({ onLogin }: Props) {
 
         <button type="button" className="btn btn--primary" onClick={onLogin}>
           Sign in with Spotify
+        </button>
+        <button type="button" className="btn" onClick={onJoin}>
+          Join a game
         </button>
       </div>
     </main>

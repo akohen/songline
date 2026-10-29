@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0f12">
+<title>Sound Probe</title>
+<!--
+  Songline sound probe — standalone test page for data-over-sound between the host
+  device and nearby phones. Not part of the app: no build step, no imports.
+
+  One device sends test packets (ggwave, audible and/or ultrasonic), the others listen
+  and report what got through. Mic access needs a secure context: serve over HTTPS
+  (Firebase hosting) or open on 127.0.0.1.
+
+  Packet layout (all sizes in bytes, total = chosen payload size):
+    0-1  magic "SL"
+    2    run id (random per sender start; listeners reset stats when it changes)
+    3    protocol index (into PROTOCOLS below)
+    4-5  sequence number, per protocol, big endian
+    6    total length
+    7..  deterministic filler derived from (run, protocol, seq)
+    -2   CRC-16/CCITT over everything before it
+  ggwave adds its own Reed-Solomon ECC on top; the CRC catches mis-corrections.
+-->
+<style>
+  :root {
+    --bg: #0d0f12;
+    --surface: #16191e;
+    --surface-raised: #232830;
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #f2f4f7;
+    --text-muted: #98a2b3;
+    --accent: #ffb703;
+    --accent-text: #1a1206;
+    --danger: #f97066;
+    --ok: #32d583;
+    --audible: #ffb703;
+    --ultra: #7cd4fd;
+    --radius: 12px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+  }
+  h1 { font-size: 1.4rem; margin: 8px 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 12px; font-weight: 600; }
+  p.lede { color: var(--text-muted); margin: 0 0 20px; font-size: 0.95rem; }
+  .tabs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 4px; margin-bottom: 16px;
+  }
+  .tabs button {
+    background: none; border: 0; color: var(--text-muted); font: inherit; font-weight: 600;
+    padding: 10px; border-radius: 9px; cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: var(--surface-raised); color: var(--text); }
+  section.card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+  }
+  label.field { display: block; margin-bottom: 14px; }
+  label.field > span { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
+  label.field > span output, label.field > span em { color: var(--text-muted); font-style: normal; font-variant-numeric: tabular-nums; }
+  select, input[type="range"] { width: 100%; }
+  select {
+    background: var(--surface-raised); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px; font: inherit;
+  }
+  input[type="range"] { accent-color: var(--accent); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    flex: 1 1 auto; min-height: 48px; border-radius: var(--radius); font: inherit; font-weight: 700;
+    border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); cursor: pointer;
+    padding: 0 16px;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-text); border-color: transparent; }
+  .btn.stop { background: var(--danger); color: #1b0604; border-color: transparent; }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .hint { font-size: 0.85rem; color: var(--text-muted); margin: 10px 0 0; }
+  .status { font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted); margin-top: 12px; min-height: 1.5em; }
+  .status.live { color: var(--accent); }
+  .err { color: var(--danger); font-size: 0.9rem; margin-top: 10px; }
+  .progress { height: 4px; background: var(--surface-raised); border-radius: 2px; overflow: hidden; margin-top: 10px; }
+  .progress > div { height: 100%; width: 0; background: var(--accent); }
+  canvas { display: block; width: 100%; height: 140px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); }
+  .legend { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; font-family: var(--mono); }
+  .meters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .meter { background: var(--surface-raised); border-radius: 8px; padding: 8px 10px; }
+  .meter b { display: block; font-family: var(--mono); font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .meter small { color: var(--text-muted); font-size: 0.72rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 7px 4px; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--text-muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  td.empty { text-align: center; color: var(--text-muted); padding: 16px 0; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .good { color: var(--ok); } .bad { color: var(--danger); }
+  ol.log { list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 0.78rem; max-height: 220px; overflow-y: auto; }
+  ol.log li { padding: 3px 0; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  ol.log li.ok { color: var(--text); }
+  ol.log li.miss { color: var(--danger); }
+  .flash { animation: flash 0.6s ease-out; }
+  @keyframes flash { from { background: rgba(50, 213, 131, 0.25); } to { background: transparent; } }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Sound probe</h1>
+  <p class="lede">Send test packets from the host device and count what nearby phones receive. Play music and talk while testing.</p>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-send" aria-selected="true">Send (host)</button>
+    <button role="tab" id="tab-listen" aria-selected="false">Listen (phone)</button>
+  </div>
+
+  <!-- ───────── Send ───────── -->
+  <div id="panel-send">
+    <section class="card">
+      <h2>Packets</h2>
+      <label class="field"><span>Mode</span>
+        <select id="mode"></select>
+      </label>
+      <label class="field"><span>Payload size <output id="size-out"></output></span>
+        <input type="range" id="size" min="10" max="120" step="1" value="50">
+      </label>
+      <label class="field"><span>Volume <output id="vol-out"></output></span>
+        <input type="range" id="vol" min="1" max="100" step="1" value="30">
+      </label>
+      <label class="field"><span>Pause between packets <output id="gap-out"></output></span>
+        <input type="range" id="gap" min="0" max="20" step="0.5" value="4">
+      </label>
+      <div class="row">
+        <button class="btn primary" id="send-start">Start sending</button>
+        <button class="btn" id="send-one">Send one</button>
+      </div>
+      <div class="progress"><div id="send-progress"></div></div>
+      <div class="status" id="send-status">Idle</div>
+      <div class="err" id="send-err" hidden></div>
+      <p class="hint">Airtime is per packet. In alternate mode, packets switch between audible and ultrasonic so both see the same room conditions.</p>
+    </section>
+    <section class="card">
+      <h2>Sent this run</h2>
+      <table><thead><tr><th>Protocol</th><th>Packets</th><th>Airtime</th></tr></thead>
+        <tbody id="sent-body"><tr><td class="empty" colspan="3">Nothing sent yet</td></tr></tbody></table>
+    </section>
+  </div>
+
+  <!-- ───────── Listen ───────── -->
+  <div id="panel-listen" hidden>
+    <section class="card">
+      <div class="row">
+        <button class="btn primary" id="listen-start">Start listening</button>
+        <button class="btn" id="listen-reset">Reset stats</button>
+      </div>
+      <div class="status" id="listen-status">Microphone off</div>
+      <div class="err" id="listen-err" hidden></div>
+    </section>
+    <section class="card">
+      <h2>Spectrum</h2>
+      <canvas id="spectrum" width="600" height="140"></canvas>
+      <div class="legend"><span>0</span><span>5k</span><span>10k</span><span>15k</span><span>20k Hz</span></div>
+      <div class="meters">
+        <div class="meter"><small>Mic level</small><b id="m-level">–</b></div>
+        <div class="meter"><small><span class="dot" style="background:var(--audible)"></span>1.9–6.4 kHz</small><b id="m-aud">–</b></div>
+        <div class="meter"><small><span class="dot" style="background:var(--ultra)"></span>15–19.5 kHz</small><b id="m-ult">–</b></div>
+      </div>
+      <p class="hint">If the ultrasonic band never lights up while the host sends, the speaker or mic is cutting it off.</p>
+    </section>
+    <section class="card">
+      <h2>Received</h2>
+      <table><thead><tr><th>Protocol</th><th>Got</th><th>Missed</th><th>Rate</th></tr></thead>
+        <tbody id="recv-body"><tr><td class="empty" colspan="4">Nothing received yet</td></tr></tbody></table>
+      <p class="hint">Missed counts gaps in sequence numbers, so a packet lost at the very end of a run only shows once a later one arrives.</p>
+    </section>
+    <section class="card">
+      <h2>Log</h2>
+      <ol class="log" id="log"></ol>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/ggwave@0.4.0/ggwave.js"></script>
+<script>
+"use strict";
+
+// ───────── protocols ─────────
+// `kind` drives colours and the alternate mode.
+const PROTOCOLS = [
+  { key: "GGWAVE_PROTOCOL_AUDIBLE_FASTEST",    label: "Audible · fastest",    kind: "audible" },
+  { key: "GGWAVE_PROTOCOL_AUDIBLE_FAST",       label: "Audible · fast",       kind: "audible" },
+  { key: "GGWAVE_PROTOCOL_ULTRASOUND_FASTEST", label: "Ultrasonic · fastest", kind: "ultra" },
+  { key: "GGWAVE_PROTOCOL_ULTRASOUND_FAST",    label: "Ultrasonic · fast",    kind: "ultra" },
+];
+const MODES = [
+  { label: "Alternate audible / ultrasonic (fastest)", protos: [0, 2] },
+  { label: "Alternate audible / ultrasonic (fast)",    protos: [1, 3] },
+  ...PROTOCOLS.map((p, i) => ({ label: p.label, protos: [i] })),
+];
+
+// ───────── helpers ─────────
+const $ = (id) => document.getElementById(id);
+
+function crc16(bytes, len) {
+  let crc = 0xffff;
+  for (let i = 0; i < len; i++) {
+    crc ^= bytes[i] << 8;
+    for (let b = 0; b < 8; b++) crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+  }
+  return crc;
+}
+
+function filler(run, proto, seq, i) {
+  // Small deterministic hash so every byte varies with position and packet.
+  let x = (run * 2654435761 + proto * 40503 + seq * 97 + i * 2246822519) >>> 0;
+  x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0; x ^= x >>> 13;
+  return x & 0xff;
+}
+
+function buildPacket(run, proto, seq, size) {
+  const p = new Uint8Array(size);
+  p[0] = 0x53; p[1] = 0x4c; p[2] = run; p[3] = proto;
+  p[4] = (seq >> 8) & 0xff; p[5] = seq & 0xff; p[6] = size;
+  for (let i = 7; i < size - 2; i++) p[i] = filler(run, proto, seq, i);
+  const c = crc16(p, size - 2);
+  p[size - 2] = c >> 8; p[size - 1] = c & 0xff;
+  return p;
+}
+
+/** Returns {run, proto, seq, size} or {error}. */
+function parsePacket(p) {
+  if (p.length < 10 || p[0] !== 0x53 || p[1] !== 0x4c) return { error: "foreign" };
+  if (p[6] !== p.length) return { error: "length" };
+  const c = crc16(p, p.length - 2);
+  if (p[p.length - 2] !== c >> 8 || p[p.length - 1] !== (c & 0xff)) return { error: "crc" };
+  if (p[3] >= PROTOCOLS.length) return { error: "proto" };
+  return { run: p[2], proto: p[3], seq: (p[4] << 8) | p[5], size: p.length };
+}
+
+const fmtMs = (ms) => (ms >= 1000 ? (ms / 1000).toFixed(2) + " s" : Math.round(ms) + " ms");
+const clock = () => new Date().toLocaleTimeString([], { hour12: false });
+
+let ggPromise = null;
+function loadGgwave() {
+  if (!ggPromise) {
+    if (typeof ggwave_factory !== "function") {
+      return Promise.reject(new Error("Could not load the ggwave library (check the network)."));
+    }
+    ggPromise = ggwave_factory().then((gg) => { try { gg.disableLog(); } catch (_) {} return gg; });
+  }
+  return ggPromise;
+}
+
+// ggwave 0.4.0 (npm) only decodes reliably at 48 kHz — at 44.1 kHz it decodes nothing
+// and encoding aborts. So everything runs at 48 kHz: we ask the browser for a 48 kHz
+// AudioContext, and resample in JS where the browser refuses (Firefox, for mic input).
+const GG_RATE = 48000;
+
+function makeInstance(gg) {
+  const p = gg.getDefaultParameters();
+  p.sampleRateInp = GG_RATE;
+  p.sampleRateOut = GG_RATE;
+  return gg.init(p);
+}
+
+function newAudioContext(sampleRate) {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  try { if (sampleRate) return new AC({ sampleRate }); } catch (_) {}
+  return new AC();
+}
+
+/** Streaming Catmull-Rom resampler: feed chunks at `from` Hz, get chunks at `to` Hz. */
+function makeResampler(from, to) {
+  const step = from / to;
+  let hist = new Float32Array(3); // last 3 input samples, carried across chunks
+  let pos = 1;                    // read position, relative to the start of `hist`
+  return (input) => {
+    const x = new Float32Array(hist.length + input.length);
+    x.set(hist); x.set(input, hist.length);
+    const out = [];
+    while (pos + 2 < x.length) {
+      const i = Math.floor(pos), t = pos - i;
+      const p0 = x[i - 1] ?? x[i], p1 = x[i], p2 = x[i + 1], p3 = x[i + 2];
+      out.push(p1 + 0.5 * t * (p2 - p0 + t * (2 * p0 - 5 * p1 + 4 * p2 - p3 + t * (3 * (p1 - p2) + p3 - p0))));
+      pos += step;
+    }
+    const keep = 3;
+    pos -= x.length - keep;
+    hist = x.slice(x.length - keep);
+    return Float32Array.from(out);
+  };
+}
+
+// Keep the screen on while testing; best effort.
+let wakeLock = null;
+async function holdWakeLock() {
+  try { if ("wakeLock" in navigator && !wakeLock) wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {}
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && wakeLock) { wakeLock = null; holdWakeLock(); }
+});
+
+// ───────── tabs ─────────
+function selectTab(which) {
+  const send = which === "send";
+  $("tab-send").setAttribute("aria-selected", send);
+  $("tab-listen").setAttribute("aria-selected", !send);
+  $("panel-send").hidden = !send;
+  $("panel-listen").hidden = send;
+  try { localStorage.setItem("soundProbeTab", which); } catch (_) {}
+}
+$("tab-send").onclick = () => selectTab("send");
+$("tab-listen").onclick = () => selectTab("listen");
+try { if (localStorage.getItem("soundProbeTab") === "listen") selectTab("listen"); } catch (_) {}
+
+// ───────── send ─────────
+const sender = {
+  ctx: null, gg: null, inst: null,
+  running: false, busy: false, timer: null,
+  run: 0, seq: PROTOCOLS.map(() => 0), turn: 0,
+  sent: PROTOCOLS.map(() => ({ n: 0, ms: 0 })),
+  airtimeCache: new Map(),
+};
+
+$("mode").innerHTML = MODES.map((m, i) => `<option value="${i}">${m.label}</option>`).join("");
+const bindOut = (input, out, fmt) => { const f = () => ($(out).textContent = fmt(+$(input).value)); $(input).addEventListener("input", f); f(); };
+bindOut("vol", "vol-out", (v) => v + " / 100");
+bindOut("gap", "gap-out", (v) => v + " s");
+$("size").addEventListener("input", updateSizeLabel);
+$("mode").addEventListener("change", updateSizeLabel);
+updateSizeLabel();
+
+async function updateSizeLabel() {
+  const size = +$("size").value;
+  $("size-out").textContent = size + " B";
+  try {
+    const gg = await loadGgwave();
+    const protos = MODES[+$("mode").value].protos;
+    const times = protos.map((i) => fmtMs(airtimeMs(gg, i, size)));
+    $("size-out").textContent = `${size} B · ${[...new Set(times)].join(" / ")}`;
+  } catch (_) {}
+}
+
+function airtimeMs(gg, proto, size) {
+  const k = proto + ":" + size;
+  if (!sender.airtimeCache.has(k)) {
+    if (!sender.measureInst) sender.measureInst = makeInstance(gg);
+    const view = gg.encode(sender.measureInst, new Uint8Array(size), gg.ProtocolId[PROTOCOLS[proto].key], 10);
+    sender.airtimeCache.set(k, (view.length / 4 / GG_RATE) * 1000);
+  }
+  return sender.airtimeCache.get(k);
+}
+
+async function ensureSender() {
+  if (!sender.ctx) {
+    sender.ctx = newAudioContext(GG_RATE);
+  }
+  if (sender.ctx.state !== "running") await sender.ctx.resume();
+  if (!sender.gg) {
+    sender.gg = await loadGgwave();
+    sender.inst = makeInstance(sender.gg);
+  }
+}
+
+function newRun() {
+  sender.run = (Math.random() * 256) | 0;
+  sender.seq = PROTOCOLS.map(() => 0);
+  sender.sent = PROTOCOLS.map(() => ({ n: 0, ms: 0 }));
+  sender.turn = 0;
+  renderSent();
+}
+
+function sendPacket() {
+  const { ctx, gg, inst } = sender;
+  const protos = MODES[+$("mode").value].protos;
+  const proto = protos[sender.turn++ % protos.length];
+  const size = +$("size").value;
+  const seq = sender.seq[proto]++ & 0xffff;
+  const packet = buildPacket(sender.run, proto, seq, size);
+
+  // encode() returns a view into a static WASM buffer: copy before anything else runs.
+  const view = gg.encode(inst, packet, gg.ProtocolId[PROTOCOLS[proto].key], +$("vol").value);
+  const samples = new Float32Array(new Int8Array(view).buffer);
+  // Samples are at 48 kHz; the browser resamples if its context runs at another rate.
+  const buf = ctx.createBuffer(1, samples.length, GG_RATE);
+  buf.getChannelData(0).set(samples);
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.connect(ctx.destination);
+
+  const ms = buf.duration * 1000;
+  sender.busy = true;
+  $("send-status").textContent = `Sending #${seq} · ${PROTOCOLS[proto].label} · ${size} B · ${fmtMs(ms)}`;
+  $("send-status").classList.add("live");
+  const bar = $("send-progress");
+  bar.style.transition = "none"; bar.style.width = "0";
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    bar.style.transition = `width ${ms}ms linear`; bar.style.width = "100%";
+  }));
+
+  return new Promise((resolve) => {
+    src.onended = () => {
+      sender.busy = false;
+      sender.sent[proto].n++; sender.sent[proto].ms += ms;
+      renderSent();
+      $("send-status").classList.remove("live");
+      $("send-status").textContent = `Sent #${seq} · ${PROTOCOLS[proto].label} at ${clock()}`;
+      bar.style.transition = "none"; bar.style.width = "0";
+      resolve();
+    };
+    src.start();
+  });
+}
+
+function renderSent() {
+  const rows = PROTOCOLS.map((p, i) => ({ p, s: sender.sent[i] })).filter((r) => r.s.n > 0);
+  $("sent-body").innerHTML = rows.length
+    ? rows.map(({ p, s }) => `<tr><td><span class="dot" style="background:var(--${p.kind})"></span>${p.label}</td><td>${s.n}</td><td>${fmtMs(s.ms / s.n)}</td></tr>`).join("")
+    : `<tr><td class="empty" colspan="3">Nothing sent yet</td></tr>`;
+}
+
+function showSendError(e) {
+  $("send-err").hidden = false;
+  $("send-err").textContent = e.message || String(e);
+}
+
+async function loop() {
+  while (sender.running) {
+    await sendPacket();
+    if (!sender.running) break;
+    const gap = +$("gap").value * 1000;
+    if (gap > 0) {
+      $("send-status").textContent += ` · next in ${$("gap").value} s`;
+      await new Promise((r) => (sender.timer = setTimeout(r, gap)));
+    }
+  }
+}
+
+$("send-start").onclick = async () => {
+  $("send-err").hidden = true;
+  if (sender.running) {
+    sender.running = false;
+    clearTimeout(sender.timer);
+    $("send-start").textContent = "Start sending";
+    $("send-start").className = "btn primary";
+    $("send-one").disabled = false;
+    return;
+  }
+  try {
+    await ensureSender();
+    newRun();
+    holdWakeLock();
+    sender.running = true;
+    $("send-start").textContent = "Stop";
+    $("send-start").className = "btn stop";
+    $("send-one").disabled = true;
+    loop();
+  } catch (e) { showSendError(e); }
+};
+
+$("send-one").onclick = async () => {
+  $("send-err").hidden = true;
+  if (sender.busy) return;
+  try {
+    await ensureSender();
+    if (!sender.run) newRun();
+    $("send-one").disabled = true;
+    await sendPacket();
+  } catch (e) { showSendError(e); }
+  $("send-one").disabled = sender.running;
+};
+
+// ───────── listen ─────────
+const listener = {
+  ctx: null, stream: null, gg: null, inst: null, analyser: null, node: null,
+  run: null, stats: null, raf: 0, crcErrors: 0,
+};
+
+function resetStats() {
+  listener.stats = PROTOCOLS.map(() => ({ got: 0, missed: 0, last: null }));
+  listener.crcErrors = 0;
+  renderRecv();
+}
+resetStats();
+
+function log(text, cls) {
+  const li = document.createElement("li");
+  li.textContent = `${clock()}  ${text}`;
+  if (cls) li.className = cls;
+  const ol = $("log");
+  ol.prepend(li);
+  while (ol.children.length > 200) ol.lastChild.remove();
+}
+
+function renderRecv(flashProto) {
+  const rows = PROTOCOLS.map((p, i) => ({ p, s: listener.stats[i], i })).filter((r) => r.s.got + r.s.missed > 0);
+  let html = rows.map(({ p, s, i }) => {
+    const total = s.got + s.missed;
+    const pct = Math.round((s.got / total) * 100);
+    const cls = pct >= 90 ? "good" : pct < 70 ? "bad" : "";
+    return `<tr${i === flashProto ? ' class="flash"' : ""}><td><span class="dot" style="background:var(--${p.kind})"></span>${p.label}</td><td>${s.got}</td><td>${s.missed}</td><td class="${cls}">${pct}%</td></tr>`;
+  }).join("");
+  if (listener.crcErrors) html += `<tr><td>Corrupted (CRC)</td><td colspan="3" class="bad">${listener.crcErrors}</td></tr>`;
+  $("recv-body").innerHTML = html || `<tr><td class="empty" colspan="4">Nothing received yet</td></tr>`;
+}
+
+function onPacket(bytes) {
+  const r = parsePacket(bytes);
+  if (r.error) {
+    if (r.error === "crc" || r.error === "length") { listener.crcErrors++; log(`corrupted packet (${r.error}, ${bytes.length} B)`, "miss"); renderRecv(); }
+    else log(`ignored non-probe message (${bytes.length} B)`);
+    return;
+  }
+  if (listener.run !== r.run) {
+    if (listener.run !== null) log(`new sender run — stats reset`);
+    listener.run = r.run;
+    resetStats();
+  }
+  const s = listener.stats[r.proto];
+  if (s.last !== null) {
+    const gap = (r.seq - s.last - 1 + 0x10000) & 0xffff;
+    if (gap > 0 && gap < 1000) {
+      s.missed += gap;
+      log(`missed ${gap} × ${PROTOCOLS[r.proto].label} (#${s.last + 1}${gap > 1 ? "–#" + (r.seq - 1) : ""})`, "miss");
+    } else if (gap >= 1000) {
+      return; // duplicate or reordered: ignore
+    }
+  }
+  s.last = r.seq;
+  s.got++;
+  log(`got #${r.seq} · ${PROTOCOLS[r.proto].label} · ${r.size} B`, "ok");
+  renderRecv(r.proto);
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+
+async function startListening() {
+  $("listen-err").hidden = true;
+  if (!window.isSecureContext) throw new Error("This page needs HTTPS (or 127.0.0.1) to use the microphone.");
+  if (!navigator.mediaDevices?.getUserMedia) throw new Error("This browser has no microphone API.");
+  listener.gg = await loadGgwave();
+  // Disable all voice processing: noise suppression and AGC treat ggwave tones as noise.
+  listener.stream = await navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 },
+  });
+  // Prefer a 48 kHz context so the browser resamples the mic for us. Firefox refuses to
+  // connect a mic to a context at another rate; then use the native rate and resample here.
+  let ctx = newAudioContext(GG_RATE), src;
+  try {
+    src = ctx.createMediaStreamSource(listener.stream);
+  } catch (_) {
+    ctx.close();
+    ctx = newAudioContext();
+    src = ctx.createMediaStreamSource(listener.stream);
+  }
+  listener.ctx = ctx;
+  await ctx.resume();
+  listener.inst = makeInstance(listener.gg);
+  const resample = ctx.sampleRate === GG_RATE ? null : makeResampler(ctx.sampleRate, GG_RATE);
+
+  const analyser = ctx.createAnalyser();
+  analyser.fftSize = 4096;
+  analyser.smoothingTimeConstant = 0.6;
+  src.connect(analyser);
+  listener.analyser = analyser;
+
+  // ScriptProcessor is deprecated but universally supported, and ggwave decodes on the
+  // main thread anyway. 1024 samples matches ggwave's own frame size.
+  const node = ctx.createScriptProcessor(1024, 1, 1);
+  const mute = ctx.createGain();
+  mute.gain.value = 0;
+  // ggwave silently drops whatever is left over after whole 1024-sample frames, so
+  // never hand it a ragged chunk: accumulate and feed exact frames.
+  const FRAME = 1024;
+  const frame = new Float32Array(FRAME);
+  let filled = 0;
+  node.onaudioprocess = (e) => {
+    const raw = e.inputBuffer.getChannelData(0);
+    const data = resample ? resample(raw) : raw;
+    for (let i = 0; i < data.length; ) {
+      const n = Math.min(FRAME - filled, data.length - i);
+      frame.set(data.subarray(i, i + n), filled);
+      filled += n; i += n;
+      if (filled === FRAME) {
+        filled = 0;
+        const out = listener.gg.decode(listener.inst, new Int8Array(frame.slice().buffer));
+        if (out && out.length > 0) onPacket(new Uint8Array(out).slice());
+      }
+    }
+  };
+  src.connect(node);
+  node.connect(mute);
+  mute.connect(ctx.destination);
+  listener.node = node;
+
+  holdWakeLock();
+  const rateNote = resample ? `${ctx.sampleRate} Hz → 48 kHz` : `${ctx.sampleRate} Hz`;
+  $("listen-status").textContent = `Listening · ${rateNote}`;
+  $("listen-status").classList.add("live");
+  $("listen-start").textContent = "Stop";
+  $("listen-start").className = "btn stop";
+  log(`listening at ${rateNote}`);
+  drawSpectrum();
+}
+
+function stopListening() {
+  cancelAnimationFrame(listener.raf);
+  listener.stream?.getTracks().forEach((t) => t.stop());
+  listener.node?.disconnect();
+  if (listener.inst !== null && listener.gg) { try { listener.gg.free(listener.inst); } catch (_) {} }
+  listener.ctx?.close();
+  Object.assign(listener, { ctx: null, stream: null, inst: null, analyser: null, node: null });
+  $("listen-status").textContent = "Microphone off";
+  $("listen-status").classList.remove("live");
+  $("listen-start").textContent = "Start listening";
+  $("listen-start").className = "btn primary";
+  ["m-level", "m-aud", "m-ult"].forEach((id) => ($(id).textContent = "–"));
+}
+
+$("listen-start").onclick = async () => {
+  if (listener.ctx) { stopListening(); return; }
+  try { await startListening(); }
+  catch (e) {
+    stopListening();
+    $("listen-err").hidden = false;
+    $("listen-err").textContent = e.name === "NotAllowedError" ? "Microphone access was denied." : (e.message || String(e));
+  }
+};
+$("listen-reset").onclick = () => { listener.run = null; resetStats(); $("log").innerHTML = ""; };
+
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function drawSpectrum() {
+  const a = listener.analyser;
+  if (!a) return;
+  const canvas = $("spectrum");
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.round(w * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); }
+  const g = canvas.getContext("2d");
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.clearRect(0, 0, w, h);
+
+  const nyquist = listener.ctx.sampleRate / 2;
+  const maxHz = 22050;
+  const x = (hz) => (hz / maxHz) * w;
+  const bands = [[1875, 6375, css("--audible")], [15000, 19500, css("--ultra")]];
+  for (const [lo, hi, c] of bands) {
+    g.fillStyle = c; g.globalAlpha = 0.1;
+    g.fillRect(x(lo), 0, x(hi) - x(lo), h);
+  }
+  g.globalAlpha = 1;
+
+  const bins = new Float32Array(a.frequencyBinCount);
+  a.getFloatFrequencyData(bins);
+  const minDb = -110, maxDb = -20;
+  const binHz = nyquist / bins.length;
+  g.beginPath();
+  for (let px = 0; px < w; px++) {
+    const hz0 = (px / w) * maxHz, hz1 = ((px + 1) / w) * maxHz;
+    let peak = -Infinity;
+    for (let b = Math.floor(hz0 / binHz); b <= Math.min(bins.length - 1, Math.floor(hz1 / binHz)); b++) peak = Math.max(peak, bins[b]);
+    if (!isFinite(peak)) peak = minDb;
+    const y = h - ((Math.max(minDb, Math.min(maxDb, peak)) - minDb) / (maxDb - minDb)) * h;
+    px === 0 ? g.moveTo(px, y) : g.lineTo(px, y);
+  }
+  g.strokeStyle = css("--text"); g.lineWidth = 1.25; g.stroke();
+
+  const bandDb = (lo, hi) => {
+    let sum = 0, n = 0;
+    for (let b = Math.ceil(lo / binHz); b <= Math.min(bins.length - 1, Math.floor(hi / binHz)); b++) { sum += Math.pow(10, bins[b] / 10); n++; }
+    return n ? 10 * Math.log10(sum / n) : -Infinity;
+  };
+  const fmtDb = (d) => (isFinite(d) ? d.toFixed(0) + " dB" : "–");
+  const td = new Float32Array(a.fftSize);
+  a.getFloatTimeDomainData(td);
+  let rms = 0; for (const v of td) rms += v * v;
+  $("m-level").textContent = fmtDb(10 * Math.log10(rms / td.length || 1e-12));
+  $("m-aud").textContent = fmtDb(bandDb(1875, 6375));
+  $("m-ult").textContent = nyquist > 19500 ? fmtDb(bandDb(15000, 19500)) : "n/a";
+
+  listener.raf = requestAnimationFrame(drawSpectrum);
+}
+</script>
+</body>
+</html>

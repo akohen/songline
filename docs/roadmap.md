@@ -80,6 +80,15 @@ covers the solitaire case, so per-player needs no separate mode.
 Only if single-screen play proves genuinely limiting. This is the first iteration
 that requires a backend, and it should not be entered casually.
 
+**Update — read-only viewers needed no backend after all.** The host's phone broadcasts
+each game snapshot as an ultrasonic packet and nearby phones decode it from the
+microphone ([product/watching.md](product/watching.md),
+[tech/sound-sync.md](tech/sound-sync.md)). The backend was required for *sync*; it
+turns out one-way sync only needs a shared room, not a shared server. Because every
+packet is a whole snapshot, a lost one or a late joiner is fixed by the next, so no
+connection, room code or session state is needed. What still needs a backend is
+everything that flows *back* to the host: phone controllers, secret placement.
+
 Motivating gap: the timeline ruleset (iteration 2) only works when everyone can see
 one screen, which caps the group size it's good for — "songs only," tracked on paper,
 is what large groups already fall back to. Two ways to lift that cap, in increasing
@@ -87,8 +96,10 @@ order of cost:
 
 - Mirror the current single screen to a TV — no new mechanic, just a bigger display.
   Might not need a backend at all if it's literally the same page cast or plugged in.
-- Room codes, host screen + phone controllers, so each team can see their own
-  timeline on their own device
+- ~~Each team seeing the game on its own device~~ — **done without a backend**, as
+  read-only viewers over ultrasound (see the update above)
+- Room codes, host screen + phone controllers, so each team can place from its own
+  device
 - Realtime sync (websockets), backend, room lifecycle
 - Simultaneous secret placement, revealed together
 
